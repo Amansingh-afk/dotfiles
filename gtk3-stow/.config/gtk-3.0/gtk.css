@@ -1,0 +1,91 @@
+@define-color accent_color #%02X%02X%02X;
+@define-color accent_bg_color #%02X%02X%02X;
+@define-color accent_fg_color #%02X%02X%02X;
+
+@define-color window_bg_color #%02X%02X%02X;
+@define-color window_fg_color #%02X%02X%02X;
+
+@define-color headerbar_bg_color #%02X%02X%02X;
+@define-color headerbar_fg_color #%02X%02X%02X;
+@define-color headerbar_border_color #%02X%02X%02X;
+@define-color headerbar_backdrop_color #%02X%02X%02X;
+
+@define-color card_bg_color #%02X%02X%02X;
+@define-color card_fg_color #%02X%02X%02X;
+
+@define-color popover_bg_color #%02X%02X%02X;
+@define-color popover_fg_color #%02X%02X%02X;
+
+@define-color view_bg_color #%02X%02X%02X;
+@define-color view_fg_color #%02X%02X%02X;
+
+@define-color sidebar_bg_color #%02X%02X%02X;
+@define-color sidebar_fg_color #%02X%02X%02X;
+
+window {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+}
+
+headerbar {
+    background-color: @headerbar_bg_color;
+    color: @headerbar_fg_color;
+    border-color: @headerbar_border_color;
+    box-shadow: none;
+}
+
+button {
+    background-color: alpha(@accent_color, 0.1);
+    color: @accent_color;
+    border: 1px solid alpha(@accent_color, 0.2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    min-height: 24px;
+}
+
+button:hover {
+    background-color: alpha(@accent_color, 0.2);
+    border-color: alpha(@accent_color, 0.3);
+}
+
+button:active {
+    background-color: alpha(@accent_color, 0.3);
+    border-color: alpha(@accent_color, 0.4);
+}
+
+entry {
+    background-color: alpha(@window_fg_color, 0.1);
+    color: @window_fg_color;
+    border: 1px solid alpha(@window_fg_color, 0.2);
+    border-radius: 6px;
+    padding: 6px 8px;
+}
+
+entry:focus {
+    border-color: @accent_color;
+}
+
+notebook > header {
+    background-color: @headerbar_bg_color;
+    border-color: @headerbar_border_color;
+}
+
+notebook > header tab {
+    color: @headerbar_fg_color;
+    padding: 6px 12px;
+    min-height: 24px;
+}
+
+notebook > header tab:checked {
+    background-color: @accent_color;
+    color: @accent_fg_color;
+}
+
+.card {
+    background-color: @card_bg_color;
+    color: @card_fg_color;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 6px;
+    box-shadow: 0 2px 4px alpha(black, 0.2);
+}

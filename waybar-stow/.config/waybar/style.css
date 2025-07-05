@@ -1,0 +1,309 @@
+* {
+    border: none;
+    font-family: Hack Nerd Font;
+    font-weight: 800;
+    font-size: 14px;
+    min-height: 0;
+  }
+  
+  window#waybar {
+    background: none;
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  tooltip {
+    background: rgba(40, 40, 40, 0.76);
+    border-width: 0px;
+    color: #ebdbb2;
+  }
+  
+  #workspaces button {
+    border: none;
+    transition-duration: 0.3s;
+    background: none;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    color: #928374;
+    padding: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  
+  #workspaces button.persistent {
+    color: #928374;
+  }
+  
+  #workspaces button.empty {
+    color: #504945;
+  }
+  
+  #workspaces button.special {
+    color: #b8bb26;
+  }
+  
+  #workspaces button.visible {
+    color: #ebdbb2;
+  }
+  
+  #workspaces button:hover {
+    color: #d79921;
+  }
+  
+  #workspaces button.active {
+    color: #ebdbb2;
+  }
+  
+  #workspaces button.urgent {
+    color: #cc241d;
+  }
+  
+  #language,
+  #custom-updates,
+  #window,
+  #custom-playerctl,
+  #clock,
+  #custom-battery,
+  #pulseaudio,
+  #network,
+  #workspaces,
+  #custom-cava,
+  #tray,
+  #idle_inhibitor,
+  #custom-power {
+    background: none;
+    padding: 0px 10px;
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+  }
+  
+  #tray {
+    background: rgba(40, 40, 40, 0.76);
+    border-radius: 4px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    margin-right: 4px;
+    margin-left: 4px;
+    padding-right: 8px;
+    padding-left: 9px;
+    padding-top: 2px;
+    color: #ebdbb2;
+  }
+  
+  #workspaces {
+    background: rgba(40, 40, 40, 0.76);
+    border-radius: 4px;
+    border-width: 0px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    margin-left: 4px;
+    padding-right: 6px;
+    padding-left: 4px;
+  }
+  
+  #language {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-right: 0px;
+    border-radius: 4px 0px 0px 4px;
+    min-width: 24px;
+  }
+  
+  #custom-updates {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    border-left: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-right: 14px;
+  }
+  
+  #window {
+    background: rgba(40, 40, 40, 0.76);
+    border-width: 0px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 4px;
+    margin-left: 30px;
+    margin-right: 30px;
+    color: #ebdbb2;
+  }
+  
+  window#waybar.empty #window {
+    background-color: transparent;
+    border-width: 0px;
+}
+  
+  #custom-playerctl {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  
+  #clock {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  
+  #network {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+  }
+  
+  #pulseaudio {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    border-radius: 0px;
+    font-family: "JetBrainsMono Nerd Font";
+  }
+  
+  #pulseaudio.muted {
+    color: #928374;
+  }
+  
+  #pulseaudio.microphone {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    margin-right: 0px;
+    font-family: "JetBrainsMono Nerd Font";
+  }
+  
+  #pulseaudio.microphone.source-muted {
+    color: #928374;
+  }
+  
+  #custom-battery {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    font-family: "JetBrainsMono Nerd Font";
+  }
+  
+  #custom-battery.charging {
+    color: #37bb26;
+  }
+  
+  #custom-battery.warning {
+    color: #d79921;
+  }
+  
+  #custom-battery.critical {
+    color: #cc241d;
+  }
+  
+  #idle_inhibitor {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-left: 0px;
+    border-right: 0px;
+    border-radius: 0px;
+    min-width: 18px;
+  }
+  
+  #custom-power {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    margin-left: 0px;
+    margin-right: 4px;
+    padding-right: 14px;
+  }
+  
+  #custom-cava {
+    background: rgba(40, 40, 40, 0.76);
+    color: #ebdbb2;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ebdbb2;
+    border-radius: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    border-bottom: 0px;
+    border-top: 0px;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-family: monospace;
+    min-width: 200px;
+  }
+  
+  #custom-cava.music {
+    color: #ff0000;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0 4px;
+  }
+  
+  @keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+  }

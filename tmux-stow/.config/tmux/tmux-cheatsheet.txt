@@ -1,0 +1,76 @@
+TMUX CHEATSHEET
+==============
+
+PREFIX: Ctrl-a (press Ctrl+a, release, then press the key)
+
+SESSION MANAGEMENT
+-----------------
+Prefix + d     - Detach from session
+Prefix + D     - Choose session to detach
+Prefix + s     - Switch to another session
+Prefix + $     - Rename session
+Prefix + (     - Switch to previous session
+Prefix + )     - Switch to next session
+
+WINDOW MANAGEMENT
+----------------
+Prefix + c     - Create new window
+Prefix + n     - Next window
+Prefix + p     - Previous window
+Prefix + &     - Kill current window
+Prefix + ,     - Rename current window
+Prefix + w     - List all windows
+Prefix + f     - Find window by name
+Prefix + .     - Move window to another position
+Prefix + :     - Enter command mode
+
+PANE MANAGEMENT
+--------------
+Prefix + |     - Split pane vertically
+Prefix + -     - Split pane horizontally
+Prefix + o     - Switch to next pane
+Prefix + ;     - Toggle last active pane
+Prefix + x     - Kill current pane
+Prefix + z     - Zoom current pane
+Prefix + {     - Move current pane left
+Prefix + }     - Move current pane right
+Prefix + Space - Toggle between layouts
+Prefix + Alt+1 - Switch to even-horizontal layout
+Prefix + Alt+2 - Switch to even-vertical layout
+Prefix + Alt+3 - Switch to main-horizontal layout
+Prefix + Alt+4 - Switch to main-vertical layout
+Prefix + Alt+5 - Switch to tiled layout
+
+COPY MODE
+---------
+Prefix + [     - Enter copy mode
+Prefix + ]     - Paste
+In copy mode:
+    v          - Start selection
+    V          - Start line selection
+    y          - Copy selection
+    q          - Quit copy mode
+    /          - Search forward
+    ?          - Search backward
+    n          - Next match
+    N          - Previous match
+
+MOUSE MODE
+----------
+Click and drag to select text
+Scroll to scroll through history
+Click to select pane
+Click and drag to resize panes
+
+PLUGINS
+-------
+Prefix + I     - Install plugins
+Prefix + U     - Update plugins
+Prefix + Alt+u - Uninstall plugins
+
+MISCELLANEOUS
+------------
+Prefix + ?     - Show key bindings
+Prefix + t     - Show clock
+Prefix + r     - Reload config
+Prefix + H     - Show this cheatsheet 
