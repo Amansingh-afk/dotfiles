@@ -11,13 +11,13 @@
     "modules-left": [
         "hyprland/workspaces",
         "hyprland/window",
-        "custom/cava",
-        "custom/playerctl"
+        "custom/cava"
     ],
     "modules-center": [
         "clock"
     ],
     "modules-right": [
+        "custom/playerctl",
         "custom/updates",
         "pulseaudio",
         "network",
@@ -54,11 +54,8 @@
               "3": "󰺻 ",
               "4": "󰚌 ",
               "5": "󰓇 ",
-              "6": "󰉋 ",
-              "7": "󰭹 ",
-              "8": " ",
-              "9": "󰌽 ",
-              "10": "󰐌 ",
+              "6": "󰌽 ",
+              "7": "󰐌 ",
               "urgent": "",
               "default": "󰐗",
               "magic": "󰓏"
@@ -70,10 +67,7 @@
             "4": [],
             "5": [],
             "6": [],
-            "7": [],
-            "8": [],
-            "9": [],
-            "10": []
+            "7": []
         },
         "sort-by-number": true
     },
