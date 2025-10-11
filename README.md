@@ -36,6 +36,50 @@ cd /home/dmann/realm/builds/dotfiles
 ./install.sh restow
 ```
 
+## Theme System (Gruvbox default + Monochrome)
+
+This setup supports multiple themes across these apps:
+
+- `alacritty`, `kitty`, `rofi`, `waybar`, `hyprland`, `mako`, `neovim`, `zsh` (fzf)
+
+Wallpaper and GTK are intentionally not changed by theme switches.
+
+### Switch themes
+
+Gruvbox (default):
+
+```bash
+cd /home/dmann/realm/builds/dotfiles
+./install.sh restow
+```
+
+Monochrome:
+
+```bash
+cd /home/dmann/realm/builds/dotfiles
+./install.sh restow --monochrome
+```
+
+You can also pass the flag on first install:
+
+```bash
+./install.sh install --monochrome
+```
+
+Under the hood, per-app symlinks like `~/.config/<app>/themes/current.*` are updated to point to the selected theme (e.g., `gruvbox` or `monochrome`). `~/.config/zsh/dotfiles-theme.env` is written so Neovim and fzf pick up the current theme in new shells.
+
+### Reload tips (no logout required)
+
+- Waybar: `killall waybar && waybar &`
+- Mako: `makoctl reload`
+- Neovim/fzf in current shell:
+  ```bash
+  source ~/.config/zsh/dotfiles-theme.env
+  source ~/.config/zsh/.zshrc
+  ```
+- Kitty/Alacritty/Rofi: open a new instance to see the theme
+- Hyprland: theme applies to new windows; full reload optional
+
 ## Manual Installation
 
 ### Install all packages:

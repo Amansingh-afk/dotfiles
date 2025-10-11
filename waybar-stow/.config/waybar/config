@@ -18,6 +18,7 @@
     ],
     "modules-right": [
         "custom/playerctl",
+        "custom/wallpaper",
         "custom/updates",
         "pulseaudio",
         "network",
@@ -39,6 +40,11 @@
             "(.*)Telegram": "󰔁 Telegram"
         },
         "separate-outputs": true
+    },
+    "custom/wallpaper": {
+        "format": "󰸉",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/wallpaper-switcher.sh"
     },
     "hyprland/workspaces": {
         "disable-scroll": false,

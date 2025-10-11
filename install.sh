@@ -19,6 +19,47 @@ PACKAGES=(
     "zsh-stow"
 )
 
+THEME="gruvbox"
+for arg in "$@"; do
+    if [ "$arg" = "--monochrome" ]; then
+        THEME="monochrome"
+    fi
+done
+
+set_theme_symlinks() {
+    local theme="$1"
+    echo "Setting theme to $theme"
+
+    mkdir -p ~/.config/alacritty/themes
+    ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml
+
+    mkdir -p ~/.config/kitty/kitty_themes
+    if [ "$theme" = "gruvbox" ]; then
+        ln -sfn ~/.config/kitty/kitty_themes/gruvbox_dark.conf ~/.config/kitty/kitty_themes/current.conf
+    else
+        ln -sfn ~/.config/kitty/kitty_themes/monochrome.conf ~/.config/kitty/kitty_themes/current.conf
+    fi
+
+    mkdir -p ~/.config/rofi/themes
+    ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi
+
+    mkdir -p ~/.config/waybar/themes
+    ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
+
+    mkdir -p ~/.config/hypr/themes
+    if [ "$theme" = "gruvbox" ]; then
+        ln -sfn ~/.config/hypr/themes/gruvbox-dark.conf ~/.config/hypr/themes/current.conf
+    else
+        ln -sfn ~/.config/hypr/themes/monochrome.conf ~/.config/hypr/themes/current.conf
+    fi
+
+    mkdir -p ~/.config/mako/themes
+    ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf
+
+    mkdir -p ~/.config/zsh
+    echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
+}
+
 case "$1" in
     "install")
         echo "Installing all dotfiles packages..."
@@ -26,6 +67,8 @@ case "$1" in
             echo "Installing $package..."
             stow -t ~ "$package"
         done
+        chmod +x ~/.config/waybar/scripts/*.sh 2>/dev/null || true
+        set_theme_symlinks "$THEME"
         echo "All packages installed successfully!"
         ;;
     "uninstall")
@@ -42,15 +85,20 @@ case "$1" in
             echo "Restowing $package..."
             stow -R -t ~ "$package"
         done
+        chmod +x ~/.config/waybar/scripts/*.sh 2>/dev/null || true
+        set_theme_symlinks "$THEME"
         echo "All packages restowed successfully!"
         ;;
     *)
-        echo "Usage: $0 {install|uninstall|restow}"
+        echo "Usage: $0 {install|uninstall|restow} [--monochrome]"
         echo ""
         echo "Commands:"
-        echo "  install   - Install all dotfiles packages"
+        echo "  install   - Install all dotfiles packages (default theme: gruvbox)"
         echo "  uninstall - Uninstall all dotfiles packages"
         echo "  restow    - Restow all dotfiles packages (uninstall then install)"
+        echo ""
+        echo "Options:"
+        echo "  --monochrome  - Use monochrome theme instead of gruvbox"
         exit 1
         ;;
 esac 

@@ -1,0 +1,33 @@
+/* Gruvbox accents for Waybar (GTK CSS syntax) */
+
+@define-color accent rgba(215, 153, 33, 0.65);
+@define-color accent_weak rgba(215, 153, 33, 0.35);
+@define-color accent_bg_start rgba(215, 153, 33, 0.35);
+@define-color accent_bg_end rgba(215, 153, 33, 0.18);
+@define-color danger rgba(204, 36, 29, 0.60);
+@define-color fg_weak rgba(235, 219, 178, 0.95);
+@define-color text_soft rgba(235, 219, 178, 0.95);
+
+@define-color urgent_bg_start rgba(204, 36, 29, 0.45);
+@define-color urgent_bg_end rgba(204, 36, 29, 0.22);
+@define-color special_bg_start rgba(184, 187, 38, 0.30);
+@define-color special_bg_end rgba(184, 187, 38, 0.14);
+@define-color special_border rgba(184, 187, 38, 0.55);
+
+@define-color success rgba(55, 187, 38, 0.95);
+@define-color success_border rgba(55, 187, 38, 0.45);
+@define-color warning rgba(215, 153, 33, 0.95);
+@define-color warning_border rgba(215, 153, 33, 0.40);
+@define-color critical rgba(204, 36, 29, 0.95);
+@define-color critical_border rgba(204, 36, 29, 0.45);
+
+#workspaces button.active {
+  border-color: @accent;
+  box-shadow:
+    0 0 0 1px @accent inset,
+    0 4px 12px rgba(215, 153, 33, 0.25);
+}
+
+#custom-battery.warning { box-shadow: 0 0 0 1px @accent_weak inset; }
+#workspaces button { color: @fg_weak; }
+

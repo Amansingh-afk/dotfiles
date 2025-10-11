@@ -1,0 +1,6 @@
+customCommands:
+- key: C
+  context: files
+  command: lazygit-ai commit --modal
+  description: AI commit (modal)
+  subprocess: true

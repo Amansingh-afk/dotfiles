@@ -6,6 +6,7 @@
    *  - Soft shadows and tasteful accents
    * ================================ */
   
+@import url("themes/current.css");
 
 * {
     border: none;
@@ -19,6 +20,7 @@
   #custom-updates,
   #window,
   #custom-playerctl,
+  #custom-wallpaper,
   #clock,
   #custom-battery,
   #pulseaudio,
@@ -75,22 +77,22 @@
     color: #ffffff;
   }
   #workspaces button.active {
-    background: linear-gradient(135deg, rgba(215, 153, 33, 0.35) 0%, rgba(215, 153, 33, 0.18) 100%);
-    border-color: rgba(215, 153, 33, 0.50);
+    background: linear-gradient(135deg, @accent_bg_start 0%, @accent_bg_end 100%);
+    border-color: @accent;
     box-shadow:
-      0 0 0 1px rgba(215, 153, 33, 0.65) inset,
-      0 4px 12px rgba(215, 153, 33, 0.25);
-    color: #fff8e1;
+      0 0 0 1px @accent inset,
+      0 4px 12px @accent_bg_start;
+    color: @text_soft;
   }
   #workspaces button.urgent {
-    background: linear-gradient(135deg, rgba(204, 36, 29, 0.45), rgba(204, 36, 29, 0.22));
-    border-color: rgba(204, 36, 29, 0.60);
-    color: #ffecec;
+    background: linear-gradient(135deg, @urgent_bg_start, @urgent_bg_end);
+    border-color: @danger;
+    color: @text_soft;
   }
   #workspaces button.special {
-    background: linear-gradient(135deg, rgba(184, 187, 38, 0.30), rgba(184, 187, 38, 0.14));
-    border-color: rgba(184, 187, 38, 0.55);
-    color: #fafff0;
+    background: linear-gradient(135deg, @special_bg_start, @special_bg_end);
+    border-color: @special_border;
+    color: @text_soft;
   }
   
   /* Tray glass cleanup */
@@ -114,13 +116,13 @@
 
   #custom-cava {
     min-width: 160px;
-    color: #ebdbb2;
+    color: @text_soft;
     border-radius: 20px;
     margin: 0px 2px;
   }
   
   #custom-cava.music {
-    color: #f017ba;
+    color: #ca0000;
     font-weight: bold;
     padding: 0px 8px;
   } 
@@ -133,6 +135,7 @@
 
   /* Normalize right-side modules for alignment */
   .modules-right #custom-playerctl,
+  .modules-right #custom-wallpaper,
   .modules-right #pulseaudio,
   .modules-right #pulseaudio.microphone,
   .modules-right #network,
@@ -156,15 +159,16 @@
   #pulseaudio.microphone.source-muted {
     color: rgba(146, 131, 116, 0.85);
   }
+
   #custom-battery.charging {
-    color: rgba(55, 187, 38, 0.95);
-    box-shadow: 0 0 0 1px rgba(55, 187, 38, 0.45) inset;
+    color: @success;
+    box-shadow: 0 0 0 1px @success_border inset;
   }
   #custom-battery.warning {
-    color: rgba(215, 153, 33, 0.95);
-    box-shadow: 0 0 0 1px rgba(215, 153, 33, 0.40) inset;
+    color: @warning;
+    box-shadow: 0 0 0 1px @warning_border inset;
   }
   #custom-battery.critical {
-    color: rgba(204, 36, 29, 0.95);
-    box-shadow: 0 0 0 1px rgba(204, 36, 29, 0.45) inset;
+    color: @critical;
+    box-shadow: 0 0 0 1px @critical_border inset;
   }

@@ -35,15 +35,19 @@ export PAGER='less'
 export LANG=en_US.UTF-8
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:/home/dmann/.spicetify
+if [ -f "$HOME/.config/zsh/dotfiles-theme.env" ]; then
+  source "$HOME/.config/zsh/dotfiles-theme.env"
+fi
 
 eval "$(ssh-agent -s)" > /dev/null
 ssh-add -q ~/.ssh/id_ed25519_vamaship
 
-# --- Fzf gruvbox theme ---
-export FZF_DEFAULT_OPTS='--color=fg:#ebdbb2,bg:#282828,hl:#d79921,fg+:'
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS'#fbf1c7,bg+:#3c3836,hl+:#d79921,"
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS'info:#b8bb26,prompt:#fe8019,"
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS'spinner:#fb4934,header:#83a598'"
+# --- Fzf theme (switchable) ---
+if [ "$DOTFILES_THEME" = "monochrome" ]; then
+  export FZF_DEFAULT_OPTS='--color=fg:#e6e6e6,bg:#121212,hl:#b3b3b3,fg+:#f0f0f0,bg+:#2e2e2e,hl+:#c2c2c2,info:#adadad,prompt:#b0b0b0,spinner:#9a9a9a,header:#a6a6a6'
+else
+  export FZF_DEFAULT_OPTS='--color=fg:#ebdbb2,bg:#282828,hl:#d79921,fg+:#fbf1c7,bg+:#3c3836,hl+:#d79921,info:#b8bb26,prompt:#fe8019,spinner:#fb4934,header:#83a598'
+fi
 
 # --- Source all modular Zsh configs -----
 source ~/.config/zsh/keybindings.zsh
