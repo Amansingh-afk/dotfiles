@@ -1,1 +1,6 @@
 general.import = ["~/.config/alacritty/themes/current.toml"]
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = '\x1b\r'

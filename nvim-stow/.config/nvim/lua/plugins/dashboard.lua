@@ -1,116 +1,153 @@
 return {
-  'glepnir/dashboard-nvim',
-  event = 'VimEnter',
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  "glepnir/dashboard-nvim",
+  event = "VimEnter",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
+    -- Time-based greeting
+    local function get_greeting()
+      local hour = tonumber(os.date("%H"))
+      local greeting = ""
+      if hour >= 5 and hour < 12 then
+        greeting = "󰼰  Morning, let's build something"
+      elseif hour >= 12 and hour < 17 then
+        greeting = "󱎓  Afternoon, time to ship"
+      elseif hour >= 17 and hour < 21 then
+        greeting = "󰖚  Evening, code flows best now"
+      else
+        greeting = "󰖔  Late night hacking, respect"
+      end
+      return greeting
+    end
+
+    -- Rotating quotes/tips
+    local quotes = {
+      "│ \"Simplicity is the ultimate sophistication.\" │",
+      "│ \"First, solve the problem. Then, write the code.\" │",
+      "│ \"Code is like humor. When you have to explain it, it's bad.\" │",
+      "│ \"Make it work, make it right, make it fast.\" │",
+      "│ \"The best error message is the one that never shows up.\" │",
+      "│ \"Deleted code is debugged code.\" │",
+      "│ \"It works on my machine. ¯\\_(ツ)_/¯\" │",
+      "│ \"// TODO: fix this later (written mass ago)\" │",
+    }
+    math.randomseed(os.time())
+    local random_quote = quotes[math.random(#quotes)]
+
     local header = {
-      "                                                     ",
-      "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-      "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-      "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-      "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-      "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-      "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-      "                                                     ",
-      " [ TIP: To exit Neovim, press ALT+F4 multiple times ]",
-      "                                                     ",
+      "",
+      "",
+      "",
+      "                                                                       ",
+      "       ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗          ",
+      "       ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║          ",
+      "       ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║          ",
+      "       ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║          ",
+      "       ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║          ",
+      "       ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝          ",
+      "                                                                       ",
+      "  ┌───────────────────────────────────────────────────────────────────┐",
+      "  " .. random_quote,
+      "  └───────────────────────────────────────────────────────────────────┘",
+      "",
+      "                        " .. get_greeting(),
+      "",
+      "",
     }
 
     local center = {
       {
-        icon = "󰈞 ",
-        icon_hl = "Title",
-        desc = "Find File",
-        desc_hl = "String",
+        icon = "   ",
+        desc = "Find File                                        ",
         key = "f",
-        key_hl = "Number",
         action = "Telescope find_files",
       },
       {
-        icon = "󰊄 ",
-        icon_hl = "Title",
-        desc = "Recent Files",
-        desc_hl = "String",
+        icon = "   ",
+        desc = "Recent Files                                     ",
         key = "r",
-        key_hl = "Number",
         action = "Telescope oldfiles",
       },
       {
-        icon = "󰈬 ",
-        icon_hl = "Title",
-        desc = "Find Word",
-        desc_hl = "String",
+        icon = "   ",
+        desc = "Find Word                                        ",
         key = "w",
-        key_hl = "Number",
         action = "Telescope live_grep",
       },
       {
-        icon = "󰊄 ",
-        icon_hl = "Title",
-        desc = "New File",
-        desc_hl = "String",
+        icon = "   ",
+        desc = "New File                                         ",
         key = "n",
-        key_hl = "Number",
         action = "enew",
       },
       {
-        icon = "󰗼 ",
-        icon_hl = "Title",
-        desc = "Lazy",
-        desc_hl = "String",
-        key = "l",
-        key_hl = "Number",
-        action = "Lazy",
+        icon = "   ",
+        desc = "Config                                           ",
+        key = "c",
+        action = "e ~/.config/nvim/init.lua",
       },
       {
-        icon = "󰒲 ",
-        icon_hl = "Title",
-        desc = "Mason",
-        desc_hl = "String",
-        key = "m",
-        key_hl = "Number",
-        action = "Mason",
+        icon = "   ",
+        desc = "Quit                                             ",
+        key = "q",
+        action = "qa",
       },
     }
 
-    -- Get the current time and load time
     local function footer()
-      local total_plugins = #vim.tbl_keys(require("lazy").plugins())
-      local datetime = os.date(" %d-%m-%Y   %H:%M:%S")
-      local version = vim.version()
-      local nvim_version_info = "   v" .. version.major .. "." .. version.minor .. "." .. version.patch
-      
-      -- Calculate load time
-      local start_time = vim.g.start_time or vim.loop.hrtime()
-      local load_time = (vim.loop.hrtime() - start_time) / 1e6 -- Convert to milliseconds
-      local load_time_str = string.format("   Load time: %.2fms", load_time)
-
-      return datetime .. "   " .. total_plugins .. " plugins" .. nvim_version_info .. load_time_str
+      local stats = require("lazy").stats()
+      local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+      local ver = vim.version()
+      local version = " v" .. ver.major .. "." .. ver.minor .. "." .. ver.patch
+      return {
+        "",
+        "",
+        "───────────────────────────────────────────────────────────────────────────",
+        "",
+        "  󰂖 " .. stats.loaded .. "/" .. stats.count .. " plugins    󱑎 " .. ms .. "ms   " .. version .. "    " .. os.date(" %a, %d %b"),
+        "",
+      }
     end
 
-    -- Store start time when Neovim starts
-    vim.g.start_time = vim.loop.hrtime()
-
-    require('dashboard').setup({
-      theme = 'doom',
+    require("dashboard").setup({
+      theme = "doom",
       config = {
         header = header,
         center = center,
-        footer = { footer() },
+        footer = footer,
       },
       hide = {
-        statusline = false,
-        tabline = false,
-        winbar = false,
+        statusline = true,
+        tabline = true,
+        winbar = true,
       },
     })
 
-    -- Disable the signcolumn specifically for dashboard buffer
-    vim.api.nvim_create_autocmd('FileType', {
-      pattern = 'dashboard',
+    -- Custom highlights for dashboard
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "dashboard",
       callback = function()
-        vim.opt_local.signcolumn = 'no'
-      end
+        vim.opt_local.signcolumn = "no"
+        vim.opt_local.cursorline = false
+
+        -- Gruvbox-compatible custom highlights
+        local colors = {
+          orange = "#fe8019",
+          yellow = "#fabd2f",
+          aqua = "#8ec07c",
+          blue = "#83a598",
+          purple = "#d3869b",
+          red = "#fb4934",
+          green = "#b8bb26",
+          gray = "#928374",
+          fg = "#ebdbb2",
+        }
+
+        vim.api.nvim_set_hl(0, "DashboardHeader", { fg = colors.orange, bold = true })
+        vim.api.nvim_set_hl(0, "DashboardIcon", { fg = colors.aqua })
+        vim.api.nvim_set_hl(0, "DashboardDesc", { fg = colors.fg })
+        vim.api.nvim_set_hl(0, "DashboardKey", { fg = colors.yellow, bold = true })
+        vim.api.nvim_set_hl(0, "DashboardFooter", { fg = colors.gray, italic = true })
+      end,
     })
   end,
-} 
+}

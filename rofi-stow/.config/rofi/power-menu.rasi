@@ -1,0 +1,76 @@
+configuration {
+  modi:                     "drun";
+  show-icons:               false;
+  font:                     "JetBrainsMono Nerd Font";
+}
+
+@theme "themes/current.rasi"
+
+/* Main Window */
+window {
+  enabled:                  true;
+  location:                 northeast;
+  anchor:                   north;
+  x-offset:                 -3px;
+  y-offset:                 3px;
+  height:                   178px;
+  width:                    150px;
+  border:                   2px;
+  border-radius:            10px;
+  border-color:             @bgStatusline3;
+  background-color:         @bg0;
+  
+  children:                 [ "mainbox" ];
+}
+
+/* Main Container */
+mainbox {
+  enabled:                  true;
+  background-color:         inherit;
+  text-color:               @fg0;
+  
+  children:                 [ "listbox" ];
+}
+
+/* List Container */
+listbox {
+  enabled:                  true;
+  background-color:         inherit;
+  
+  children:                 [ "listview" ];
+}
+
+/* List View */
+listview {
+  enabled:                  true;
+  layout:                   vertical;
+  cycle:                    true;
+  columns:                  1;
+  lines:                    6;
+  padding:                  6px;
+  spacing:                  0;
+  background-color:         inherit;
+}
+
+/* List Elements */
+element {
+  enabled:                  true;
+  padding:                  6px;
+  cursor:                   pointer;
+  background-color:         transparent;
+  text-color:               @fg0;
+}
+
+element selected.normal {
+  border-radius:            6px;
+  background-color:         @grey0;
+  text-color:               @fg0;
+}
+
+/* Element Text */
+element-text {
+  enabled:                  true;
+  cursor:                   inherit;
+  background-color:         transparent;
+  text-color:               inherit;
+}

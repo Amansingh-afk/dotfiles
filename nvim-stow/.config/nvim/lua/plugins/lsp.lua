@@ -1,14 +1,8 @@
 return {
   {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-    },
+    "williamboman/mason.nvim",
+    lazy = false,
     config = function()
-      local lspconfig = require("lspconfig")
-
-      -- Setup Mason
       require("mason").setup({
         ui = {
           icons = {
@@ -18,45 +12,51 @@ return {
           },
         },
       })
-
-      -- Enhanced capabilities with completion support for nvim-cmp
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Key mappings when LSP attaches
-      local on_attach = function(_, bufnr)
-        local map = vim.keymap.set
-        local opts = { buffer = bufnr, silent = true }
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        callback = function(ev)
+          local map = vim.keymap.set
+          local opts = { buffer = ev.buf, silent = true }
 
-        -- LSP functionality
-        map("n", "gd", vim.lsp.buf.definition, opts)
-        map("n", "gD", vim.lsp.buf.declaration, opts)
-        map("n", "K", vim.lsp.buf.hover, opts)
-        map("n", "gi", vim.lsp.buf.implementation, opts)
-        map("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-        map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-        map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-        map("n", "<leader>wl", function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
-        map("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-        map("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-        map("n", "gr", vim.lsp.buf.references, opts)
-        map("n", "<leader>F", function()
-          vim.lsp.buf.format({ async = true })
-        end, opts)
-      end
+          map("n", "gd", vim.lsp.buf.definition, opts)
+          map("n", "gD", vim.lsp.buf.declaration, opts)
+          map("n", "K", vim.lsp.buf.hover, opts)
+          map("n", "gi", vim.lsp.buf.implementation, opts)
+          map("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+          map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+          map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+          map("n", "<leader>wl", function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+          end, opts)
+          map("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+          map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+          map("n", "gr", vim.lsp.buf.references, opts)
+          map("n", "<leader>F", function()
+            vim.lsp.buf.format({ async = true })
+          end, opts)
+        end,
+      })
 
-      -- Setup LSP servers directly
-      -- Lua LSP
-      lspconfig.lua_ls.setup({
+      -- Configure LSP servers using vim.lsp.config (Neovim 0.11+)
+      vim.lsp.config.lua_ls = {
+        cmd = { "lua-language-server" },
+        filetypes = { "lua" },
+        root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git" },
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           Lua = {
-            diagnostics = {
-              globals = { "vim" },
-            },
+            diagnostics = { globals = { "vim" } },
             workspace = {
               library = {
                 [vim.fn.expand("$VIMRUNTIME/lua")] = true,
@@ -65,27 +65,27 @@ return {
             },
           },
         },
-      })
+      }
 
-      -- PHP LSP (Intelephense)
-      lspconfig.intelephense.setup({
+      vim.lsp.config.intelephense = {
+        cmd = { "intelephense", "--stdio" },
+        filetypes = { "php" },
+        root_markers = { "composer.json", ".git" },
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
-          intelephense = {
-            files = { maxSize = 5000000 },
-          },
+          intelephense = { files = { maxSize = 5000000 } },
         },
-      })
+      }
 
-      -- JavaScript/TypeScript LSP (ts_ls)
-      lspconfig.ts_ls.setup({
+      vim.lsp.config.ts_ls = {
+        cmd = { "typescript-language-server", "--stdio" },
+        filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+        root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           typescript = {
             inlayHints = {
-              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHints = "all",
               includeInlayParameterNameHintsWhenArgumentMatchesName = false,
               includeInlayFunctionParameterTypeHints = true,
               includeInlayVariableTypeHints = true,
@@ -96,7 +96,7 @@ return {
           },
           javascript = {
             inlayHints = {
-              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHints = "all",
               includeInlayParameterNameHintsWhenArgumentMatchesName = false,
               includeInlayFunctionParameterTypeHints = true,
               includeInlayVariableTypeHints = true,
@@ -106,7 +106,27 @@ return {
             },
           },
         },
-      })
+      }
+
+      vim.lsp.config.pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+        filetypes = { "python" },
+        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", "pyrightconfig.json", ".git" },
+        capabilities = capabilities,
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "workspace",
+            },
+          },
+        },
+      }
+
+      -- Enable LSP servers
+      vim.lsp.enable({ "lua_ls", "intelephense", "ts_ls", "pyright" })
     end,
   },
 }

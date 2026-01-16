@@ -1,10 +1,15 @@
 #!/bin/bash
 
-entries="⇠ Logout\n⭮ Reboot\n⏻ Shutdown"
+config="$HOME/.config/rofi/power-menu.rasi"
 
-selected=$(echo -e $entries | rofi -dmenu -i -p "Power Menu" -lines 3)
+entries=" Lock\n⇠ Logout\n⭮ Reboot\n⏻ Shutdown"
+
+selected=$(echo -e $entries | rofi -dmenu -i -config "${config}")
 
 case $selected in
+    " Lock")
+        hyprlock
+        ;;
     "⇠ Logout")
         hyprctl dispatch exit
         ;;

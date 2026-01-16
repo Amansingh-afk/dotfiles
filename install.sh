@@ -23,6 +23,24 @@ THEME="gruvbox"
 for arg in "$@"; do
     if [ "$arg" = "--monochrome" ]; then
         THEME="monochrome"
+    elif [ "$arg" = "--gruvbox" ]; then
+        THEME="gruvbox"
+    elif [ "$arg" = "--nord" ]; then
+        THEME="nord"
+    elif [ "$arg" = "--dracula" ]; then
+        THEME="dracula"
+    elif [ "$arg" = "--tokyonight" ]; then
+        THEME="tokyonight"
+    elif [ "$arg" = "--onedark" ]; then
+        THEME="onedark"
+    elif [ "$arg" = "--onedarkpro" ]; then
+        THEME="onedarkpro"
+    elif [ "$arg" = "--catppuccin" ]; then
+        THEME="catppuccin"
+    elif [ "$arg" = "--catppuccin-mocha" ]; then
+        THEME="catppuccin-mocha"
+    elif [ "$arg" = "--catppuccin-frappe" ]; then
+        THEME="catppuccin-frappe"
     fi
 done
 
@@ -34,11 +52,7 @@ set_theme_symlinks() {
     ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml
 
     mkdir -p ~/.config/kitty/kitty_themes
-    if [ "$theme" = "gruvbox" ]; then
-        ln -sfn ~/.config/kitty/kitty_themes/gruvbox_dark.conf ~/.config/kitty/kitty_themes/current.conf
-    else
-        ln -sfn ~/.config/kitty/kitty_themes/monochrome.conf ~/.config/kitty/kitty_themes/current.conf
-    fi
+    ln -sfn ~/.config/kitty/kitty_themes/${theme}.conf ~/.config/kitty/kitty_themes/current.conf
 
     mkdir -p ~/.config/rofi/themes
     ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi
@@ -47,11 +61,7 @@ set_theme_symlinks() {
     ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
 
     mkdir -p ~/.config/hypr/themes
-    if [ "$theme" = "gruvbox" ]; then
-        ln -sfn ~/.config/hypr/themes/gruvbox-dark.conf ~/.config/hypr/themes/current.conf
-    else
-        ln -sfn ~/.config/hypr/themes/monochrome.conf ~/.config/hypr/themes/current.conf
-    fi
+    ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf
 
     mkdir -p ~/.config/mako/themes
     ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf
