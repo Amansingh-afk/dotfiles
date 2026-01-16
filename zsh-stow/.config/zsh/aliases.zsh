@@ -17,9 +17,6 @@ alias tmal="tmux attach -t"
 alias tmks="tmux kill-session -t"
 alias tml="tmux list-sessions"
 
-#Open cursor IDE
-alias llm='~/Applications/cursor.AppImage'
-
 #Open tmux with default setup
 alias godmode="~/realm/builds/dotfiles/tmux-stow/.config/tmux/god-mode-tmux.sh"
 

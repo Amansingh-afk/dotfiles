@@ -1,19 +1,20 @@
-# Plugins
-plugins=(
-  aliases
-  colorize
-  eza
-  fzf
-  zoxide
-  zsh-autosuggestions
-  zsh-history-substring-search
-  zsh-syntax-highlighting
-)
+# Oh My Zsh Plugins (if installed)
+if [[ -d "$HOME/.oh-my-zsh" ]]; then
+  plugins=(
+    aliases
+    colorize
+    eza
+    fzf
+    zoxide
+    zsh-autosuggestions
+    zsh-history-substring-search
+    zsh-syntax-highlighting
+  )
+  source $ZSH/oh-my-zsh.sh
+fi
 
-source $ZSH/oh-my-zsh.sh
+# zoxide init (if installed)
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
-# zoxide init
-eval "$(zoxide init zsh)"
-
-#Source configs
-source ~/.zsh/zsh-highlight-config.zsh
+# Source highlight config if exists
+[[ -f ~/.zsh/zsh-highlight-config.zsh ]] && source ~/.zsh/zsh-highlight-config.zsh

@@ -6,12 +6,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Powerlevel10k Theme
-source ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme
-
-# Oh My Zsh
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="ys"
-
-# Powerlevel10k config
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Powerlevel10k Theme (if installed)
+if [[ -f ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme ]]; then
+  source ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+else
+  # Fallback: simple prompt
+  PS1='%F{green}%n@%m%f:%F{blue}%~%f$ '
+fi

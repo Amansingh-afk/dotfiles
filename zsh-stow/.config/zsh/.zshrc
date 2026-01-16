@@ -34,13 +34,16 @@ export VISUAL='nvim'
 export PAGER='less'
 export LANG=en_US.UTF-8
 export PATH="$HOME/.local/bin:$PATH"
-export PATH=$PATH:/home/dmann/.spicetify
+export PATH=$PATH:$HOME/.spicetify
 if [ -f "$HOME/.config/zsh/dotfiles-theme.env" ]; then
   source "$HOME/.config/zsh/dotfiles-theme.env"
 fi
 
-eval "$(ssh-agent -s)" > /dev/null
-ssh-add -q ~/.ssh/id_ed25519_vamaship
+# Start ssh-agent if needed
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
+  eval "$(ssh-agent -s)" > /dev/null
+fi
+[[ -f ~/.ssh/id_ed25519_vamaship ]] && ssh-add -q ~/.ssh/id_ed25519_vamaship 2>/dev/null
 
 # --- Fzf theme (switchable) ---
 if [ "$DOTFILES_THEME" = "monochrome" ]; then
