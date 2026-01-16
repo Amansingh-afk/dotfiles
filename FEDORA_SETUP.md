@@ -74,6 +74,33 @@ sudo dnf install -y \
     python3-pip
 ```
 
+### Install Zsh Plugins and Tools
+
+```bash
+# Install zoxide (smart cd command)
+# Option 1: Using cargo (if Rust is installed)
+# cargo install zoxide
+
+# Option 2: Using pre-built binary
+curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+
+# Or install from Fedora repos (if available)
+# sudo dnf install -y zoxide
+
+# Install Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+# Install Powerlevel10k theme
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.local/share/powerlevel10k
+
+# Install zsh plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+```
+
+**Note:** The dotfiles will automatically configure zoxide and p10k when you install them. The `.p10k.zsh` config file is included in the dotfiles.
+
 ## Step 2: Install GNU Stow
 
 ```bash
@@ -108,6 +135,11 @@ chmod +x install.sh
 # ./install.sh install --monochrome
 # ./install.sh install --catppuccin-mocha
 ```
+
+**Note:** The dotfiles include:
+- **Powerlevel10k (p10k) configuration** - The `.p10k.zsh` file is included and will be symlinked to `~/.p10k.zsh`
+- **Zoxide configuration** - Zoxide is initialized in `plugins.zsh` with the alias `j='z'` for quick directory jumping
+- All zsh plugins are configured automatically
 
 ## Step 5: Set Up Hyprland Session
 
@@ -215,6 +247,11 @@ chsh -s $(which zsh)
 exec zsh
 ```
 
+**Note:** After setting zsh as default and installing the dotfiles:
+- **Powerlevel10k** will be automatically configured with your saved theme
+- **Zoxide** will be initialized - use `z <directory>` or `j <directory>` to jump to frequently used directories
+- All zsh plugins (autosuggestions, syntax highlighting, etc.) will be active
+
 ## Step 10: Start Hyprland
 
 ### From GNOME Session
@@ -291,6 +328,43 @@ ps aux | grep polkit-gnome
 
 # Start manually if needed
 /usr/libexec/polkit-gnome-authentication-agent-1 &
+```
+
+### Powerlevel10k (p10k) not displaying correctly
+```bash
+# Check if p10k is installed
+ls -la ~/.local/share/powerlevel10k/
+
+# Check if config file exists
+ls -la ~/.p10k.zsh
+
+# If config is missing, reinstall dotfiles
+cd ~/realm/builds/dotfiles
+./install.sh restow
+
+# Reconfigure p10k (optional - will overwrite your saved config)
+p10k configure
+```
+
+### Zoxide not working
+```bash
+# Check if zoxide is installed
+which zoxide
+
+# Check if zoxide is in PATH
+echo $PATH | grep -i zoxide
+
+# Add to PATH if installed to ~/.local/bin
+export PATH="$HOME/.local/bin:$PATH"
+
+# Reinitialize zoxide
+eval "$(zoxide init zsh)"
+
+# Test zoxide
+z --help
+
+# Check zsh config
+grep -i zoxide ~/.config/zsh/plugins.zsh
 ```
 
 ## Post-Installation Checklist

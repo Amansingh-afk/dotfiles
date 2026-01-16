@@ -106,6 +106,51 @@ sudo dnf install -y \
     wf-recorder \
     imagemagick
 
+# Install zsh plugins and tools
+print_status "Installing zsh plugins and tools..."
+
+# Install zoxide
+if ! command -v zoxide &> /dev/null; then
+    print_status "Installing zoxide..."
+    curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+    # Add zoxide to PATH if installed to ~/.local/bin
+    export PATH="$HOME/.local/bin:$PATH"
+else
+    print_status "zoxide already installed"
+fi
+
+# Install Oh My Zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    print_status "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+else
+    print_status "Oh My Zsh already installed"
+fi
+
+# Install Powerlevel10k
+if [ ! -d "$HOME/.local/share/powerlevel10k" ]; then
+    print_status "Installing Powerlevel10k..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.local/share/powerlevel10k
+else
+    print_status "Powerlevel10k already installed"
+fi
+
+# Install zsh plugins
+print_status "Installing zsh plugins..."
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-history-substring-search" ]; then
+    git clone https://github.com/zsh-users/zsh-history-substring-search "$ZSH_CUSTOM/plugins/zsh-history-substring-search"
+fi
+
 # Create Hyprland desktop entry
 print_status "Creating Hyprland desktop entry..."
 mkdir -p ~/.local/share/wayland-sessions
