@@ -132,6 +132,15 @@ mkdir -p myapp-stow/.config
 - Use `stow -v -t ~ package-name` for verbose output
 - The `-t ~` flag specifies the target directory (your home directory)
 
+## Setting Up on a New Machine
+
+For detailed instructions on setting up this dotfiles repository on a fresh Fedora 43 installation (including installing Hyprland alongside GNOME), see [FEDORA_SETUP.md](FEDORA_SETUP.md).
+
+Quick start:
+1. Install required packages (see FEDORA_SETUP.md)
+2. Clone this repository
+3. Run `./install.sh install`
+
 ## Requirements
 
 - GNU Stow (install with your package manager)
