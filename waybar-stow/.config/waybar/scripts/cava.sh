@@ -17,7 +17,7 @@ bar_character() {
 
 # Ensure the script continues running even if cava temporarily fails
 while true; do
-    cava -p /home/dmann/.config/cava/config | while read -r line; do
+    cava -p ~/.config/cava/config | while read -r line; do
         # Convert the raw cava output into a visualization
         bars=""
         for num in $(echo "$line" | tr ';' ' '); do

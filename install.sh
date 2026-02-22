@@ -41,6 +41,12 @@ set_theme_symlinks() {
     mkdir -p ~/.config/waybar/themes
     ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
 
+    # Combine theme CSS with base style for waybar
+    if [[ -f ~/.config/waybar/themes/${theme}.css ]] && [[ -f ~/.config/waybar/configs/blur/style.css ]]; then
+        cat ~/.config/waybar/themes/${theme}.css ~/.config/waybar/configs/blur/style.css > ~/.config/waybar/style.css
+        echo "Created combined waybar style.css"
+    fi
+
     mkdir -p ~/.config/hypr/themes
     ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf
 
@@ -98,7 +104,34 @@ install_deps() {
     echo ""
     echo "[2/6] Installing fonts..."
     sudo dnf install -y \
-        fontawesome-fonts powerline-fonts google-noto-fonts
+        fontawesome-fonts powerline-fonts google-noto-fonts \
+        jetbrains-mono-fonts-all
+    
+    # Install Nerd Fonts (CodeNewRoman or similar)
+    echo ""
+    echo "Installing Nerd Fonts for waybar icons..."
+    FONT_DIR="$HOME/.local/share/fonts"
+    mkdir -p "$FONT_DIR"
+    
+    # Download and install a Nerd Font (JetBrains Mono as fallback)
+    if ! fc-list | grep -qi "nerd font"; then
+        echo "Downloading JetBrains Mono Nerd Font..."
+        cd /tmp
+        wget -q https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip -O nerd-font.zip 2>/dev/null || \
+        curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip -o nerd-font.zip 2>/dev/null
+        
+        if [ -f nerd-font.zip ]; then
+            unzip -q nerd-font.zip -d "$FONT_DIR" 2>/dev/null || true
+            rm -f nerd-font.zip
+            fc-cache -fv "$FONT_DIR" 2>/dev/null || true
+            echo "Nerd Fonts installed to $FONT_DIR"
+        else
+            echo "Warning: Could not download Nerd Fonts automatically."
+            echo "Please install manually from: https://www.nerdfonts.com/font-downloads"
+        fi
+    else
+        echo "Nerd Fonts already installed"
+    fi
     
     # Screenshot/media tools
     echo ""
@@ -240,4 +273,4 @@ case "$1" in
         echo "  chsh -s \$(which zsh)  # Set zsh as default shell"
         exit 1
         ;;
-esac
+esac 

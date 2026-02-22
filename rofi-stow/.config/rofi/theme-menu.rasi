@@ -1,5 +1,5 @@
 /**
- * Power Menu - Sleek & Compact
+ * Theme/Appearance Menu - Sleek & Compact
  */
 
 configuration {
@@ -11,7 +11,7 @@ configuration {
 @import "themes/current.rasi"
 
 window {
-    width:                      160px;
+    width:                      200px;
     border:                     1px;
     border-radius:              12px;
     border-color:               @grey0;
@@ -29,11 +29,11 @@ mainbox {
 
 listview {
     columns:                    1;
-    lines:                      5;
+    lines:                      6;
     spacing:                    4px;
     padding:                    8px;
     cycle:                      true;
-    dynamic:                    false;
+    dynamic:                    true;
     scrollbar:                  false;
     background-color:           transparent;
 }
@@ -67,4 +67,20 @@ element normal.normal {
 element alternate.normal {
     background-color:           transparent;
     text-color:                 @fg0;
+}
+
+/* Current/active theme highlight */
+element normal.active {
+    background-color:           transparent;
+    text-color:                 @green;
+}
+
+element alternate.active {
+    background-color:           transparent;
+    text-color:                 @green;
+}
+
+element selected.active {
+    background-color:           @grey0;
+    text-color:                 @green;
 }

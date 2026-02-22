@@ -1,115 +1,123 @@
 /**
- * Gruvbox Material (Medium) theme
- * Taken from: https://user-images.githubusercontent.com/58662350/213884019-cbcd5f00-5bef-4a37-9139-0570770330b6.png
- * Repository: https://github.com/hiimsergey/rofi-gruvbox-material
+ * Gruvbox Theme for Rofi
  */
 
 * {
-    bg0: #1d2021;
-    bg1: #282828;
-    grey0: #504945;
-    fg0: #fbf1c7;
-
-    blue: #7daea3;
-    red: #cc241d;
-    orange: #d79921;
-    green: #a9b665;
-    bgStatusline3: #504945;
-
-    background-color: @bg0;
+    bg0:                #1d2021;
+    bg1:                #282828;
+    bg2:                #32302f;
+    grey0:              #504945;
+    grey1:              #665c54;
+    grey2:              #7c6f64;
+    fg0:                #fbf1c7;
+    fg1:                #ebdbb2;
+    fg2:                #d5c4a1;
+    red:                #fb4934;
+    orange:             #fe8019;
+    yellow:             #fabd2f;
+    green:              #b8bb26;
+    aqua:               #8ec07c;
+    blue:               #83a598;
+    purple:             #d3869b;
+    bgStatusline3:      #504945;
+    background-color:   transparent;
+    text-color:         @fg0;
 }
 
 window {
-    height: 400;
-    width: 600;
-
-    border: 0;
-    border-radius: 10;
-    border-color: @bgStatusline3;
+    width:              600px;
+    border:             2px;
+    border-radius:      16px;
+    border-color:       @grey0;
+    background-color:   @bg0;
 }
 
 mainbox {
-    spacing: 0;
-    children: [inputbar, message, listview];
+    spacing:            0;
+    background-color:   transparent;
+    children:           [inputbar, message, listview];
 }
 
 inputbar {
-    color: @fg0;
-    padding: 14;
-    background-color: @bg0;
-}
-
-message {
-    padding: 10;
-    background-color: @grey0;
-}
-
-listview {
-    padding: 8;
-    border-radius: 0 0 10 10;
-    border: 2 2 2 2;
-    border-color: @bg0;
-    background-color: @bg0;
-    dynamic: false;
-}
-
-textbox {
-    text-color: @fg0;
-    background-color: inherit;
-}
-
-error-message {
-    border: 20 20 20 20;
-}
-
-entry, prompt, case-indicator {
-    text-color: inherit;
+    padding:            16px 20px;
+    spacing:            12px;
+    background-color:   @bg1;
+    border-radius:      14px 14px 0 0;
+    children:           [prompt, entry];
 }
 
 prompt {
-    margin: 0 10 0 0;
+    padding:            0px 8px 0px 0px;
+    background-color:   transparent;
+    text-color:         @orange;
+}
+
+entry {
+    placeholder:        "Search...";
+    placeholder-color:  @grey1;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             text;
+}
+
+message {
+    padding:            12px;
+    background-color:   @bg2;
+}
+
+textbox {
+    background-color:   transparent;
+    text-color:         @fg1;
+}
+
+listview {
+    lines:              8;
+    columns:            1;
+    padding:            8px;
+    spacing:            4px;
+    scrollbar:          false;
+    background-color:   @bg0;
+    border-radius:      0 0 14px 14px;
 }
 
 element {
-    padding: 5;
-    vertical-align: 0.5;
-    border-radius: 10;
-    background-color: @bg1;
+    padding:            10px 16px;
+    spacing:            12px;
+    border-radius:      10px;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             pointer;
 }
 
-element.selected.normal {
-    background-color: @grey0;
+element normal.normal {
+    background-color:   transparent;
 }
 
-element.alternate.normal {
-    background-color: inherit;
+element alternate.normal {
+    background-color:   transparent;
 }
 
-element.normal.active, element.alternate.active {
-    background-color: @orange;
+element selected.normal {
+    background-color:   @grey0;
+    text-color:         @fg0;
 }
 
-element.selected.active {
-    background-color: @green;
+element-icon {
+    size:               24px;
+    background-color:   transparent;
+    text-color:         inherit;
 }
 
-element.normal.urgent, element.alternate.urgent {
-    background-color: @red;
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    vertical-align:     0.5;
 }
 
-element.selected.urgent {
-    background-color: @blue;
+error-message {
+    padding:            20px;
+    background-color:   @bg1;
+    border:             2px;
+    border-color:       @red;
+    border-radius:      12px;
 }
-
-element-text, element-icon {
-    size: 40;
-    margin: 0 10 0 0;
-    vertical-align: 0.5;
-    background-color: inherit;
-    text-color: @fg0;
-}
-
-element-text .active, element-text .urgent {
-    text-color: @bg0;
-}
-

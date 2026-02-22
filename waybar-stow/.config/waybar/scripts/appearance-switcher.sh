@@ -2,12 +2,13 @@
 
 set -euo pipefail
 
-# Combined appearance switcher for themes and wallpapers
+# Theme & Wallpaper Switcher - Sleek Edition
 
 THEMES_DIR="$HOME/.config/waybar/themes"
 WALL_DIR_DEFAULT="$HOME/realm/builds/dotfiles/wallpapers"
 WALL_DIR_ALT="$HOME/Pictures/Wallpapers"
 CURRENT_WALL_LINK="$WALL_DIR_DEFAULT/current"
+CONFIG="$HOME/.config/rofi/theme-menu.rasi"
 
 # Determine wallpapers directory
 if [ -d "$WALL_DIR_DEFAULT" ]; then
@@ -35,17 +36,21 @@ get_current_theme() {
 # Apply theme
 set_theme() {
     local theme="$1"
-    ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml
-    ln -sfn ~/.config/kitty/kitty_themes/${theme}.conf ~/.config/kitty/kitty_themes/current.conf
-    ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi
-    ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
-    ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf
-    ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf
+    ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml 2>/dev/null || true
+    ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi 2>/dev/null || true
+    ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css 2>/dev/null || true
+    ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf 2>/dev/null || true
+    ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf 2>/dev/null || true
     echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
-    pkill -SIGUSR2 waybar 2>/dev/null || killall -SIGUSR2 waybar 2>/dev/null || true
-    pkill -SIGUSR1 kitty 2>/dev/null || true
+    
+    # Regenerate waybar style.css
+    if [[ -f ~/.config/waybar/themes/${theme}.css ]] && [[ -f ~/.config/waybar/configs/blur/style.css ]]; then
+        cat ~/.config/waybar/themes/${theme}.css ~/.config/waybar/configs/blur/style.css > ~/.config/waybar/style.css
+    fi
+    
+    pkill -SIGUSR2 waybar 2>/dev/null || killall waybar 2>/dev/null && waybar &
     makoctl reload 2>/dev/null || true
-    notify-send "Appearance" "Theme: $theme" -t 2000
+    notify-send "󰏘 Theme" "$theme" -t 2000
 }
 
 # Show themes menu
@@ -54,50 +59,49 @@ show_themes() {
     local entries=""
     for theme in $(get_themes); do
         if [ "$theme" = "$current" ]; then
-            entries+="󰸞 $theme (current)\n"
+            entries+="󰸞  $theme\n"
         else
-            entries+="󰏘 $theme\n"
+            entries+="󰏘  $theme\n"
         fi
     done
     entries=$(echo -e "$entries" | sed '/^$/d')
 
-    selected=$(echo -e "$entries" | rofi -dmenu -i -p "Theme" -theme-str 'window {width: 300px;}')
+    selected=$(echo -e "$entries" | rofi -dmenu -i -config "$CONFIG")
     [ -z "$selected" ] && return
 
-    theme_name=$(echo "$selected" | sed 's/^[^ ]* //' | sed 's/ (current)$//')
+    theme_name=$(echo "$selected" | sed 's/^[^ ]* *//')
     [ "$theme_name" != "$current" ] && set_theme "$theme_name"
 }
 
 # Show wallpapers menu
 show_wallpapers() {
     if [ -z "$WALL_DIR" ]; then
-        notify-send "Appearance" "No wallpapers directory found"
+        notify-send "󰸉 Wallpaper" "No wallpapers directory found"
         return
     fi
 
     mapfile -t FILES < <(find "$WALL_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort)
 
     if [ ${#FILES[@]} -eq 0 ]; then
-        notify-send "Appearance" "No images found in $WALL_DIR"
+        notify-send "󰸉 Wallpaper" "No images found"
         return
     fi
 
-    build_rofi_list() {
-        for f in "${FILES[@]}"; do
-            printf '%s\0icon\x1f%s\n' "$(basename "$f")" "$f"
-        done
-    }
+    # Build list
+    entries=""
+    for f in "${FILES[@]}"; do
+        entries+="󰸉  $(basename "$f")\n"
+    done
+    entries=$(echo -e "$entries" | sed '/^$/d')
 
-    SELECTION_INDEX=$(build_rofi_list | rofi -dmenu -i -p "Wallpaper" -show-icons -format i -theme "$HOME/.config/rofi/themes/current.rasi")
+    selected=$(echo -e "$entries" | rofi -dmenu -i -config "$CONFIG")
+    [ -z "$selected" ] && return
 
-    if [ -z "${SELECTION_INDEX}" ] || [ "$SELECTION_INDEX" = "-1" ]; then
-        return
-    fi
-
-    SEL_FILE="${FILES[$SELECTION_INDEX]}"
+    wall_name=$(echo "$selected" | sed 's/^[^ ]* *//')
+    SEL_FILE="$WALL_DIR/$wall_name"
 
     if ! hyprctl hyprpaper ls >/dev/null 2>&1; then
-        notify-send "Appearance" "hyprpaper IPC not available"
+        notify-send "󰸉 Wallpaper" "hyprpaper not running"
         return
     fi
 
@@ -108,15 +112,14 @@ show_wallpapers() {
         hyprctl hyprpaper wallpaper "$m,$SEL_FILE" >/dev/null 2>&1 || true
     done
 
-    mkdir -p "$WALL_DIR_DEFAULT"
     ln -sfn "$SEL_FILE" "$CURRENT_WALL_LINK"
-    notify-send "Appearance" "Wallpaper: $(basename "$SEL_FILE")" -t 2000
+    notify-send "󰸉 Wallpaper" "$wall_name" -t 2000
 }
 
 # Main menu
 main_menu() {
-    local options="󰏘 Themes\n󰸉 Wallpapers"
-    selected=$(echo -e "$options" | rofi -dmenu -i -p "Appearance" -theme-str 'window {width: 250px;}')
+    local options="󰏘  Themes\n󰸉  Wallpapers"
+    selected=$(echo -e "$options" | rofi -dmenu -i -config "$CONFIG")
 
     case "$selected" in
         *Themes*) show_themes ;;

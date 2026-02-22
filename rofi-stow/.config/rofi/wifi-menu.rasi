@@ -1,5 +1,5 @@
 /**
- * Power Menu - Sleek & Compact
+ * WiFi Menu - Sleek & Compact
  */
 
 configuration {
@@ -11,7 +11,7 @@ configuration {
 @import "themes/current.rasi"
 
 window {
-    width:                      160px;
+    width:                      280px;
     border:                     1px;
     border-radius:              12px;
     border-color:               @grey0;
@@ -24,16 +24,37 @@ window {
 
 mainbox {
     background-color:           transparent;
-    children:                   [ listview ];
+    children:                   [ inputbar, listview ];
+}
+
+inputbar {
+    padding:                    10px 12px;
+    spacing:                    8px;
+    background-color:           @bg1;
+    border-radius:              11px 11px 0 0;
+    children:                   [ prompt, entry ];
+}
+
+prompt {
+    background-color:           transparent;
+    text-color:                 @blue;
+}
+
+entry {
+    placeholder:                "Search...";
+    placeholder-color:          @grey1;
+    background-color:           transparent;
+    text-color:                 @fg0;
+    cursor:                     text;
 }
 
 listview {
     columns:                    1;
-    lines:                      5;
+    lines:                      8;
     spacing:                    4px;
     padding:                    8px;
     cycle:                      true;
-    dynamic:                    false;
+    dynamic:                    true;
     scrollbar:                  false;
     background-color:           transparent;
 }
@@ -67,4 +88,29 @@ element normal.normal {
 element alternate.normal {
     background-color:           transparent;
     text-color:                 @fg0;
+}
+
+/* Connected network highlight */
+element normal.active {
+    background-color:           transparent;
+    text-color:                 @green;
+}
+
+element alternate.active {
+    background-color:           transparent;
+    text-color:                 @green;
+}
+
+element selected.active {
+    background-color:           @grey0;
+    text-color:                 @green;
+}
+
+textbox-custom {
+    expand:                     false;
+    content:                    "WiFi is disabled";
+    background-color:           transparent;
+    text-color:                 @grey1;
+    padding:                    12px;
+    horizontal-align:           0.5;
 }

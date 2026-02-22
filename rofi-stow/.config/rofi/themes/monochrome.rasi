@@ -1,109 +1,123 @@
+/**
+ * Monochrome Theme for Rofi
+ */
+
 * {
-    bg0: #121212;
-    bg1: #1c1c1c;
-    grey0: #404040;
-    fg0: #e6e6e6;
-
-    blue: #a0a0a0;
-    red: #9a9a9a;
-    orange: #b3b3b3;
-    green: #adadad;
-    bgStatusline3: #4a4a4a;
-
-    background-color: @bg0;
+    bg0:                #0a0a0a;
+    bg1:                #121212;
+    bg2:                #1a1a1a;
+    grey0:              #2a2a2a;
+    grey1:              #3a3a3a;
+    grey2:              #4a4a4a;
+    fg0:                #e6e6e6;
+    fg1:                #d0d0d0;
+    fg2:                #b0b0b0;
+    red:                #808080;
+    orange:             #a0a0a0;
+    yellow:             #c0c0c0;
+    green:              #909090;
+    aqua:               #888888;
+    blue:               #9a9a9a;
+    purple:             #8a8a8a;
+    bgStatusline3:      #2a2a2a;
+    background-color:   transparent;
+    text-color:         @fg0;
 }
 
 window {
-    height: 400;
-    width: 600;
-
-    border: 0;
-    border-radius: 10;
-    border-color: @bgStatusline3;
+    width:              600px;
+    border:             1px;
+    border-radius:      16px;
+    border-color:       @grey0;
+    background-color:   @bg0;
 }
 
 mainbox {
-    spacing: 0;
-    children: [inputbar, message, listview];
+    spacing:            0;
+    background-color:   transparent;
+    children:           [inputbar, message, listview];
 }
 
 inputbar {
-    color: @fg0;
-    padding: 14;
-    background-color: @bg0;
-}
-
-message {
-    padding: 10;
-    background-color: @grey0;
-}
-
-listview {
-    padding: 8;
-    border-radius: 0 0 10 10;
-    border: 2 2 2 2;
-    border-color: @bg0;
-    background-color: @bg0;
-    dynamic: false;
-}
-
-textbox {
-    text-color: @fg0;
-    background-color: inherit;
-}
-
-error-message {
-    border: 20 20 20 20;
-}
-
-entry, prompt, case-indicator {
-    text-color: inherit;
+    padding:            16px 20px;
+    spacing:            12px;
+    background-color:   @bg1;
+    border-radius:      14px 14px 0 0;
+    children:           [prompt, entry];
 }
 
 prompt {
-    margin: 0 10 0 0;
+    padding:            0px 8px 0px 0px;
+    background-color:   transparent;
+    text-color:         @fg0;
+}
+
+entry {
+    placeholder:        "Search...";
+    placeholder-color:  @grey2;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             text;
+}
+
+message {
+    padding:            12px;
+    background-color:   @bg2;
+}
+
+textbox {
+    background-color:   transparent;
+    text-color:         @fg1;
+}
+
+listview {
+    lines:              8;
+    columns:            1;
+    padding:            8px;
+    spacing:            4px;
+    scrollbar:          false;
+    background-color:   @bg0;
+    border-radius:      0 0 14px 14px;
 }
 
 element {
-    padding: 5;
-    vertical-align: 0.5;
-    border-radius: 10;
-    background-color: @bg1;
+    padding:            10px 16px;
+    spacing:            12px;
+    border-radius:      10px;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             pointer;
 }
 
-element.selected.normal {
-    background-color: @grey0;
+element normal.normal {
+    background-color:   transparent;
 }
 
-element.alternate.normal {
-    background-color: inherit;
+element alternate.normal {
+    background-color:   transparent;
 }
 
-element.normal.active, element.alternate.active {
-    background-color: @orange;
+element selected.normal {
+    background-color:   @grey0;
+    text-color:         @fg0;
 }
 
-element.selected.active {
-    background-color: @green;
+element-icon {
+    size:               24px;
+    background-color:   transparent;
+    text-color:         inherit;
 }
 
-element.normal.urgent, element.alternate.urgent {
-    background-color: @red;
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    vertical-align:     0.5;
 }
 
-element.selected.urgent {
-    background-color: @blue;
+error-message {
+    padding:            20px;
+    background-color:   @bg1;
+    border:             1px;
+    border-color:       @grey1;
+    border-radius:      12px;
 }
-
-element-text, element-icon {
-    size: 40;
-    margin: 0 10 0 0;
-    vertical-align: 0.5;
-    background-color: inherit;
-    text-color: @fg0;
-}
-
-element-text .active, element-text .urgent {
-    text-color: @bg0;
-}
-

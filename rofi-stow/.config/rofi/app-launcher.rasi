@@ -1,0 +1,249 @@
+/**
+ * App Launcher - Award-Winning Design
+ * Stunning grid layout with large icons and elegant animations
+ */
+
+configuration {
+    show-icons:                 true;
+    font:                       "JetBrainsMono Nerd Font 11";
+    hover-select:               true;
+    me-select-entry:            "MouseSecondary";
+    me-accept-entry:            "MousePrimary";
+    drun-display-format:        "{name}";
+    drun-show-actions:          false;
+    display-drun:               "󰣖";
+    scroll-method:              1;
+}
+
+@import "themes/current.rasi"
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Window - Centered floating panel with depth
+ * ───────────────────────────────────────────────────────────────────────────── */
+window {
+    width:                      720px;
+    height:                     520px;
+    border:                     2px;
+    border-radius:              20px;
+    border-color:               @grey0;
+    background-color:           @bg0;
+    location:                   center;
+    anchor:                     center;
+    transparency:               "real";
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Main Container
+ * ───────────────────────────────────────────────────────────────────────────── */
+mainbox {
+    padding:                    0;
+    spacing:                    0;
+    background-color:           transparent;
+    children:                   [ inputbar, message, listview ];
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Search Bar - Elegant header with subtle glow
+ * ───────────────────────────────────────────────────────────────────────────── */
+inputbar {
+    padding:                    18px 24px;
+    spacing:                    14px;
+    background-color:           @bg1;
+    border-radius:              18px 18px 0 0;
+    children:                   [ prompt, entry, num-filtered-rows, textbox-slash, num-rows ];
+}
+
+prompt {
+    padding:                    2px 4px 2px 0;
+    background-color:           transparent;
+    text-color:                 @blue;
+    font:                       "JetBrainsMono Nerd Font 14";
+}
+
+entry {
+    placeholder:                "Search applications...";
+    placeholder-color:          @grey2;
+    background-color:           transparent;
+    text-color:                 @fg0;
+    cursor:                     text;
+    vertical-align:             0.5;
+}
+
+num-filtered-rows {
+    background-color:           transparent;
+    text-color:                 @grey1;
+    expand:                     false;
+}
+
+textbox-slash {
+    expand:                     false;
+    content:                    "/";
+    background-color:           transparent;
+    text-color:                 @grey1;
+}
+
+num-rows {
+    background-color:           transparent;
+    text-color:                 @grey1;
+    expand:                     false;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Messages
+ * ───────────────────────────────────────────────────────────────────────────── */
+message {
+    padding:                    12px 20px;
+    background-color:           @bg2;
+}
+
+textbox {
+    background-color:           transparent;
+    text-color:                 @fg1;
+    vertical-align:             0.5;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Grid View - Beautiful app grid with proper spacing
+ * ───────────────────────────────────────────────────────────────────────────── */
+listview {
+    columns:                    5;
+    lines:                      3;
+    padding:                    20px 16px;
+    spacing:                    12px;
+    cycle:                      true;
+    dynamic:                    true;
+    scrollbar:                  false;
+    layout:                     vertical;
+    background-color:           transparent;
+    border-radius:              0 0 18px 18px;
+    fixed-height:               true;
+    fixed-columns:              true;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * App Tiles - Cards with hover effects
+ * ───────────────────────────────────────────────────────────────────────────── */
+element {
+    orientation:                vertical;
+    padding:                    16px 8px;
+    spacing:                    10px;
+    cursor:                     pointer;
+    border-radius:              14px;
+    background-color:           transparent;
+    text-color:                 @fg0;
+}
+
+element normal.normal {
+    background-color:           transparent;
+    text-color:                 @fg1;
+}
+
+element alternate.normal {
+    background-color:           transparent;
+    text-color:                 @fg1;
+}
+
+element selected.normal {
+    background-color:           @grey0;
+    text-color:                 @fg0;
+    border:                     2px;
+    border-color:               @blue;
+}
+
+element normal.urgent {
+    background-color:           transparent;
+    text-color:                 @red;
+}
+
+element alternate.urgent {
+    background-color:           transparent;
+    text-color:                 @red;
+}
+
+element selected.urgent {
+    background-color:           @red;
+    text-color:                 @bg0;
+}
+
+element normal.active {
+    background-color:           transparent;
+    text-color:                 @green;
+}
+
+element alternate.active {
+    background-color:           transparent;
+    text-color:                 @green;
+}
+
+element selected.active {
+    background-color:           @green;
+    text-color:                 @bg0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * App Icons - Large, centered icons
+ * ───────────────────────────────────────────────────────────────────────────── */
+element-icon {
+    size:                       52px;
+    cursor:                     inherit;
+    background-color:           transparent;
+    horizontal-align:           0.5;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * App Names - Clean typography
+ * ───────────────────────────────────────────────────────────────────────────── */
+element-text {
+    cursor:                     inherit;
+    background-color:           transparent;
+    text-color:                 inherit;
+    horizontal-align:           0.5;
+    vertical-align:             0.5;
+    font:                       "JetBrainsMono Nerd Font 9";
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Error Message Styling
+ * ───────────────────────────────────────────────────────────────────────────── */
+error-message {
+    padding:                    24px;
+    background-color:           @bg1;
+    border:                     2px;
+    border-color:               @red;
+    border-radius:              16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Mode Switcher (if used)
+ * ───────────────────────────────────────────────────────────────────────────── */
+mode-switcher {
+    padding:                    8px 16px;
+    spacing:                    8px;
+    background-color:           @bg1;
+}
+
+button {
+    padding:                    8px 16px;
+    border-radius:              8px;
+    background-color:           transparent;
+    text-color:                 @fg1;
+    cursor:                     pointer;
+}
+
+button selected {
+    background-color:           @grey0;
+    text-color:                 @fg0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Scrollbar (hidden by default, but styled if enabled)
+ * ───────────────────────────────────────────────────────────────────────────── */
+scrollbar {
+    width:                      4px;
+    padding:                    0;
+    handle-width:               4px;
+    border:                     0;
+    border-radius:              4px;
+    handle-color:               @grey1;
+    background-color:           @bg1;
+}

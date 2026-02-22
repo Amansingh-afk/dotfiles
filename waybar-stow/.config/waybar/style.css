@@ -1,1 +1,222 @@
-/home/dmann/.config/waybar/configs/blur/style.css
+/* Gruvbox accents for Waybar (GTK CSS syntax) */
+
+/* Base colors for waybar */
+@define-color background #282828;
+@define-color foreground #ebdbb2;
+@define-color color7 #ebdbb2;
+@define-color color9 #d79921;
+
+@define-color accent rgba(215, 153, 33, 0.65);
+@define-color accent_weak rgba(215, 153, 33, 0.35);
+@define-color accent_bg_start rgba(215, 153, 33, 0.35);
+@define-color accent_bg_end rgba(215, 153, 33, 0.18);
+@define-color danger rgba(204, 36, 29, 0.60);
+@define-color fg_weak rgba(235, 219, 178, 0.95);
+@define-color text_soft rgba(235, 219, 178, 0.95);
+
+@define-color urgent_bg_start rgba(204, 36, 29, 0.45);
+@define-color urgent_bg_end rgba(204, 36, 29, 0.22);
+@define-color special_bg_start rgba(184, 187, 38, 0.30);
+@define-color special_bg_end rgba(184, 187, 38, 0.14);
+@define-color special_border rgba(184, 187, 38, 0.55);
+
+@define-color success rgba(55, 187, 38, 0.95);
+@define-color success_border rgba(55, 187, 38, 0.45);
+@define-color warning rgba(215, 153, 33, 0.95);
+@define-color warning_border rgba(215, 153, 33, 0.40);
+@define-color critical rgba(204, 36, 29, 0.95);
+@define-color critical_border rgba(204, 36, 29, 0.45);
+
+#workspaces button.active {
+  border-color: @accent;
+}
+
+#custom-battery.warning { box-shadow: 0 0 0 1px @accent_weak inset; }
+#workspaces button { color: @fg_weak; }
+
+* {
+    font-size: 15px;
+    font-family: "JetBrainsMono Nerd Font";
+}
+
+window#waybar {
+    all: unset;
+}
+
+.modules-center {
+    padding: 7px;
+    margin: 10px 0 5px 0;
+    border-radius: 10px;
+    background: alpha(@background, 0.6);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+}
+
+.modules-right {
+    padding: 7px;
+    margin: 10px 10px 5px 0;
+    border-radius: 10px;
+    background: alpha(@background, 0.6);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+}
+
+tooltip {
+    background: @background;
+    color: @color7;
+}
+
+#workspaces {
+    padding: 6px 12px;
+    margin: 10px 0 5px 10px;
+    border-radius: 10px;
+    background: alpha(@background, 0.6);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+}
+
+#workspaces button {
+    all: unset;
+    padding: 0px 6px;
+    margin: 0px 2px;
+    border: 0px;
+    color: alpha(@color7, 0.9);
+    transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+    color: alpha(@color7, 0.6);
+}
+
+#workspaces button.active {
+    color: alpha(@color7, 0.9);
+    padding: 0px 0px;
+    border: 0px;
+}
+
+#workspaces button.empty {
+    color: alpha(@color7, 0.9);
+    font-size: 9px;
+}
+
+#workspaces button.empty:hover {
+    color: alpha(@color7, 0.35);
+}
+
+#workspaces button.empty.active {
+    color: alpha(@color7, 0.9);
+    padding: 0px 0px;
+    border: 0px;
+}
+
+#window {
+    padding: 7px 10px;
+    margin: 10px 0 5px 10px;
+    border-radius: 10px;
+    background: alpha(@background, 0.6);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+#custom-cava {
+    padding: 7px;
+    margin: 10px 0 5px 10px;
+    border-radius: 10px;
+    background: alpha(@background, 0.6);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+}
+
+#custom-cava.music {
+    color: @color9;
+}
+
+#custom-playerctl {
+    padding: 7px 10px;
+    margin: 10px 0 5px 10px;
+    border-radius: 10px;
+    background: alpha(@background, 0.6);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+}
+
+#clock {
+    padding: 0px 5px;
+    color: @color7;
+    transition: all 0.3s ease;
+}
+
+#clock:hover {
+    color: @color9;
+}
+
+#bluetooth,
+#network,
+#custom-power,
+#custom-battery,
+#cpu,
+#memory,
+#pulseaudio {
+    padding: 0px 8px;
+    color: @color7;
+    transition: all 0.3s ease;
+}
+
+#bluetooth:hover,
+#network:hover,
+#custom-battery:hover,
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover {
+    color: @color9;
+}
+
+#network {
+    padding: 0px 12px 0px 8px;
+}
+
+#custom-battery.charging {
+    color: #26A65B;
+}
+
+#custom-battery.warning:not(.charging) {
+    color: #ffbe61;
+}
+
+#custom-battery.critical:not(.charging) {
+    color: #f53c3c;
+}
+
+#group-expand {
+    padding: 0px 8px;
+}
+
+#custom-expand {
+    padding: 0px 8px;
+    color: alpha(@foreground, 0.2);
+}
+
+#custom-expand:hover {
+    color: alpha(@foreground, 0.5);
+}
+
+#tray {
+    padding: 0px 5px;
+}
+
+/* App Launcher Button */
+#custom-launcher {
+    padding: 7px 12px;
+    margin: 10px 0 5px 10px;
+    border-radius: 10px;
+    background: alpha(@background, 0.6);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+    color: @color9;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+#custom-launcher:hover {
+    background: alpha(@color9, 0.25);
+    color: @foreground;
+    box-shadow: 0px 0px 6px rgba(215, 153, 33, 0.4);
+}
