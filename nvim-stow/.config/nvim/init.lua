@@ -5,9 +5,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Load the gruvbox theme
-vim.o.background = "dark" -- or "light" for light mode
--- vim.cmd([[colorscheme gruvbox]])
+vim.o.background = "dark"
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -51,12 +49,4 @@ require("lazy").setup({
 require("config.options")    -- Basic vim options
 require("config.keymaps")   -- Key mappings
 
-
--- Load plugin configurations after lazy.nvim loads
-vim.api.nvim_create_autocmd("User", {
-  pattern = "LazyDone",
-  callback = function()
-    require("plugins") -- This will load all plugin configurations
-  end,
-})
 

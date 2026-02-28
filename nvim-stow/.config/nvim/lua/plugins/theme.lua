@@ -63,12 +63,12 @@ return {
     end,
   },
   {
-    "kdheepak/monochrome.nvim",
+    "oskarnurm/koda.nvim",
     lazy = false,
     priority = 1000,
     cond = theme == "monochrome",
     config = function()
-      vim.cmd("colorscheme monochrome")
+      vim.cmd("colorscheme koda")
     end,
   },
 } 
