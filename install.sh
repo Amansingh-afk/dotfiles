@@ -6,6 +6,7 @@
 PACKAGES=(
     "alacritty-stow"
     "cava-stow"
+    "fastfetch-stow"
     "fontconfig-stow"
     "gtk3-stow"
     "gtk4-stow"
@@ -115,7 +116,7 @@ install_deps() {
         hyprland waybar mako rofi wofi hyprpaper hyprlock \
         cliphist wl-clipboard polkit-gnome \
         qt6-qtbase qt6ct gtk4 gtk3 nautilus \
-        alacritty neovim zsh tmux lazygit cava fontconfig \
+        alacritty neovim zsh tmux lazygit cava fastfetch fontconfig \
         stow git
     
     # Fonts
