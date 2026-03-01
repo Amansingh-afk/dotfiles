@@ -2,6 +2,36 @@
 
 Dotfiles managed with GNU Stow, optimized for Hyprland on Fedora.
 
+## Preview
+
+<table>
+  <tr>
+    <td><img src="previews/screenshot-20260301_103525.png" alt="Preview 1" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_103628.png" alt="Preview 2" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_103642.png" alt="Preview 3" width="100%"></td>
+  </tr>
+  <tr>
+    <td><img src="previews/screenshot-20260301_103820.png" alt="Preview 4" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_103853.png" alt="Preview 5" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_104103.png" alt="Preview 6" width="100%"></td>
+  </tr>
+  <tr>
+    <td><img src="previews/screenshot-20260301_104238.png" alt="Preview 7" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_104305.png" alt="Preview 8" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_104504.png" alt="Preview 9" width="100%"></td>
+  </tr>
+  <tr>
+    <td><img src="previews/screenshot-20260301_104517.png" alt="Preview 10" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_104650.png" alt="Preview 11" width="100%"></td>
+    <td><img src="previews/screenshot-20260301_104739.png" alt="Preview 12" width="100%"></td>
+  </tr>
+  <tr>
+    <td><img src="previews/screenshot-20260301_104818.png" alt="Preview 13" width="100%"></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
 ## Quick Start (New Machine)
 
 ```bash
