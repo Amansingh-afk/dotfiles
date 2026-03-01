@@ -1,0 +1,202 @@
+/* Classic taskbar layout — solid bar, no rounding, beveled 3D look */
+
+* {
+    font-size: 14px;
+    font-family: "JetBrainsMono Nerd Font";
+}
+
+window#waybar {
+    all: unset;
+    background: @background;
+    border-top: 1px solid #ffffff;
+    box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
+}
+
+.modules-center {
+    padding: 4px 8px;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.modules-right {
+    padding: 4px 8px;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+tooltip {
+    background: @background;
+    color: @color7;
+    border: 1px solid #808080;
+    border-radius: 0;
+    box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
+}
+
+#workspaces {
+    padding: 2px 4px;
+    margin: 2px 4px;
+    border-radius: 0;
+    background: transparent;
+}
+
+#workspaces button {
+    all: unset;
+    padding: 2px 8px;
+    margin: 0px 1px;
+    border: 1px outset #b0b0b0;
+    background: @background;
+    color: @color7;
+    box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
+}
+
+#workspaces button:hover {
+    background: alpha(@color9, 0.2);
+}
+
+#workspaces button.active {
+    border: 1px inset #808080;
+    background: alpha(@color9, 0.15);
+    box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080;
+    color: @color7;
+    padding: 2px 8px;
+}
+
+#workspaces button.empty {
+    color: alpha(@color7, 0.5);
+    font-size: 9px;
+}
+
+#workspaces button.empty:hover {
+    color: alpha(@color7, 0.35);
+}
+
+#workspaces button.empty.active {
+    border: 1px inset #808080;
+    box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080;
+    color: alpha(@color7, 0.9);
+    padding: 2px 8px;
+}
+
+#window {
+    padding: 2px 10px;
+    margin: 2px 4px;
+    border-radius: 0;
+    border: 1px inset #808080;
+    background: alpha(@background, 0.5);
+    box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080;
+    color: @color7;
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+#custom-cava {
+    padding: 2px 8px;
+    margin: 2px 4px;
+    border-radius: 0;
+    border: 1px inset #808080;
+    background: alpha(@background, 0.5);
+    box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080;
+}
+
+#custom-cava.music {
+    color: @color9;
+}
+
+#custom-playerctl {
+    padding: 2px 10px;
+    margin: 2px 4px;
+    border-radius: 0;
+    border: 1px inset #808080;
+    background: alpha(@background, 0.5);
+    box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080;
+}
+
+#clock {
+    padding: 2px 8px;
+    margin: 2px 4px;
+    border: 1px inset #808080;
+    box-shadow: inset -1px -1px #ffffff, inset 1px 1px #808080;
+    color: @color7;
+}
+
+#clock:hover {
+    color: @color9;
+}
+
+#bluetooth,
+#network,
+#custom-power,
+#custom-battery,
+#custom-appearance,
+#cpu,
+#memory,
+#pulseaudio {
+    padding: 2px 8px;
+    color: @color7;
+}
+
+#bluetooth:hover,
+#network:hover,
+#custom-battery:hover,
+#custom-appearance:hover,
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover {
+    color: @color9;
+}
+
+#network {
+    padding: 2px 12px 2px 8px;
+}
+
+#custom-battery.charging {
+    color: #008000;
+}
+
+#custom-battery.warning:not(.charging) {
+    color: #808000;
+}
+
+#custom-battery.critical:not(.charging) {
+    color: #CC0000;
+}
+
+#group-expand {
+    padding: 0px 4px;
+}
+
+#custom-expand {
+    padding: 0px 8px;
+    color: alpha(@foreground, 0.3);
+}
+
+#custom-expand:hover {
+    color: alpha(@foreground, 0.6);
+}
+
+#tray {
+    padding: 0px 5px;
+}
+
+/* App Launcher — classic Start button */
+#custom-launcher {
+    padding: 2px 12px;
+    margin: 2px 4px;
+    border-radius: 0;
+    border: 1px outset #b0b0b0;
+    background: @background;
+    box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
+    color: @color9;
+    font-size: 16px;
+}
+
+#custom-launcher:hover {
+    background: alpha(@color9, 0.15);
+    color: @color7;
+}

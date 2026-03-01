@@ -1,0 +1,35 @@
+/* Retrov2 accents for Waybar — ClassicPlatinumStreamlined / Mac OS 9 aesthetic (GTK CSS syntax) */
+
+/* Base colors for waybar */
+@define-color background #DCDCDC;
+@define-color foreground #000000;
+@define-color color7 #000000;
+@define-color color9 #1a1a1a;
+
+@define-color accent rgba(153, 153, 255, 0.65);
+@define-color accent_weak rgba(153, 153, 255, 0.35);
+@define-color accent_bg_start rgba(153, 153, 255, 0.35);
+@define-color accent_bg_end rgba(153, 153, 255, 0.18);
+@define-color danger rgba(204, 0, 0, 0.60);
+@define-color fg_weak rgba(0, 0, 0, 0.85);
+@define-color text_soft rgba(0, 0, 0, 0.85);
+
+@define-color urgent_bg_start rgba(204, 0, 0, 0.45);
+@define-color urgent_bg_end rgba(204, 0, 0, 0.22);
+@define-color special_bg_start rgba(153, 153, 255, 0.30);
+@define-color special_bg_end rgba(153, 153, 255, 0.14);
+@define-color special_border rgba(153, 153, 255, 0.55);
+
+@define-color success rgba(0, 128, 0, 0.95);
+@define-color success_border rgba(0, 128, 0, 0.45);
+@define-color warning rgba(128, 128, 0, 0.95);
+@define-color warning_border rgba(128, 128, 0, 0.40);
+@define-color critical rgba(204, 0, 0, 0.95);
+@define-color critical_border rgba(204, 0, 0, 0.45);
+
+#workspaces button.active {
+  border-color: @accent;
+}
+
+#custom-battery.warning { box-shadow: 0 0 0 1px @accent_weak inset; }
+#workspaces button { color: @fg_weak; }

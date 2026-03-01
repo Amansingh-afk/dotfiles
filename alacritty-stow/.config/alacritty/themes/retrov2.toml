@@ -1,0 +1,26 @@
+# Retrov2 theme — ClassicPlatinumStreamlined / Mac OS 9 aesthetic
+# Light background — all colors must be dark enough to read
+
+[colors.primary]
+background = "#DCDCDC"
+foreground = "#000000"
+
+[colors.normal]
+black   = "#000000"
+red     = "#990000"
+green   = "#006600"
+yellow  = "#666600"
+blue    = "#000099"
+magenta = "#660066"
+cyan    = "#006666"
+white   = "#DCDCDC"
+
+[colors.bright]
+black   = "#555555"
+red     = "#CC0000"
+green   = "#008800"
+yellow  = "#888800"
+blue    = "#3333CC"
+magenta = "#990099"
+cyan    = "#008888"
+white   = "#FFFFFF"

@@ -84,3 +84,5 @@ element selected.active {
     background-color:           @grey0;
     text-color:                 @green;
 }
+
+@import "theme-overrides.rasi"

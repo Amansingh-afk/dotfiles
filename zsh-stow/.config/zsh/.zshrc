@@ -47,7 +47,13 @@ fi
 
 # --- Fzf theme (switchable) ---
 if [ "$DOTFILES_THEME" = "monochrome" ]; then
-  export FZF_DEFAULT_OPTS='--color=fg:#e6e6e6,bg:#121212,hl:#b3b3b3,fg+:#f0f0f0,bg+:#2e2e2e,hl+:#c2c2c2,info:#adadad,prompt:#b0b0b0,spinner:#9a9a9a,header:#a6a6a6'
+  export FZF_DEFAULT_OPTS='--color=fg:#e6e6e6,bg:-1,hl:#b3b3b3,fg+:#f0f0f0,bg+:#2e2e2e,hl+:#c2c2c2,info:#adadad,prompt:#b0b0b0,spinner:#9a9a9a,header:#a6a6a6'
+elif [ "$DOTFILES_THEME" = "retro" ]; then
+  export FZF_DEFAULT_OPTS='--color=fg:#FFFFFF,bg:#0000AA,hl:#55FFFF,fg+:#FFFFFF,bg+:#AAAAAA,hl+:#55FFFF,info:#55FF55,prompt:#55FFFF,spinner:#AAAAAA,header:#AAAAAA'
+elif [ "$DOTFILES_THEME" = "retrov2" ]; then
+  export FZF_DEFAULT_OPTS='--color=fg:#000000,bg:#DCDCDC,hl:#9999FF,fg+:#000000,bg+:#c0c0c0,hl+:#AAAAFF,info:#808080,prompt:#9999FF,spinner:#9b9b9b,header:#6e6e6e'
+elif [ "$DOTFILES_THEME" = "catppuccin-mocha" ]; then
+  export FZF_DEFAULT_OPTS='--color=fg:#cdd6f4,bg:-1,hl:#f38ba8,fg+:#cdd6f4,bg+:#313244,hl+:#f38ba8,info:#89b4fa,prompt:#cba6f7,spinner:#f5e0dc,header:#94e2d5'
 else
   export FZF_DEFAULT_OPTS='--color=fg:#ebdbb2,bg:#282828,hl:#d79921,fg+:#fbf1c7,bg+:#3c3836,hl+:#d79921,info:#b8bb26,prompt:#fe8019,spinner:#fb4934,header:#83a598'
 fi

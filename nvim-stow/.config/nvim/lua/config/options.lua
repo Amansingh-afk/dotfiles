@@ -22,7 +22,12 @@ opt.hlsearch = true
 
 -- Appearance
 opt.termguicolors = true
-opt.background = "dark"
+local theme = os.getenv("DOTFILES_THEME") or "gruvbox"
+if theme == "retrov2" then
+  opt.background = "light"
+else
+  opt.background = "dark"
+end
 opt.signcolumn = "yes"
 opt.scrolloff = 8
 opt.updatetime = 250

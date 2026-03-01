@@ -1,0 +1,128 @@
+/**
+ * Retro — BSOD / DOS blue screen aesthetic
+ * Solid blue, no rounding, monospace
+ */
+
+* {
+    bg0:                #0000AA;
+    bg1:                #000080;
+    bg2:                #00006B;
+    grey0:              #AAAAAA;
+    grey1:              #555555;
+    grey2:              #555555;
+    fg0:                #FFFFFF;
+    fg1:                #AAAAAA;
+    fg2:                #555555;
+    red:                #FF5555;
+    orange:             #FFFF55;
+    yellow:             #FFFF55;
+    green:              #55FF55;
+    aqua:               #55FFFF;
+    blue:               #5555FF;
+    purple:             #FF55FF;
+    background-color:   transparent;
+    text-color:         @fg0;
+    font:               "VT323 16";
+}
+
+window {
+    width:              600px;
+    border:             2px;
+    border-radius:      0;
+    border-color:       @grey0;
+    background-color:   @bg0;
+}
+
+mainbox {
+    spacing:            0;
+    background-color:   transparent;
+    children:           [inputbar, message, listview];
+}
+
+inputbar {
+    padding:            12px 16px;
+    spacing:            8px;
+    background-color:   @bg1;
+    border-radius:      0;
+    border:             0 0 1px 0;
+    border-color:       @grey0;
+    children:           [prompt, entry];
+}
+
+prompt {
+    padding:            0px 8px 0px 0px;
+    background-color:   transparent;
+    text-color:         @aqua;
+}
+
+entry {
+    placeholder:        "Type command...";
+    placeholder-color:  @grey1;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             text;
+}
+
+message {
+    padding:            8px;
+    background-color:   @bg2;
+    border:             0px;
+}
+
+textbox {
+    background-color:   transparent;
+    text-color:         @fg1;
+}
+
+listview {
+    lines:              8;
+    columns:            1;
+    padding:            4px;
+    spacing:            0px;
+    scrollbar:          false;
+    background-color:   @bg0;
+    border-radius:      0;
+    border:             0px;
+}
+
+element {
+    padding:            6px 16px;
+    spacing:            8px;
+    border-radius:      0;
+    background-color:   transparent;
+    text-color:         @fg0;
+    cursor:             pointer;
+    border:             0px;
+}
+
+element normal.normal {
+    background-color:   transparent;
+}
+
+element alternate.normal {
+    background-color:   transparent;
+}
+
+element selected.normal {
+    background-color:   @grey0;
+    text-color:         #000000;
+}
+
+element-icon {
+    size:               0px;
+    background-color:   transparent;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    vertical-align:     0.5;
+}
+
+error-message {
+    padding:            16px;
+    background-color:   @bg1;
+    border:             2px;
+    border-color:       @red;
+    border-radius:      0;
+}

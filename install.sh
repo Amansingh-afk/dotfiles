@@ -25,6 +25,8 @@ for arg in "$@"; do
         --monochrome) THEME="monochrome" ;;
         --gruvbox) THEME="gruvbox" ;;
         --catppuccin-mocha) THEME="catppuccin-mocha" ;;
+        --retro) THEME="retro" ;;
+        --retrov2) THEME="retrov2" ;;
     esac
 done
 
@@ -41,10 +43,16 @@ set_theme_symlinks() {
     mkdir -p ~/.config/waybar/themes
     ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
 
-    # Combine theme CSS with base style for waybar
-    if [[ -f ~/.config/waybar/themes/${theme}.css ]] && [[ -f ~/.config/waybar/configs/blur/style.css ]]; then
-        cat ~/.config/waybar/themes/${theme}.css ~/.config/waybar/configs/blur/style.css > ~/.config/waybar/style.css
-        echo "Created combined waybar style.css"
+    # Combine theme CSS with layout style for waybar
+    local layout_dir="default"
+    [[ -d ~/.config/waybar/configs/${theme} ]] && layout_dir="${theme}"
+    if [[ -f ~/.config/waybar/themes/${theme}.css ]] && [[ -f ~/.config/waybar/configs/${layout_dir}/style.css ]]; then
+        cat ~/.config/waybar/themes/${theme}.css ~/.config/waybar/configs/${layout_dir}/style.css > ~/.config/waybar/style.css
+        echo "Created combined waybar style.css (layout: $layout_dir)"
+    fi
+    if [[ -f ~/.config/waybar/configs/${layout_dir}/config ]]; then
+        cp ~/.config/waybar/configs/${layout_dir}/config ~/.config/waybar/config
+        echo "Applied waybar config (layout: $layout_dir)"
     fi
 
     mkdir -p ~/.config/hypr/themes
@@ -52,6 +60,16 @@ set_theme_symlinks() {
 
     mkdir -p ~/.config/mako/themes
     ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf
+
+    # Update GTK themes for file manager (Nautilus) etc.
+    if [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]]; then
+        cp ~/.config/gtk-4.0/themes/${theme}.css ~/.config/gtk-4.0/gtk.css
+        echo "Applied GTK4 theme: $theme"
+    fi
+    if [[ -f ~/.config/gtk-3.0/themes/${theme}.css ]]; then
+        cp ~/.config/gtk-3.0/themes/${theme}.css ~/.config/gtk-3.0/gtk.css
+        echo "Applied GTK3 theme: $theme"
+    fi
 
     mkdir -p ~/.config/zsh
     echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
@@ -132,7 +150,24 @@ install_deps() {
     else
         echo "Nerd Fonts already installed"
     fi
-    
+
+    # Install VT323 font for retro BSOD theme
+    if ! fc-list | grep -qi "VT323"; then
+        echo "Installing VT323 font for retro theme..."
+        cd /tmp
+        wget -q "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -O VT323-Regular.ttf 2>/dev/null || \
+        curl -L "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -o VT323-Regular.ttf 2>/dev/null
+        if [ -f VT323-Regular.ttf ]; then
+            mv VT323-Regular.ttf "$FONT_DIR/"
+            fc-cache -fv "$FONT_DIR" 2>/dev/null || true
+            echo "VT323 font installed"
+        else
+            echo "Warning: Could not download VT323. Install manually from Google Fonts."
+        fi
+    else
+        echo "VT323 font already installed"
+    fi
+
     # Screenshot/media tools
     echo ""
     echo "[3/6] Installing screenshot and media tools..."
@@ -152,7 +187,7 @@ install_deps() {
     echo "[5/6] Installing development tools..."
     sudo dnf install -y \
         gcc g++ make cmake nodejs npm python3 python3-pip \
-        fzf zoxide ranger
+        fzf zoxide yazi
     
     # Oh My Zsh and Powerlevel10k
     echo ""
@@ -266,6 +301,8 @@ case "$1" in
         echo "  --gruvbox          (default)"
         echo "  --monochrome"
         echo "  --catppuccin-mocha"
+        echo "  --retro"
+        echo "  --retrov2"
         echo ""
         echo "Example (new machine setup):"
         echo "  $0 deps              # Install dependencies"

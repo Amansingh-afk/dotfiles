@@ -114,3 +114,5 @@ textbox-custom {
     padding:                    12px;
     horizontal-align:           0.5;
 }
+
+@import "theme-overrides.rasi"

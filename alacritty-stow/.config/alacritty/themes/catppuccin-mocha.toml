@@ -1,3 +1,9 @@
+# Catppuccin Mocha — Glass Minimalism
+
+[window]
+opacity = 0.85
+padding = { x = 8, y = 8 }
+
 [colors.primary]
 background = "#1e1e2e"
 foreground = "#cdd6f4"

@@ -40,7 +40,7 @@ chsh -s $(which zsh)
 - cliphist, wl-clipboard, polkit-gnome
 
 **Apps:**
-- alacritty, neovim, tmux, lazygit, cava, ranger, nautilus
+- alacritty, neovim, tmux, lazygit, cava, yazi, nautilus
 
 **Zsh:**
 - zsh, oh-my-zsh, powerlevel10k

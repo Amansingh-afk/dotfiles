@@ -1,0 +1,53 @@
+# Retro theme — BSOD / DOS blue screen aesthetic
+
+[window]
+opacity = 1.0
+padding = { x = 4, y = 4 }
+decorations = "None"
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "VT323"
+style = "Regular"
+
+[font.bold]
+family = "VT323"
+style = "Regular"
+
+[font.italic]
+family = "VT323"
+style = "Regular"
+
+[colors.primary]
+background = "#0000AA"
+foreground = "#FFFFFF"
+
+[colors.cursor]
+text = "#0000AA"
+cursor = "#FFFFFF"
+
+[colors.selection]
+text = "#0000AA"
+background = "#AAAAAA"
+
+[colors.normal]
+black   = "#000000"
+red     = "#AA0000"
+green   = "#00AA00"
+yellow  = "#AA5500"
+blue    = "#0000AA"
+magenta = "#AA00AA"
+cyan    = "#00AAAA"
+white   = "#AAAAAA"
+
+[colors.bright]
+black   = "#555555"
+red     = "#FF5555"
+green   = "#55FF55"
+yellow  = "#FFFF55"
+blue    = "#5555FF"
+magenta = "#FF55FF"
+cyan    = "#55FFFF"
+white   = "#FFFFFF"

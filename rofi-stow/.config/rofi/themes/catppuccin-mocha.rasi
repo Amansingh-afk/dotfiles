@@ -1,12 +1,13 @@
 /**
- * Catppuccin Mocha Theme for Rofi
+ * Catppuccin Mocha — Glass Minimalism
+ * Translucent, borderless, frosted glass
  */
 
 * {
-    bg0:                #1e1e2e;
-    bg1:                #181825;
-    bg2:                #313244;
-    grey0:              #45475a;
+    bg0:                #1e1e2ecc;
+    bg1:                #181825aa;
+    bg2:                #31324488;
+    grey0:              #45475a88;
     grey1:              #585b70;
     grey2:              #6c7086;
     fg0:                #cdd6f4;
@@ -19,16 +20,15 @@
     aqua:               #94e2d5;
     blue:               #89b4fa;
     purple:             #cba6f7;
-    bgStatusline3:      #45475a;
+    accent:             #89b4fa;
     background-color:   transparent;
     text-color:         @fg0;
 }
 
 window {
     width:              600px;
-    border:             2px;
+    border:             0px;
     border-radius:      16px;
-    border-color:       @grey0;
     background-color:   @bg0;
 }
 
@@ -42,14 +42,15 @@ inputbar {
     padding:            16px 20px;
     spacing:            12px;
     background-color:   @bg1;
-    border-radius:      14px 14px 0 0;
+    border-radius:      16px 16px 0 0;
+    border:             0px;
     children:           [prompt, entry];
 }
 
 prompt {
     padding:            0px 8px 0px 0px;
     background-color:   transparent;
-    text-color:         @blue;
+    text-color:         @accent;
 }
 
 entry {
@@ -63,6 +64,7 @@ entry {
 message {
     padding:            12px;
     background-color:   @bg2;
+    border:             0px;
 }
 
 textbox {
@@ -76,8 +78,9 @@ listview {
     padding:            8px;
     spacing:            4px;
     scrollbar:          false;
-    background-color:   @bg0;
-    border-radius:      0 0 14px 14px;
+    background-color:   transparent;
+    border-radius:      0 0 16px 16px;
+    border:             0px;
 }
 
 element {
@@ -87,6 +90,7 @@ element {
     background-color:   transparent;
     text-color:         @fg0;
     cursor:             pointer;
+    border:             0px;
 }
 
 element normal.normal {
@@ -117,7 +121,6 @@ element-text {
 error-message {
     padding:            20px;
     background-color:   @bg1;
-    border:             2px;
-    border-color:       @red;
+    border:             0px;
     border-radius:      12px;
 }

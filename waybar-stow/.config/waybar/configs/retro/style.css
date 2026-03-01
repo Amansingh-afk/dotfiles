@@ -1,0 +1,176 @@
+/* Retro — BSOD / DOS blue screen aesthetic */
+/* Solid, no rounding, no blur, monospace text */
+
+* {
+    font-size: 14px;
+    font-family: "VT323", "Terminus", "JetBrainsMono Nerd Font", monospace;
+}
+
+window#waybar {
+    all: unset;
+    background: @background;
+    border-top: 2px solid #AAAAAA;
+}
+
+.modules-center {
+    padding: 4px 8px;
+    background: transparent;
+}
+
+.modules-right {
+    padding: 4px 8px;
+    margin-right: 4px;
+    background: transparent;
+}
+
+.modules-left {
+    padding: 4px 8px;
+    margin-left: 4px;
+    background: transparent;
+}
+
+tooltip {
+    background: #0000AA;
+    color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    border-radius: 0;
+}
+
+#workspaces {
+    padding: 0px 4px;
+    background: transparent;
+}
+
+#workspaces button {
+    all: unset;
+    padding: 2px 8px;
+    margin: 0px 1px;
+    border: 1px solid #555555;
+    color: @color7;
+    background: #000080;
+    border-radius: 0;
+}
+
+#workspaces button:hover {
+    background: #0000CC;
+    color: #FFFFFF;
+}
+
+#workspaces button.active {
+    background: #AAAAAA;
+    color: #000000;
+    border: 1px solid #FFFFFF;
+}
+
+#workspaces button.empty {
+    color: #555555;
+    border: 1px solid #333366;
+}
+
+#workspaces button.empty:hover {
+    color: #AAAAAA;
+}
+
+#workspaces button.empty.active {
+    background: #AAAAAA;
+    color: #000000;
+}
+
+#window {
+    padding: 2px 8px;
+    margin-left: 4px;
+    color: #55FFFF;
+    background: transparent;
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
+}
+
+#custom-playerctl {
+    padding: 2px 8px;
+    color: #55FF55;
+    background: transparent;
+}
+
+#clock {
+    padding: 2px 8px;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#clock:hover {
+    color: #55FFFF;
+}
+
+#bluetooth,
+#network,
+#custom-power,
+#custom-battery,
+#custom-appearance,
+#cpu,
+#memory,
+#pulseaudio {
+    padding: 2px 8px;
+    color: @color7;
+}
+
+#bluetooth:hover,
+#network:hover,
+#custom-battery:hover,
+#custom-appearance:hover,
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover {
+    color: #55FFFF;
+}
+
+#custom-power {
+    color: #FF5555;
+}
+
+#custom-power:hover {
+    color: #FFFFFF;
+    background: #AA0000;
+}
+
+#custom-battery.charging {
+    color: #55FF55;
+}
+
+#custom-battery.warning:not(.charging) {
+    color: #FFFF55;
+}
+
+#custom-battery.critical:not(.charging) {
+    color: #FF5555;
+}
+
+#group-expand {
+    padding: 0px 4px;
+}
+
+#custom-expand {
+    padding: 0px 4px;
+    color: #555555;
+}
+
+#custom-expand:hover {
+    color: #AAAAAA;
+}
+
+#tray {
+    padding: 0px 4px;
+}
+
+#custom-launcher {
+    padding: 2px 12px;
+    color: #55FFFF;
+    font-weight: bold;
+    background: transparent;
+}
+
+#custom-launcher:hover {
+    background: #AAAAAA;
+    color: #000000;
+}

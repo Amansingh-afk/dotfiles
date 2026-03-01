@@ -1,5 +1,5 @@
-/* Base colors for waybar */
-@define-color background #1e1e2e;
+/* Catppuccin Mocha — Glass Minimalism */
+@define-color background rgba(30, 30, 46, 0.45);
 @define-color foreground #cdd6f4;
 @define-color color7 #cdd6f4;
 @define-color color9 #89b4fa;
@@ -27,6 +27,6 @@
 @define-color surface2 #585b70;
 @define-color surface1 #45475a;
 @define-color surface0 #313244;
-@define-color base #1e1e2e;
-@define-color mantle #181825;
-@define-color crust #11111b;
+@define-color base rgba(30, 30, 46, 0.45);
+@define-color mantle rgba(24, 24, 37, 0.45);
+@define-color crust rgba(17, 17, 27, 0.45);

@@ -247,3 +247,5 @@ scrollbar {
     handle-color:               @grey1;
     background-color:           @bg1;
 }
+
+@import "theme-overrides.rasi"
