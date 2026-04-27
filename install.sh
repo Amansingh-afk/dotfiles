@@ -5,6 +5,7 @@
 
 PACKAGES=(
     "alacritty-stow"
+    "btop-stow"
     "cava-stow"
     "fastfetch-stow"
     "fontconfig-stow"
@@ -15,6 +16,7 @@ PACKAGES=(
     "mako-stow"
     "nvim-stow"
     "rofi-stow"
+    "starship-stow"
     "tmux-stow"
     "waybar-stow"
     "zsh-stow"
@@ -93,11 +95,7 @@ configure_zshrc() {
 [[ -f ~/.config/zsh/aliases.zsh ]] && source ~/.config/zsh/aliases.zsh
 [[ -f ~/.config/zsh/functions.zsh ]] && source ~/.config/zsh/functions.zsh
 
-# Powerlevel10k (if installed)
-[[ -f ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-
-# Zoxide (if installed)  
+# Zoxide (if installed)
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 # <<< dotfiles config <<<
 EOF
@@ -111,17 +109,17 @@ install_deps() {
     
     # Core Hyprland packages
     echo ""
-    echo "[1/6] Installing Hyprland and core packages..."
+    echo "[1/7] Installing Hyprland and core packages..."
     sudo dnf install -y \
         hyprland waybar mako rofi wofi hyprpaper hyprlock \
         cliphist wl-clipboard polkit-gnome \
         qt6-qtbase qt6ct gtk4 gtk3 nautilus \
-        alacritty neovim zsh tmux lazygit cava fastfetch fontconfig \
+        alacritty neovim zsh tmux lazygit btop cava fastfetch fontconfig \
         stow git
     
     # Fonts
     echo ""
-    echo "[2/6] Installing fonts..."
+    echo "[2/7] Installing fonts..."
     sudo dnf install -y \
         fontawesome-fonts powerline-fonts google-noto-fonts \
         jetbrains-mono-fonts-all
@@ -171,43 +169,45 @@ install_deps() {
 
     # Screenshot/media tools
     echo ""
-    echo "[3/6] Installing screenshot and media tools..."
+    echo "[3/7] Installing screenshot and media tools..."
     sudo dnf install -y \
         grim slurp wf-recorder imagemagick \
         pamixer brightnessctl playerctl
     
     # Audio
     echo ""
-    echo "[4/6] Installing audio packages..."
+    echo "[4/7] Installing audio packages..."
     sudo dnf install -y \
         pipewire pipewire-pulseaudio pipewire-alsa \
         wireplumber pavucontrol blueman
     
     # Dev tools
     echo ""
-    echo "[5/6] Installing development tools..."
+    echo "[5/7] Installing development tools..."
     sudo dnf install -y \
         gcc g++ make cmake nodejs npm python3 python3-pip \
         fzf zoxide yazi
     
-    # Oh My Zsh and Powerlevel10k
+    # Starship prompt
     echo ""
-    echo "[6/6] Installing Oh My Zsh and Powerlevel10k..."
-    
+    echo "[6/7] Installing Starship prompt..."
+    if ! command -v starship &>/dev/null; then
+        curl -sS https://starship.rs/install.sh | sh -s -- -y
+    else
+        echo "Starship already installed"
+    fi
+
+    # Oh My Zsh
+    echo ""
+    echo "[7/7] Installing Oh My Zsh and Zsh plugins..."
+
     if [[ ! -d ~/.oh-my-zsh ]]; then
         echo "Installing Oh My Zsh..."
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     else
         echo "Oh My Zsh already installed"
     fi
-    
-    if [[ ! -d ~/.local/share/powerlevel10k ]]; then
-        echo "Installing Powerlevel10k..."
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.local/share/powerlevel10k
-    else
-        echo "Powerlevel10k already installed"
-    fi
-    
+
     # Zsh plugins
     ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
     

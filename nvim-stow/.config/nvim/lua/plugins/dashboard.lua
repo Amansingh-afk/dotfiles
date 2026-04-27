@@ -33,27 +33,16 @@ return {
     math.randomseed(os.time())
     local random_quote = quotes[math.random(#quotes)]
 
-    local header = {
-      "",
-      "",
-      "",
-      "                                                                       ",
-      "       ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗          ",
-      "       ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║          ",
-      "       ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║          ",
-      "       ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║          ",
-      "       ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║          ",
-      "       ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝          ",
-      "                                                                       ",
-      "  ┌───────────────────────────────────────────────────────────────────┐",
-      "  " .. random_quote,
-      "  └───────────────────────────────────────────────────────────────────┘",
-      "",
-      "                        " .. get_greeting(),
-      "",
-      "",
-    }
+    local splash = require("milli").load({ splash = "finger" })
+    local header = splash.frames[1]
 
+          
+    -- ensure header exists
+    if header then
+      table.insert(header, "")
+      table.insert(header, "")
+    end
+    
     local center = {
       {
         icon = "   ",
@@ -121,6 +110,9 @@ return {
         winbar = true,
       },
     })
+
+    -- Add milli.nvim to the dashboard
+    require("milli").dashboard({ splash = "finger", loop = true })
 
     -- Custom highlights for dashboard
     vim.api.nvim_create_autocmd("FileType", {
