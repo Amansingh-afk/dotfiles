@@ -33,27 +33,8 @@ return {
     math.randomseed(os.time())
     local random_quote = quotes[math.random(#quotes)]
 
-    local header = {
-      "",
-      "",
-      "",
-      "                                                                       ",
-      "       ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗          ",
-      "       ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║          ",
-      "       ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║          ",
-      "       ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║          ",
-      "       ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║          ",
-      "       ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝          ",
-      "                                                                       ",
-      "  ┌───────────────────────────────────────────────────────────────────┐",
-      "  " .. random_quote,
-      "  └───────────────────────────────────────────────────────────────────┘",
-      "",
-      "                        " .. get_greeting(),
-      "",
-      "",
-    }
-
+    local splash = require("milli").load({splash = "finger"})
+    local header = splash.frames[1]
     local center = {
       {
         icon = "   ",
@@ -122,6 +103,8 @@ return {
       },
     })
 
+    require("milli").dashboard({splash = "finger", loop = true})
+    
     -- Custom highlights for dashboard
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "dashboard",

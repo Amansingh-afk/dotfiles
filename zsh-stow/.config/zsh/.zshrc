@@ -62,3 +62,4 @@ export NVM_DIR="$HOME/.nvm"
 alias ld='lazydocker'
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
+export PATH="$HOME/.local/bin:$PATH"
