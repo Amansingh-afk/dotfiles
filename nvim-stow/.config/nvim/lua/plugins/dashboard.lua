@@ -70,12 +70,6 @@ return {
       },
       {
         icon = "   ",
-        desc = "Config                                           ",
-        key = "c",
-        action = "e ~/.config/nvim/init.lua",
-      },
-      {
-        icon = "   ",
         desc = "Quit                                             ",
         key = "q",
         action = "qa",

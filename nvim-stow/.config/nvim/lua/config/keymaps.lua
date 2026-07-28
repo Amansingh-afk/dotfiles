@@ -1,159 +1,81 @@
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
--- Set leader key to space
 vim.g.mapleader = " "
 
--- Try to load WhichKey
-local status_ok, which_key = pcall(require, "which-key")
+local status_ok, wk = pcall(require, "which-key")
 if not status_ok then
   return
 end
 
--- Normal mode keymaps with WhichKey labels
-local normal_mappings = {
-  ["<leader>"] = {
-    -- Basic keybindings
-    -- ["q"] = { ":q<CR>", "Quit" },
-    -- ["w"] = { ":w<CR>", "Save" },
-    -- ["wq"] = { ":wq<CR>", "Save and Quit" },
-    
-    -- Window management
-    w = {
-      name = "Window",
-      s = { ":split<CR>", "Split Horizontal" },
-      v = { ":vsplit<CR>", "Split Vertical" },
-      c = { ":q<CR>", "Close Window" },
-      n = { "<C-w>w", "Next Window" },
-      p = { "<C-w>W", "Previous Window" },
-      ["="] = { "<C-w>=", "Equal Width" },
-      [">"] = { "<C-w>>", "Increase Width" },
-      ["<"] = { "<C-w><", "Decrease Width" },
-      ["+"] = { "<C-w>+", "Increase Height" },
-      ["-"] = { "<C-w>-", "Decrease Height" },
-    },
+local function term(cmd)
+  return function()
+    local Terminal = require("toggleterm.terminal").Terminal
+    Terminal:new({ cmd = cmd, hidden = true }):toggle()
+  end
+end
 
-    -- Buffer management
-    b = {
-      name = "Buffer",
-      n = { ":bnext<CR>", "Next Buffer" },
-      p = { ":bprevious<CR>", "Previous Buffer" },
-      d = { ":bdelete<CR>", "Delete Buffer" },
-      l = { ":buffers<CR>", "List Buffers" },
-      x = { "<Cmd>BufferLinePickClose<CR>", "Pick Buffer to Close" },
-      X = { "<Cmd>BufferLineCloseOthers<CR>", "Close Other Buffers" },
-    },
+wk.add({
+  { "<leader>w", group = "Window" },
+  { "<leader>ws", ":split<CR>", desc = "Split Horizontal" },
+  { "<leader>wv", ":vsplit<CR>", desc = "Split Vertical" },
+  { "<leader>wc", ":q<CR>", desc = "Close Window" },
+  { "<leader>wn", "<C-w>w", desc = "Next Window" },
+  { "<leader>wp", "<C-w>W", desc = "Previous Window" },
+  { "<leader>w=", "<C-w>=", desc = "Equal Width" },
+  { "<leader>w>", "<C-w>>", desc = "Increase Width" },
+  { "<leader>w<", "<C-w><", desc = "Decrease Width" },
+  { "<leader>w+", "<C-w>+", desc = "Increase Height" },
+  { "<leader>w-", "<C-w>-", desc = "Decrease Height" },
 
-    -- File explorer
-    e = {
-      name = "Explorer",
-      e = { ":NvimTreeToggle<CR>", "Toggle Explorer" },
-      f = { ":NvimTreeFindFile<CR>", "Find Current File" },
-      r = { ":NvimTreeRefresh<CR>", "Refresh Explorer" },
-    },
+  { "<leader>b", group = "Buffer" },
+  { "<leader>bn", ":bnext<CR>", desc = "Next Buffer" },
+  { "<leader>bp", ":bprevious<CR>", desc = "Previous Buffer" },
+  { "<leader>bd", ":bdelete<CR>", desc = "Delete Buffer" },
+  { "<leader>bl", ":buffers<CR>", desc = "List Buffers" },
+  { "<leader>bx", "<Cmd>BufferLinePickClose<CR>", desc = "Pick Buffer to Close" },
+  { "<leader>bX", "<Cmd>BufferLineCloseOthers<CR>", desc = "Close Other Buffers" },
 
-    -- Find (Telescope) - because finding files should be a breeze
-    f = {
-      name = "Find",
-      f = { ":Telescope find_files<CR>", "Find Files" },
-      g = { ":Telescope live_grep<CR>", "Live Grep" },
-      b = { ":Telescope buffers<CR>", "Find Buffers" },
-      h = { ":Telescope help_tags<CR>", "Help Tags" },
-      r = { ":Telescope oldfiles<CR>", "Recent Files" },
-      z = { "<cmd>Telescope zoxide list<CR>", "Jump via zoxide" },
-    },
-    
-    -- Code - because coding should be smooth
-    c = {
-      name = "Code",
-      F = { function() vim.lsp.buf.format({ async = true }) end, "Format Code" },
-    },
+  { "<leader>e", group = "Explorer" },
+  { "<leader>ee", ":NvimTreeToggle<CR>", desc = "Toggle Explorer" },
+  { "<leader>ef", ":NvimTreeFindFile<CR>", desc = "Find Current File" },
+  { "<leader>er", ":NvimTreeRefresh<CR>", desc = "Refresh Explorer" },
 
-    -- Terminal - because integrated terminal is the future
-    t = {
-      name = "Terminal",
-      t = { "<cmd>ToggleTerm<CR>", "Toggle Terminal" },
-      g = { function() 
-        local Terminal = require("toggleterm.terminal").Terminal
-        local git_terminal = Terminal:new({cmd='lazygit', hidden=true})
-        git_terminal:toggle()
-      end, "Git Terminal" },
-      n = { function() 
-        local Terminal = require("toggleterm.terminal").Terminal
-        local node_terminal = Terminal:new({cmd='node', hidden=true})
-        node_terminal:toggle()
-      end, "Node Terminal" },
-      p = { function() 
-        local Terminal = require("toggleterm.terminal").Terminal
-        local python_terminal = Terminal:new({cmd='python', hidden=true})
-        python_terminal:toggle()
-      end, "Python Terminal" },
-    },
-  },
-}
+  { "<leader>f", group = "Find" },
+  { "<leader>ff", ":Telescope find_files<CR>", desc = "Find Files" },
+  { "<leader>fg", ":Telescope live_grep<CR>", desc = "Live Grep" },
+  { "<leader>fb", ":Telescope buffers<CR>", desc = "Find Buffers" },
+  { "<leader>fh", ":Telescope help_tags<CR>", desc = "Help Tags" },
+  { "<leader>fr", ":Telescope oldfiles<CR>", desc = "Recent Files" },
+  { "<leader>fz", "<cmd>Telescope zoxide list<CR>", desc = "Jump via zoxide" },
 
--- Window navigation
+  { "<leader>c", group = "Code" },
+  { "<leader>cF", function() vim.lsp.buf.format({ async = true }) end, desc = "Format Code" },
+
+  { "<leader>t", group = "Terminal" },
+  { "<leader>tt", "<cmd>ToggleTerm<CR>", desc = "Toggle Terminal" },
+  { "<leader>tg", term("lazygit"), desc = "Git Terminal" },
+  { "<leader>tn", term("node"), desc = "Node Terminal" },
+  { "<leader>tp", term("python"), desc = "Python Terminal" },
+})
+
 keymap.set("n", "<C-h>", "<C-w>h", opts)
 keymap.set("n", "<C-j>", "<C-w>j", opts)
 keymap.set("n", "<C-k>", "<C-w>k", opts)
 keymap.set("n", "<C-l>", "<C-w>l", opts)
 
--- Move lines up and down - because moving lines should be smooth
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
 
--- Keep cursor centered - because context is everything
 keymap.set("n", "<C-d>", "<C-d>zz", opts)
 keymap.set("n", "<C-u>", "<C-u>zz", opts)
 keymap.set("n", "n", "nzzzv", opts)
 keymap.set("n", "N", "Nzzzv", opts)
 
--- Better indenting - because indentation should be consistent
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 
--- Diagnostic navigation - because errors should be easy to find
 keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
 keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 
--- LSP References - because jumping to references should be quick
 keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = "LSP References" })
-
--- Register WhichKey mappings
-which_key.register(normal_mappings)
-
--- Additional WhichKey configuration
-which_key.setup({
-  plugins = {
-    marks = true,
-    registers = true,
-    spelling = {
-      enabled = true,
-      suggestions = 20,
-    },
-    presets = {
-      operators = true,
-      motions = true,
-      text_objects = true,
-      windows = true,
-      nav = true,
-      z = true,
-      g = true,
-    },
-  },
-  window = {
-    border = "single",
-    position = "bottom",
-    margin = { 1, 0, 1, 0 },
-    padding = { 1, 2, 1, 2 },
-  },
-  layout = {
-    height = { min = 4, max = 25 },
-    width = { min = 20, max = 50 },
-    spacing = 3,
-    align = "left",
-  },
-  ignore_missing = true,
-  show_help = true,
-  triggers = "auto",
-}) 

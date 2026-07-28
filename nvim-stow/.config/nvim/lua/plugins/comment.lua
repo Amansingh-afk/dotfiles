@@ -5,7 +5,6 @@ return {
     "JoosepAlviste/nvim-ts-context-commentstring",
   },
   opts = {
-    -- Add any options here
     toggler = {
       ---Line-comment toggle keymap
       line = 'gcc',
@@ -55,7 +54,4 @@ return {
       end
     end,
   },
-  config = function()
-    require("Comment").setup()
-  end,
-} 
+}
