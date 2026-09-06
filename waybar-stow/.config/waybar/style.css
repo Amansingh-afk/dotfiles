@@ -34,14 +34,20 @@
 #custom-battery.warning { box-shadow: 0 0 0 1px @accent_weak inset; }
 #workspaces button { color: @fg_weak; }
 
-/* swaystation-block-1 — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_1) */
+/* outline — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_2) */
 /* Self-contained palette (gruvbox-ish); theme colors prepended by the switcher are unused here. */
 
 /* ===== COLORS ===== */
 @define-color bg #222222;
 @define-color fg #ebdbb2;
-@define-color black #000000;
-@define-color white-soft #fff4d2;
+
+@define-color blue #83a598;
+@define-color blue-dark #458588;
+
+@define-color pink #d3869b;
+
+@define-color green #8ec07c;
+@define-color green-dark #689d68;
 
 @define-color red #ea6962;
 @define-color red-dark #cc241d;
@@ -50,15 +56,7 @@
 @define-color yellow #f6c657;
 @define-color yellow-soft #d8a657;
 
-@define-color green #8ec07c;
-@define-color green-dark #689d68;
-
-@define-color blue #83a598;
-@define-color blue-dark #458588;
-
-@define-color pink #d3869b;
-@define-color pink-dark #b26286;
-
+@define-color white-soft #fff4d2;
 @define-color gray #555555;
 
 
@@ -74,6 +72,7 @@
   box-shadow: none;
 }
 
+/* the whole window */
 window#waybar {
   color: @fg;
   background: none;
@@ -89,8 +88,6 @@ window#waybar {
   background: @bg;
 }
 
-/* ===== COMMON PADDING ===== */
-#custom-launcher,
 #window,
 #disk,
 #cpu,
@@ -105,15 +102,13 @@ window#waybar {
 #battery.warning,
 #network,
 #clock {
-  padding-right: 6pt;
+  padding: 0 1.5pt;
 }
 
-/* ===== MODULES ===== */
 #custom-launcher {
-  color: @black;
-  border: 2pt solid @blue-dark;
-  background: @blue;
-  padding: 0pt 6pt;
+  color: @blue;
+  border: 2pt solid @blue;
+  padding: 0 6pt;
 }
 
 /* ===== WORKSPACES ===== */
@@ -131,30 +126,28 @@ window#waybar {
 }
 
 #workspaces button:hover {
-  color: @bg;
-  background: @pink;
-  border-color: @pink-dark;
+  color: @pink;
+  border-color: @pink;
 }
 
 #workspaces button.active,
 #workspaces button.active:hover {
-  color: @black;
-  border-color: @green-dark;
-  background: @green;
+  color: @green;
+  border-color: @green;
 }
 
 #workspaces button.urgent {
-  color: @bg;
-  border-color: @red-dark;
-  background: @red;
+  color: @red;
+  border-color: @red;
 }
 
-/* ===== INDIVIDUAL MODULE STYLES ===== */
+/* ===== MODULES ===== */
 #window {
   border: 2pt solid @pink;
 }
 
 #tray {
+  background: @bg;
   border: 2pt solid @orange;
   padding: 0 6pt;
 }
@@ -218,7 +211,15 @@ window#waybar {
 }
 
 #submap {
+  background: @bg;
   color: @blue;
   border: 2pt solid @blue;
   padding: 0 7.5pt;
+}
+
+/* ===== APPEARANCE (theme switcher) ===== */
+#custom-appearance {
+  color: @pink;
+  border: 2pt solid @pink;
+  padding: 0 6pt;
 }
