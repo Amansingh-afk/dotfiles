@@ -4,3 +4,8 @@
 @define-color foreground #FFFFFF;
 @define-color color7 #FFFFFF;
 @define-color color9 #55FFFF;
+
+/* State colours (used by the default layout battery states) */
+@define-color success #55FF55;
+@define-color warning #FFFF55;
+@define-color critical #FF5555;

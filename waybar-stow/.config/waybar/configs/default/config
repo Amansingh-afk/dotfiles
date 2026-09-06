@@ -1,6 +1,7 @@
 {
     "layer": "top",
     "position": "top",
+    "name": "default",
     "reload_style_on_change": true,
     "modules-left": ["custom/launcher","hyprland/workspaces","hyprland/window","custom/cava","custom/playerctl"],
     "modules-center": ["clock"],
@@ -85,11 +86,11 @@
     "format-ethernet": "󰈀",
     "format-disconnected": "󰤮",
 
-    "tooltip-format": "<span font='JetBrainsMono Nerd Font 11'><b><span foreground='#89b4fa'>󰤨  Network Status</span></b>\n<b><span foreground='#f9e2af'>SSID:</span></b> {essid}\n<b><span foreground='#f9e2af'>IP Address:</span></b> {ipaddr}\n</span>",
+    "tooltip-format": "<span font='JetBrainsMono Nerd Font 11'><b>󰤨  Network Status</b>\n<b>SSID:</b> {essid}\n<b>IP Address:</b> {ipaddr}\n</span>",
 
-    "tooltip-format-ethernet": "<span font='JetBrainsMono Nerd Font 11'><b><span foreground='#89b4fa'>󰈀  Ethernet Connection</span></b>\n<b><span foreground='#f9e2af'>Interface:</span></b> {ifname}\n<b><span foreground='#f9e2af'>IP Address:</span></b> {ipaddr}</span>",
+    "tooltip-format-ethernet": "<span font='JetBrainsMono Nerd Font 11'><b>󰈀  Ethernet Connection</b>\n<b>Interface:</b> {ifname}\n<b>IP Address:</b> {ipaddr}</span>",
 
-    "tooltip-format-disconnected": "<span font='JetBrainsMono Nerd Font 11'><b><span foreground='#f38ba8'>󰤮  Disconnected</span></b>\n<span foreground='#cdd6f4'>No active network connection.</span></span>",
+    "tooltip-format-disconnected": "<span font='JetBrainsMono Nerd Font 11'><b>󰤮  Disconnected</b>\nNo active network connection.</span>",
 
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
     "interval": 5
