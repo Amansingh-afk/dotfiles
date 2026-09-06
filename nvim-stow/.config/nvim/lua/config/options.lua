@@ -23,7 +23,7 @@ opt.hlsearch = true
 -- Appearance
 opt.termguicolors = true
 local theme = os.getenv("DOTFILES_THEME") or "gruvbox"
-if theme == "retrov2" then
+if theme == "platinum" then
   opt.background = "light"
 else
   opt.background = "dark"

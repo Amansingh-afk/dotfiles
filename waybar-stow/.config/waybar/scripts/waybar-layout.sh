@@ -41,7 +41,7 @@ current_theme() {
 }
 
 # Layout to use when switching to a colour theme:
-#  - a layout named after the theme (retro, retrov2, ...) wins,
+#  - a layout named after the theme (bsod, platinum, ...) wins,
 #  - otherwise keep a standalone layout (one not tied to any theme) if active,
 #  - otherwise fall back to default.
 layout_for_theme() {

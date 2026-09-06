@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # CPU package temperature for the swaystation waybar layouts.
 # Reads hwmon/thermal sysfs directly (no lm_sensors dependency).
-# Usage: ss-cpu-temp.sh [block|flat|bracket]   (icon style, matches the layout's other modules)
+# Usage: ss-cpu-temp.sh [block|flat]   (icon style, matches the layout's other modules)
 
 style="${1:-block}"
 
@@ -32,7 +32,6 @@ read_temp() {
 icon_span() {  # $1 = icon, $2 = colour, $3 = text
   case "$style" in
     flat)    printf "<span color='%s' > %s </span>%s" "$2" "$1" "$3" ;;
-    bracket) printf "<span color='%s'>[%s]</span> %s" "$2" "$1" "$3" ;;
     *)       printf "<span color='#202020' bgcolor='%s' > %s </span> %s" "$2" "$1" "$3" ;;
   esac
 }

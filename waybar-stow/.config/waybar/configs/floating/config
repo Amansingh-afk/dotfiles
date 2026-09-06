@@ -10,10 +10,13 @@
     "custom/launcher",
     "hyprland/workspaces",
     "hyprland/window",
+    "tray",
     "hyprland/submap"
   ],
+  "modules-center": [
+    "clock"
+  ],
   "modules-right": [
-    "tray",
     "network",
     "disk",
     "cpu",
@@ -22,7 +25,7 @@
     "custom/memory",
     "pulseaudio",
     "battery",
-    "clock"
+    "custom/appearance"
   ],
   "custom/launcher": {
     "format": "<span ></span>",
@@ -58,7 +61,7 @@
     }
   },
   "hyprland/window": {
-    "format": "<span color='#d3869b'>[󰣆]</span> {class}",
+    "format": "<span color='#202020' bgcolor='#d3869b' > 󰣆 </span> {class}",
     "icon": false,
     "max-length": 30,
     "separate-outputs": true,
@@ -74,39 +77,39 @@
     "spacing": 8
   },
   "disk": {
-    "format": "<span color='#ea6962'>[]</span> {free}",
+    "format": "<span color='#202020' bgcolor='#ea6962' >  </span> {free}",
     "interval": 20
   },
   "cpu": {
-    "format": "<span color='#e78a4e'>[]</span> {usage}%",
+    "format": "<span color='#202020' bgcolor='#e78a4e' >  </span> {usage}%",
     "tooltip": false,
     "interval": 1,
     "on-click-right": "alacritty -e btop"
   },
   "custom/cpu_temp": {
-    "exec": "~/.config/waybar/scripts/ss-cpu-temp.sh bracket",
+    "exec": "~/.config/waybar/scripts/ss-cpu-temp.sh block",
     "return-type": "json",
     "interval": 2,
     "format": "{}",
     "tooltip": false
   },
   "backlight": {
-    "format": "<span color='#f6c657'>[󰞏]</span> {percent}%",
+    "format": "<span color='#202020' bgcolor='#f6c657' > 󰞏 </span> {percent}%",
     "tooltip": false
   },
   "custom/memory": {
     "exec": "~/.config/waybar/scripts/ss-memory.sh",
     "interval": 2,
     "return-type": "json",
-    "format": "<span color='#458588'>[]</span> {}",
+    "format": "<span color='#202020' bgcolor='#458588' >  </span> {}",
     "tooltip": false
   },
   "pulseaudio": {
     "scroll-step": 1,
-    "format": "<span color='#83a598'>[]</span> {volume}%",
-    "format-muted": "<span color='#ea6962'>[]</span> {volume}%",
-    "format-bluetooth": "<span color='#83a598'>[󰂰]</span> {volume}%",
-    "format-bluetooth-muted": "<span color='#ea6962'>[󰂲]</span> {volume}%",
+    "format": "<span color='#202020' bgcolor='#83a598' >  </span> {volume}%",
+    "format-muted": "<span color='#202020' bgcolor='#ea6962' >  </span> {volume}%",
+    "format-bluetooth": "<span color='#202020' bgcolor='#83a598' > 󰂰 </span> {volume}%",
+    "format-bluetooth-muted": "<span color='#202020' bgcolor='#ea6962' > 󰂲 </span> {volume}%",
     "format-source": "{volume}% ",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-right": "pavucontrol",
@@ -132,22 +135,22 @@
       "󰂂",
       "󰁹"
     ],
-    "format": "<span color='#689d6a'>[{icon}]</span> {capacity}%",
-    "format-critical": "<span color='#cc241d'>[{icon}]</span> {capacity}%!!",
-    "format-warning": "<span color='#e78a4e'>[{icon}]</span> {capacity}%",
-    "format-full": "<span color='#689d6a'>[{icon}]</span> {capacity}%",
-    "format-charging": "<span color='#689d6a'>[󰂅]</span> {capacity}%",
-    "format-charging-warning": "<span color='#e78a4e'>[󰢝]</span> {capacity}%",
-    "format-charging-critical": "<span color='#cc241d'>[󰢜]</span> {capacity}%",
-    "format-plugged": "<span color='#689d6a'>[󰂅]</span> {capacity}%",
-    "format-alt": "<span color='#689d6a'>[󱧥]</span> {time}",
+    "format": "<span color='#202020' bgcolor='#689d6a' > {icon} </span> {capacity}%",
+    "format-critical": "<span color='#202020' bgcolor='#cc241d' > {icon} </span> {capacity}%!!",
+    "format-warning": "<span color='#202020' bgcolor='#e78a4e' > {icon} </span> {capacity}%",
+    "format-full": "<span color='#202020' bgcolor='#689d6a' > {icon} </span> {capacity}%",
+    "format-charging": "<span color='#202020' bgcolor='#689d6a' > 󰂅 </span> {capacity}%",
+    "format-charging-warning": "<span color='#202020' bgcolor='#e78a4e' > 󰢝 </span> {capacity}%",
+    "format-charging-critical": "<span color='#202020' bgcolor='#cc241d' > 󰢜 </span> {capacity}%",
+    "format-plugged": "<span color='#202020' bgcolor='#689d6a' > 󰂅 </span> {capacity}%",
+    "format-alt": "<span color='#202020' bgcolor='#689d6a' > 󱧥 </span> {time}",
     "tooltip": false
   },
   "network": {
     "interval": 2,
-    "format": "<span color='#d3869b'>[󱘖]</span> {bandwidthDownBits}",
-    "format-wifi": "<span color='#d3869b'>[{icon}]</span> {bandwidthDownBits}",
-    "format-ethernet": "<span color='#d3869b'>[󰈀]</span> {bandwidthDownBits}",
+    "format": "<span color='#202020' bgcolor='#d3869b'> 󱘖 </span> {bandwidthDownBits}",
+    "format-wifi": "<span color='#202020' bgcolor='#d3869b'> {icon} </span> {bandwidthDownBits}",
+    "format-ethernet": "<span color='#202020' bgcolor='#d3869b'> 󰈀 </span> {bandwidthDownBits}",
     "format-icons": [
       "󰤫",
       "󰤟",
@@ -162,8 +165,14 @@
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
   },
   "clock": {
-    "format": "<span color='#8ec07c'>[]</span> {:%a %d | %H:%M}",
+    "format": "<span color='#202020' bgcolor='#8ec07c' >  </span> {:%a %d | %H:%M}",
     "tooltip": false,
     "interval": 1
+  },
+  "custom/appearance": {
+    "format": "󰏘",
+    "tooltip": true,
+    "tooltip-format": "Appearance",
+    "on-click": "~/.config/waybar/scripts/appearance-switcher.sh"
   }
 }
