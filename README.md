@@ -135,10 +135,27 @@ Available layouts: `default`, `bsod`, `platinum` (tied to the themes of the same
 name), plus two ports of [swaystation](https://github.com/el-toro-fuerte96/swaystation)'s
 bars: `outline` and `floating`.
 
-Switch layouts:
+### Appearance switcher
+
+`Super + Shift + T` opens a full-size rofi card grid with three tabs (Ctrl+Tab or
+click to switch): **Themes** (palette preview cards), **Bar** (layout sketches)
+and **Wallpapers** (large thumbnails, plus a Random card). The current item is
+highlighted. Picking a card applies it immediately and the window stays open so
+you can keep browsing.
+
 ```bash
-~/.config/waybar/scripts/waybar-layout.sh                   # rofi picker (also Super + Shift + B,
-                                                            # or "Bar Layout" in the appearance menu)
+~/.config/waybar/scripts/appearance-switcher.sh            # Themes tab (Super + Shift + T)
+~/.config/waybar/scripts/appearance-switcher.sh layouts    # Bar tab    (Super + Shift + B)
+~/.config/waybar/scripts/appearance-switcher.sh walls      # Wallpapers (Super + Shift + W)
+~/.config/waybar/scripts/appearance-switcher.sh --gen      # rebuild preview cards only
+```
+
+Preview cards are rendered with ImageMagick into `~/.cache/appearance-switcher/`
+on first launch (a few seconds) and refreshed when a theme or wallpaper changes.
+The grid style lives in `rofi-stow/.config/rofi/appearance.rasi`.
+
+Switch layouts from a terminal:
+```bash
 ~/.config/waybar/scripts/waybar-layout.sh floating
 ~/.config/waybar/scripts/waybar-layout.sh --list
 ~/.config/waybar/scripts/waybar-layout.sh --current
@@ -163,8 +180,9 @@ to `default`.
 | `Super + Shift + 1-9` | Move window to workspace |
 | `Super + H/J/K/L` | Move focus (vim keys) |
 | `Super + Shift + H/J/K/L` | Move window |
-| `Super + Shift + T` | Appearance menu (themes, bar layout, wallpapers) |
-| `Super + Shift + B` | Waybar layout picker |
+| `Super + Shift + T` | Appearance switcher (Themes tab) |
+| `Super + Shift + B` | Appearance switcher (Bar layout tab) |
+| `Super + Shift + W` | Appearance switcher (Wallpapers tab) |
 | `Print` | Screenshot (region) |
 
 ## Zsh Aliases
