@@ -8,6 +8,7 @@ config="$HOME/.config/rofi/wifi-menu.rasi"
 
 options=$(
   echo "  Manual Entry"
+  echo "󰑓  Rescan"
   echo "󰤮  Disable Wi-Fi"
 )
 option_disabled="󰤥  Enable Wi-Fi"
@@ -22,9 +23,14 @@ get_password() {
   rofi -dmenu -password -config "${config}" -theme-str "${override_password}" -p " " || pkill -x rofi
 }
 
+# Kick off a scan in the background so the *next* open is fresh; the menu itself
+# reads NetworkManager's cached list (--rescan no), which returns instantly instead
+# of blocking ~4s while the radio sweeps every channel.
+nmcli device wifi rescan >/dev/null 2>&1 &
+
 while true; do
   wifi_list() {
-    nmcli --fields "SECURITY,SSID" device wifi list |
+    nmcli --fields "SECURITY,SSID" device wifi list --rescan no |
       tail -n +2 |               # Skip the header line from nmcli output
       sed 's/  */ /g' |          # Replace multiple spaces with a single space
       sed -E "s/WPA*.?\S/󰤪 /g" | # Replace 'WPA*' with a Wi-Fi lock icon
@@ -61,6 +67,11 @@ while true; do
     nmcli radio wifi on
     nmcli device wifi rescan
     sleep 3
+    ;;
+  *"Rescan")
+    notify-send "Scanning for networks..." -i "package-installed-outdated" -t 2000
+    nmcli device wifi rescan >/dev/null 2>&1
+    sleep 2
     ;;
   *"Disable Wi-Fi")
     notify-send "Wi-Fi Disabled" -i "package-broken"
