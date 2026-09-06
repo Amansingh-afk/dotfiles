@@ -124,6 +124,31 @@ makoctl reload
 source ~/.zshrc
 ```
 
+### Waybar layouts
+
+Colour themes and bar layouts are independent. A layout lives in
+`waybar-stow/.config/waybar/configs/<name>/` (`config` + `style.css`); the
+active one is tracked by the `configs/current` symlink and the generated
+`style.css` is `themes/current.css` + the layout's `style.css`.
+
+Available layouts: `default`, `retro`, `retrov2` (tied to the themes of the same
+name), plus six ports of [swaystation](https://github.com/el-toro-fuerte96/swaystation)'s
+bars: `swaystation-block-1`, `swaystation-block-2`, `swaystation-block-3`,
+`swaystation-block-4`, `swaystation-floating`, `swaystation-underline`.
+
+Switch layouts:
+```bash
+~/.config/waybar/scripts/waybar-layout.sh                   # rofi picker (also Super + Shift + B,
+                                                            # or "Bar Layout" in the appearance menu)
+~/.config/waybar/scripts/waybar-layout.sh swaystation-floating
+~/.config/waybar/scripts/waybar-layout.sh --list
+~/.config/waybar/scripts/waybar-layout.sh --current
+```
+
+Switching a colour theme picks the layout named after it if one exists, keeps a
+standalone (`swaystation-*`) layout if that is active, and otherwise falls back
+to `default`.
+
 ## Key Bindings (Hyprland)
 
 | Shortcut | Action |
@@ -139,6 +164,8 @@ source ~/.zshrc
 | `Super + Shift + 1-9` | Move window to workspace |
 | `Super + H/J/K/L` | Move focus (vim keys) |
 | `Super + Shift + H/J/K/L` | Move window |
+| `Super + Shift + T` | Appearance menu (themes, bar layout, wallpapers) |
+| `Super + Shift + B` | Waybar layout picker |
 | `Print` | Screenshot (region) |
 
 ## Zsh Aliases

@@ -46,9 +46,17 @@ set_theme_symlinks() {
     mkdir -p ~/.config/waybar/themes
     ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
 
-    # Combine theme CSS with layout style for waybar
+    # Waybar layout: a layout named after the theme wins, else keep the active
+    # standalone layout (e.g. swaystation-*), else default. Tracked via configs/current.
     local layout_dir="default"
-    [[ -d ~/.config/waybar/configs/${theme} ]] && layout_dir="${theme}"
+    if [[ -d ~/.config/waybar/configs/${theme} ]]; then
+        layout_dir="${theme}"
+    elif [[ -L ~/.config/waybar/configs/current ]]; then
+        local cur
+        cur=$(basename "$(readlink -f ~/.config/waybar/configs/current)")
+        [[ -d ~/.config/waybar/configs/${cur} && ! -f ~/.config/waybar/themes/${cur}.css ]] && layout_dir="${cur}"
+    fi
+    ln -sfn ~/.config/waybar/configs/${layout_dir} ~/.config/waybar/configs/current
     if [[ -f ~/.config/waybar/themes/${theme}.css ]] && [[ -f ~/.config/waybar/configs/${layout_dir}/style.css ]]; then
         cat ~/.config/waybar/themes/${theme}.css ~/.config/waybar/configs/${layout_dir}/style.css > ~/.config/waybar/style.css
         echo "Created combined waybar style.css (layout: $layout_dir)"
