@@ -1,197 +1,314 @@
 #!/usr/bin/env bash
+# Appearance switcher — themes, waybar layouts and wallpapers in one rofi card grid.
+#
+# Runs in two roles:
+#   1. Launcher (no ROFI_RETV in env):  appearance-switcher.sh [themes|layouts|walls] | --gen
+#      Generates missing preview cards, then opens rofi with three script modes (tabs) that all
+#      point back at this file: "Themes", "Bar", "Wallpapers". Ctrl+Tab or click switches tabs.
+#   2. Rofi script mode (ROFI_RETV set, $1 = page): prints the rows of that page; rofi calls us
+#      again with ROFI_INFO="<cmd>:<arg>" when a card is picked. Everything stays in one window.
+#
+# Preview cards (500x500 PNG) are cached in ~/.cache/appearance-switcher/ and rebuilt when
+# their source changes.
 
-set -euo pipefail
+set -uo pipefail
 
-# Theme, Waybar Layout & Wallpaper Switcher - Sleek Edition
+SELF=$(readlink -f "${BASH_SOURCE[0]}")
+WB="$HOME/.config/waybar"
+LAYOUT_SWITCHER="$WB/scripts/waybar-layout.sh"
+WB_THEMES="$WB/themes"
+WB_CONFIGS="$WB/configs"
+ALACRITTY_THEMES="$HOME/.config/alacritty/themes"
+RASI="$HOME/.config/rofi/appearance.rasi"
+CACHE="$HOME/.cache/appearance-switcher"
+FONT="JetBrainsMono-NF-Bold"
 
-THEMES_DIR="$HOME/.config/waybar/themes"
 WALL_DIR_DEFAULT="$HOME/realm/builds/dotfiles/wallpapers"
 WALL_DIR_ALT="$HOME/Pictures/Wallpapers"
+if [[ -d "$WALL_DIR_DEFAULT" ]]; then WALL_DIR="$WALL_DIR_DEFAULT"
+elif [[ -d "$WALL_DIR_ALT" ]]; then WALL_DIR="$WALL_DIR_ALT"
+else WALL_DIR=""; fi
 CURRENT_WALL_LINK="$WALL_DIR_DEFAULT/current"
-CONFIG="$HOME/.config/rofi/theme-menu.rasi"
-LAYOUT_SWITCHER="$HOME/.config/waybar/scripts/waybar-layout.sh"
 
-# Determine wallpapers directory
-if [ -d "$WALL_DIR_DEFAULT" ]; then
-    WALL_DIR="$WALL_DIR_DEFAULT"
-elif [ -d "$WALL_DIR_ALT" ]; then
-    WALL_DIR="$WALL_DIR_ALT"
-else
-    WALL_DIR=""
+# ──────────────────────────────────────────── state ────────────────────────────────────────────
+
+list_themes()  { ls -1 "$WB_THEMES"/*.css 2>/dev/null | xargs -n1 basename | sed 's/\.css$//' | grep -v '^current$'; }
+list_layouts() { "$LAYOUT_SWITCHER" --list; }
+list_walls()   { [[ -n "$WALL_DIR" ]] && find "$WALL_DIR" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) | sort; }
+
+current_theme()  { [[ -L "$WB_THEMES/current.css" ]] && basename "$(readlink "$WB_THEMES/current.css")" .css || echo unknown; }
+current_layout() { "$LAYOUT_SWITCHER" --current; }
+current_wall()   { [[ -L "$CURRENT_WALL_LINK" ]] && readlink -f "$CURRENT_WALL_LINK" || echo ""; }
+
+# ─────────────────────────────────────── preview cards ─────────────────────────────────────────
+
+# TOML value from alacritty theme: toml_get <file> <section> <key>
+toml_get() {
+  awk -v sec="[$2]" -v key="$3" '
+    /^\[/ { insec = ($0 == sec) }
+    insec && $1 == key { v = $3; gsub(/["'"'"']/, "", v); print v; exit }' "$1"
+}
+
+# Theme card: terminal mockup + palette swatches, from the alacritty theme file.
+gen_theme_card() {
+  local theme="$1" out="$2" toml="$ALACRITTY_THEMES/$1.toml"
+  local bg fg c b i x
+  bg=$(toml_get "$toml" colors.primary background); fg=$(toml_get "$toml" colors.primary foreground)
+  [[ -z "$bg" || -z "$fg" ]] && { bg="#282828"; fg="#ebdbb2"; }
+  local -a n=() br=()
+  for c in red green yellow blue magenta cyan; do
+    n+=("$(toml_get "$toml" colors.normal $c)"); br+=("$(toml_get "$toml" colors.bright $c)")
+  done
+  local -a a=(-size 500x500 "xc:$bg")
+  # terminal window
+  a+=(-fill "${fg}" -draw "roundrectangle 40,60 460,330 16,16" -fill "$bg" -draw "roundrectangle 44,64 456,326 14,14")
+  a+=(-fill "${n[0]}" -draw "circle 68,88 68,97" -fill "${n[2]}" -draw "circle 96,88 96,97" -fill "${n[1]}" -draw "circle 124,88 124,97")
+  # prompt lines
+  a+=(-fill "${n[3]}" -draw "roundrectangle 66,124 190,140 6,6" -fill "$fg" -draw "roundrectangle 200,124 350,140 6,6")
+  a+=(-fill "${n[4]}" -draw "roundrectangle 66,154 130,170 6,6" -fill "$fg" -draw "roundrectangle 140,154 420,170 6,6")
+  a+=(-fill "${n[1]}" -draw "roundrectangle 66,184 160,200 6,6" -fill "$fg" -draw "roundrectangle 170,184 300,200 6,6")
+  a+=(-fill "${n[2]}" -draw "roundrectangle 66,214 110,230 6,6" -fill "$fg" -draw "roundrectangle 120,214 380,230 6,6")
+  a+=(-fill "${n[5]}" -draw "roundrectangle 66,244 240,260 6,6" -fill "$fg" -draw "roundrectangle 250,244 330,260 6,6")
+  a+=(-fill "$fg" -draw "roundrectangle 66,278 82,296 3,3")
+  # swatches: normal row + bright row
+  x=40
+  for i in 0 1 2 3 4 5; do
+    a+=(-fill "${n[$i]:-$fg}" -draw "roundrectangle $x,360 $((x+62)),410 10,10")
+    a+=(-fill "${br[$i]:-$fg}" -draw "roundrectangle $x,420 $((x+62)),446 8,8")
+    x=$((x+72))
+  done
+  magick "${a[@]}" "$out" 2>/dev/null
+}
+
+# Layout card: schematic bar on a faux desktop.
+gen_layout_card() {
+  local layout="$1" out="$2"
+  local -a a=(-size 500x500 gradient:'#3c3836-#1d2021')
+  # faux windows
+  a+=(-fill '#282828' -draw "roundrectangle 70,150 300,380 10,10" -fill '#3c3836' -draw "roundrectangle 70,150 300,176 10,10")
+  a+=(-fill '#282828' -draw "roundrectangle 240,110 440,300 10,10" -fill '#3c3836' -draw "roundrectangle 240,110 440,136 10,10")
+  a+=(-fill '#504945' -draw "roundrectangle 90,200 260,212 4,4" -draw "roundrectangle 90,226 200,238 4,4" -draw "roundrectangle 90,252 240,264 4,4")
+  case "$layout" in
+    default)
+      a+=(-fill '#282828' -draw "roundrectangle 30,28 470,68 20,20")
+      a+=(-fill '#d79921' -draw "roundrectangle 46,40 62,56 8,8" -fill '#928374' -draw "roundrectangle 72,40 86,56 7,7" -draw "roundrectangle 92,40 106,56 7,7" -draw "roundrectangle 112,40 126,56 7,7")
+      a+=(-fill '#ebdbb2' -draw "roundrectangle 200,42 300,54 6,6" -fill '#928374' -draw "roundrectangle 380,42 400,54 6,6" -draw "roundrectangle 410,42 430,54 6,6" -fill '#cc241d' -draw "roundrectangle 440,42 456,54 6,6")
+      ;;
+    bsod)
+      a+=(-fill '#0000AA' -draw "rectangle 0,436 500,500" -fill '#AAAAAA' -draw "rectangle 0,436 500,438")
+      a+=(-fill '#FFFFFF' -draw "rectangle 20,456 60,480" -fill '#AAAAAA' -draw "rectangle 70,456 110,480" -draw "rectangle 120,456 160,480")
+      a+=(-fill '#FFFFFF' -draw "rectangle 300,462 360,474" -draw "rectangle 380,462 420,474" -draw "rectangle 440,462 480,474")
+      ;;
+    platinum)
+      a+=(-fill '#DCDCDC' -draw "rectangle 0,436 500,500" -fill '#FFFFFF' -draw "rectangle 0,436 500,438" -fill '#808080' -draw "rectangle 0,498 500,500")
+      a+=(-fill '#9999FF' -draw "rectangle 20,452 70,484" -fill '#FFFFFF' -draw "rectangle 80,452 130,484" -draw "rectangle 140,452 190,484" -fill '#808080' -draw "rectangle 80,484 130,486" -draw "rectangle 140,484 190,486")
+      a+=(-fill '#000000' -draw "rectangle 320,462 380,474" -draw "rectangle 400,462 480,474")
+      ;;
+    outline)
+      a+=(-fill '#222222' -draw "rectangle 20,26 480,74")
+      a+=(-fill '#222222' -stroke '#83a598' -strokewidth 3 -draw "rectangle 34,38 62,62" -stroke '#fff4d2' -draw "rectangle 72,38 98,62" -stroke '#8ec07c' -draw "rectangle 108,38 134,62")
+      a+=(-stroke '#d3869b' -draw "rectangle 150,38 230,62" -stroke '#ea6962' -draw "rectangle 300,38 350,62" -stroke '#e78a4e' -draw "rectangle 360,38 410,62" -stroke '#689d6a' -draw "rectangle 420,38 466,62" -stroke none)
+      ;;
+    floating)
+      a+=(-fill '#83a598' -draw "roundrectangle 24,34 62,66 6,6" -fill '#222222' -draw "roundrectangle 70,34 110,66 6,6" -fill '#8ec07c' -draw "roundrectangle 116,34 150,66 6,6")
+      a+=(-fill '#222222' -draw "roundrectangle 160,34 250,66 6,6" -draw "roundrectangle 300,34 340,66 6,6" -draw "roundrectangle 348,34 400,66 6,6" -draw "roundrectangle 408,34 476,66 6,6")
+      a+=(-fill '#ea6962' -draw "roundrectangle 306,44 318,56 3,3" -fill '#e78a4e' -draw "roundrectangle 354,44 366,56 3,3" -fill '#689d6a' -draw "roundrectangle 414,44 426,56 3,3")
+      ;;
+    *)
+      a+=(-fill '#282828' -draw "roundrectangle 30,28 470,68 8,8")
+      ;;
+  esac
+  magick "${a[@]}" "$out" 2>/dev/null
+}
+
+# Wallpaper card: blurred cover backdrop + sharp 16:9 inset.
+gen_wall_card() {
+  local src="$1" out="$2"
+  magick \( "$src" -resize 500x500^ -gravity center -extent 500x500 -scale 12% -blur 0x2 -resize 500x500! -modulate 55,90 \) \
+         \( "$src" -resize 452x254^ -gravity center -extent 452x254 -bordercolor '#ffffffcc' -border 2 \) \
+         -gravity center -composite "$out" 2>/dev/null
+}
+
+# Random card: darkened 2x2 mosaic of wallpapers with a big "?".
+gen_random_card() {
+  local out="$1"; local -a w
+  mapfile -t w < <(list_walls | shuf -n4)
+  tile() { printf '%s\n' "(" "$1" -resize 250x250^ -gravity center -extent 250x250 ")"; }
+  if (( ${#w[@]} == 4 )); then
+    local -a r1 r2
+    mapfile -t r1 < <(tile "${w[0]}"; tile "${w[1]}")
+    mapfile -t r2 < <(tile "${w[2]}"; tile "${w[3]}")
+    magick "(" "${r1[@]}" +append ")" "(" "${r2[@]}" +append ")" -append \
+      -modulate 45,70 -gravity center -font "$FONT" -pointsize 220 -fill '#ffffffee' -annotate +0+0 "?" "$out" 2>/dev/null && return
+  fi
+  magick -size 500x500 gradient:'#504945-#1d2021' -gravity center -font "$FONT" -pointsize 220 -fill '#ffffffee' -annotate +0+0 "?" "$out"
+}
+
+stale() { [[ ! -f "$1" || "$2" -nt "$1" ]]; }   # stale <target> <source>
+
+wall_card_path() { echo "$CACHE/walls/$(basename "${1%.*}").png"; }
+
+ensure_previews() {
+  mkdir -p "$CACHE/themes" "$CACHE/layouts" "$CACHE/walls"
+  local t l w out first=1
+  for t in $(list_themes); do
+    out="$CACHE/themes/$t.png"
+    if stale "$out" "$ALACRITTY_THEMES/$t.toml" || stale "$out" "$SELF"; then gen_theme_card "$t" "$out"; fi
+  done
+  for l in $(list_layouts); do
+    out="$CACHE/layouts/$l.png"
+    if stale "$out" "$SELF"; then gen_layout_card "$l" "$out"; fi
+  done
+  while IFS= read -r w; do
+    [[ -z "$w" ]] && continue
+    out=$(wall_card_path "$w")
+    if stale "$out" "$w"; then
+      (( first )) && { notify-send "󰏘 Appearance" "Generating wallpaper previews…" -t 3000 2>/dev/null; first=0; }
+      gen_wall_card "$w" "$out"
+    fi
+  done < <(list_walls)
+  if stale "$CACHE/random.png" "$SELF" || [[ -n "$WALL_DIR" && "$WALL_DIR" -nt "$CACHE/random.png" ]]; then gen_random_card "$CACHE/random.png"; fi
+}
+
+# ──────────────────────────────────────────── apply ────────────────────────────────────────────
+
+# Fast, synchronous part first so the re-rendered menu shows the new state; slow bits go
+# to the background with all fds closed so rofi is not blocked.
+apply_theme() {
+  local theme="$1"
+  ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml 2>/dev/null || true
+  ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi 2>/dev/null || true
+  ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css 2>/dev/null || true
+  ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf 2>/dev/null || true
+  ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf 2>/dev/null || true
+  [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]] && cp ~/.config/gtk-4.0/themes/${theme}.css ~/.config/gtk-4.0/gtk.css
+  [[ -f ~/.config/gtk-3.0/themes/${theme}.css ]] && cp ~/.config/gtk-3.0/themes/${theme}.css ~/.config/gtk-3.0/gtk.css
+  echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
+  "$LAYOUT_SWITCHER" apply-for-theme "$theme" --no-restart >/dev/null 2>&1
+  (
+    pkill -x waybar; sleep 0.3; setsid -f waybar
+    if pgrep -x nautilus >/dev/null; then nautilus -q; setsid -f nautilus --gapplication-service; fi
+    makoctl reload
+    notify-send "󰏘 Theme" "$theme" -t 2000
+  ) >/dev/null 2>&1 </dev/null &
+  disown
+}
+
+apply_layout() {
+  local layout="$1"
+  "$LAYOUT_SWITCHER" apply "$layout" --no-restart >/dev/null 2>&1
+  ( pkill -x waybar; sleep 0.3; setsid -f waybar; notify-send "󰍜 Waybar" "$layout" -t 2000 ) >/dev/null 2>&1 </dev/null &
+  disown
+}
+
+apply_wall() {
+  local file="$1"
+  [[ -f "$file" ]] || return 1
+  ln -sfn "$file" "$CURRENT_WALL_LINK" 2>/dev/null || true
+  (
+    pgrep -x hyprpaper >/dev/null || { setsid -f hyprpaper; sleep 1; }
+    hyprctl hyprpaper unload all
+    hyprctl hyprpaper preload "$file"
+    for m in $(hyprctl monitors | sed -n 's/^Monitor \([^ ]*\).*/\1/p'); do
+      hyprctl hyprpaper wallpaper "$m,$file"
+    done
+    notify-send "󰸉 Wallpaper" "$(basename "$file")" -t 2000
+  ) >/dev/null 2>&1 </dev/null &
+  disown
+}
+
+random_wall() {
+  local cur pick
+  cur=$(current_wall)
+  pick=$(list_walls | grep -vxF "$cur" | shuf -n1)
+  [[ -z "$pick" ]] && pick=$(list_walls | shuf -n1)
+  [[ -n "$pick" ]] && apply_wall "$pick"
+}
+
+# ───────────────────────────────────────── rofi output ─────────────────────────────────────────
+
+row() {  # row <text> <icon> <info> [active]
+  printf '%s\0icon\x1f%s\x1finfo\x1f%s\x1factive\x1f%s\n' "$1" "$2" "$3" "${4:-false}"
+}
+
+header() {  # header <menu> <prompt> [message]
+  printf '\0data\x1f%s\n' "$1"
+  printf '\0prompt\x1f%s\n' "$2"
+  printf '\0markup-rows\x1ftrue\n'
+  printf '\0no-custom\x1ftrue\n'
+  printf '\0message\x1f%s\n' "${3:-}"
+}
+
+menu_themes() {
+  local cur t
+  cur=$(current_theme)
+  header themes "󰏘  Themes" "<span alpha='70%'>Colour theme · applies to alacritty, rofi, waybar, hyprland, mako, gtk, nvim, zsh · current: <b>$cur</b></span>"
+  for t in $(list_themes); do
+    if [[ "$t" == "$cur" ]]; then row "󰸞  $t" "$CACHE/themes/$t.png" "theme:$t" true
+    else row "$t" "$CACHE/themes/$t.png" "theme:$t"; fi
+  done
+}
+
+menu_layouts() {
+  local cur l
+  cur=$(current_layout)
+  header layouts "󰍜  Bar" "<span alpha='70%'>Waybar layout · independent of the colour theme · current: <b>$cur</b></span>"
+  for l in $(list_layouts); do
+    if [[ "$l" == "$cur" ]]; then row "󰸞  $l" "$CACHE/layouts/$l.png" "layout:$l" true
+    else row "$l" "$CACHE/layouts/$l.png" "layout:$l"; fi
+  done
+}
+
+menu_walls() {
+  local cur w name
+  cur=$(current_wall)
+  header walls "󰸉  Wallpapers" "<span alpha='70%'>$WALL_DIR · current: <b>$( [[ -n "$cur" ]] && basename "${cur%.*}" || echo none )</b></span>"
+  row "󰒲  Random" "$CACHE/random.png" "random:"
+  while IFS= read -r w; do
+    [[ -z "$w" ]] && continue
+    name=$(basename "${w%.*}")
+    if [[ "$(readlink -f "$w")" == "$cur" ]]; then row "󰸞  $name" "$(wall_card_path "$w")" "wall:$w" true
+    else row "$name" "$(wall_card_path "$w")" "wall:$w"; fi
+  done < <(list_walls)
+}
+
+show_menu() {
+  case "$1" in
+    layouts) menu_layouts ;;
+    walls)   menu_walls ;;
+    *)       menu_themes ;;
+  esac
+}
+
+# ────────────────────────────────────────── entrypoint ─────────────────────────────────────────
+
+if [[ -z "${ROFI_RETV:-}" ]]; then
+  # Launcher role
+  if [[ "${1:-}" == "--gen" ]]; then ensure_previews; exit 0; fi   # only (re)build preview cards
+  ensure_previews
+  case "${1:-themes}" in
+    layouts|bar) start="Bar" ;;
+    walls|wallpapers) start="Wallpapers" ;;
+    *) start="Themes" ;;
+  esac
+  exec rofi -show "$start" \
+    -modes "Themes:$SELF themes,Bar:$SELF layouts,Wallpapers:$SELF walls" \
+    -theme "$RASI"
 fi
 
-# Get available themes
-get_themes() {
-    ls -1 "$THEMES_DIR"/*.css 2>/dev/null | xargs -n1 basename | sed 's/\.css$//' | grep -v "^current$"
-}
-
-# Get current theme
-get_current_theme() {
-    if [ -L "$THEMES_DIR/current.css" ]; then
-        readlink "$THEMES_DIR/current.css" | xargs basename | sed 's/\.css$//'
-    else
-        echo "unknown"
-    fi
-}
-
-# Apply theme
-set_theme() {
-    local theme="$1"
-    ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml 2>/dev/null || true
-    ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi 2>/dev/null || true
-    ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css 2>/dev/null || true
-    ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf 2>/dev/null || true
-    ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf 2>/dev/null || true
-
-    # Update GTK themes for file manager (Nautilus) etc.
-    [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]] && cp ~/.config/gtk-4.0/themes/${theme}.css ~/.config/gtk-4.0/gtk.css
-    [[ -f ~/.config/gtk-3.0/themes/${theme}.css ]] && cp ~/.config/gtk-3.0/themes/${theme}.css ~/.config/gtk-3.0/gtk.css
-
-    # Restart GTK apps so they pick up the new CSS
-    if pgrep -x nautilus >/dev/null 2>&1; then
-        nautilus -q 2>/dev/null; nohup nautilus --gapplication-service >/dev/null 2>&1 &
-    fi
-
-    echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
-
-    # Waybar: pick layout for this theme (theme-named layout > current standalone layout > default),
-    # regenerate style.css/config and rofi bottom-bar overrides. Restarted below.
-    "$LAYOUT_SWITCHER" apply-for-theme "$theme" --no-restart
-
-    pkill -SIGUSR2 waybar 2>/dev/null || killall waybar 2>/dev/null && waybar &
-    makoctl reload 2>/dev/null || true
-    notify-send "󰏘 Theme" "$theme" -t 2000
-}
-
-# Get rofi overrides when the active waybar layout is a bottom bar
-get_rofi_overrides() {
-    local layout
-    layout=$("$LAYOUT_SWITCHER" --current)
-    local pos=$(grep -o '"position": *"[^"]*"' ~/.config/waybar/configs/${layout}/config 2>/dev/null | head -1 | grep -o '"[^"]*"$' | tr -d '"')
-    if [[ "$pos" == "bottom" ]]; then
-        echo '-theme-str "window { location: south; anchor: south; y-offset: -10px; border-radius: 0; } element { border-radius: 0; } inputbar { border-radius: 0; } listview { border-radius: 0; }"'
-    fi
-}
-
-# Show themes menu
-show_themes() {
-    local current=$(get_current_theme)
-    local entries=""
-    for theme in $(get_themes); do
-        if [ "$theme" = "$current" ]; then
-            entries+="󰸞  $theme\n"
-        else
-            entries+="󰏘  $theme\n"
-        fi
-    done
-    entries=$(echo -e "$entries" | sed '/^$/d')
-
-    local overrides=$(get_rofi_overrides)
-    selected=$(echo -e "$entries" | eval rofi -dmenu -i -config '"$CONFIG"' $overrides)
-    [ -z "$selected" ] && return
-
-    theme_name=$(echo "$selected" | sed 's/^[^ ]* *//')
-    [ "$theme_name" != "$current" ] && set_theme "$theme_name"
-}
-
-# Generate thumbnail for a wallpaper image
-generate_thumbnail() {
-    local src="$1"
-    local thumb_dir="$HOME/.cache/wallpaper-thumbs"
-    mkdir -p "$thumb_dir"
-    local base
-    base=$(basename "$src")
-    local thumb="$thumb_dir/${base%.*}.png"
-
-    # Regenerate if missing or older than source
-    if [[ ! -f "$thumb" ]] || [[ "$src" -nt "$thumb" ]]; then
-        magick "$src" -resize 200x120^ -gravity center -extent 200x120 "$thumb" 2>/dev/null || return 1
-    fi
-    echo "$thumb"
-}
-
-# Show wallpapers menu with thumbnail previews
-show_wallpapers() {
-    if [ -z "$WALL_DIR" ]; then
-        notify-send "󰸉 Wallpaper" "No wallpapers directory found"
-        return
-    fi
-
-    mapfile -t FILES < <(find "$WALL_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort)
-
-    if [ ${#FILES[@]} -eq 0 ]; then
-        notify-send "󰸉 Wallpaper" "No images found"
-        return
-    fi
-
-    # Get current wallpaper for marking
-    local current_wall=""
-    if [ -L "$CURRENT_WALL_LINK" ]; then
-        current_wall=$(readlink -f "$CURRENT_WALL_LINK" 2>/dev/null)
-    fi
-
-    # Build rofi entries with thumbnail icons
-    local entries=""
-    for f in "${FILES[@]}"; do
-        local name
-        name=$(basename "$f")
-        local thumb
-        thumb=$(generate_thumbnail "$f")
-        local mark=""
-        if [[ "$(readlink -f "$f")" == "$current_wall" ]]; then
-            mark="  *"
-        fi
-        if [[ -n "$thumb" ]]; then
-            entries+="${name}${mark}\0icon\x1f${thumb}\n"
-        else
-            entries+="${name}${mark}\n"
-        fi
-    done
-
-    local overrides=$(get_rofi_overrides)
-    selected=$(echo -e "$entries" | eval rofi -dmenu -i -show-icons -config '"$CONFIG"' $overrides \
-        -theme-str '"element-icon { size: 48px; margin: 0 8px 0 0; }"')
-    [ -z "$selected" ] && return
-
-    # Strip the active marker if present
-    wall_name=$(echo "$selected" | sed 's/  \*$//')
-    SEL_FILE="$WALL_DIR/$wall_name"
-
-    if [[ ! -f "$SEL_FILE" ]]; then
-        notify-send "󰸉 Wallpaper" "File not found: $wall_name"
-        return
-    fi
-
-    # Ensure hyprpaper is running
-    if ! pgrep -x hyprpaper >/dev/null 2>&1; then
-        hyprpaper &
-        sleep 1
-    fi
-
-    # Unload old wallpapers, preload new, apply
-    hyprctl hyprpaper unload all >/dev/null 2>&1 || true
-    hyprctl hyprpaper preload "$SEL_FILE" >/dev/null 2>&1 || true
-
-    mapfile -t MONS < <(hyprctl monitors | sed -n 's/^Monitor \([^ ]*\).*/\1/p')
-    for m in "${MONS[@]}"; do
-        hyprctl hyprpaper wallpaper "$m,$SEL_FILE" >/dev/null 2>&1 || true
-    done
-
-    ln -sfn "$SEL_FILE" "$CURRENT_WALL_LINK"
-    notify-send "󰸉 Wallpaper" "$wall_name" -t 2000
-}
-
-# Main menu
-main_menu() {
-    local options="󰏘  Themes\n󰍜  Bar Layout\n󰸉  Wallpapers"
-    local overrides=$(get_rofi_overrides)
-    selected=$(echo -e "$options" | eval rofi -dmenu -i -config '"$CONFIG"' $overrides)
-
-    case "$selected" in
-        *Themes*) show_themes ;;
-        *Bar*) "$LAYOUT_SWITCHER" ;;
-        *Wallpapers*) show_wallpapers ;;
+# Script-mode role: $1 = page, ROFI_INFO = "<cmd>:<arg>" of the picked card
+page="${1:-themes}"
+case "${ROFI_RETV}" in
+  1)
+    cmd="${ROFI_INFO%%:*}"; arg="${ROFI_INFO#*:}"
+    printf '\0keep-selection\x1ftrue\n'
+    case "$cmd" in
+      theme)  apply_theme "$arg" ;;
+      layout) apply_layout "$arg" ;;
+      wall)   apply_wall "$arg" ;;
+      random) random_wall ;;
     esac
-}
-
-main_menu
+    show_menu "$page"
+    ;;
+  *) show_menu "$page" ;;
+esac

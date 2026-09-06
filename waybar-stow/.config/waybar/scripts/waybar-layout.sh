@@ -19,7 +19,6 @@ WB="$HOME/.config/waybar"
 CONFIGS="$WB/configs"
 THEMES="$WB/themes"
 CURRENT="$CONFIGS/current"
-ROFI_CONFIG="$HOME/.config/rofi/theme-menu.rasi"
 ROFI_OVERRIDES="$HOME/.config/rofi/theme-overrides.rasi"
 
 list_layouts() {
@@ -75,12 +74,6 @@ RASI
   fi
 }
 
-rofi_override_args() {
-  if [[ "$(layout_position "$(current_layout)")" == "bottom" ]]; then
-    echo '-theme-str "window { location: south; anchor: south; y-offset: -10px; border-radius: 0; } element { border-radius: 0; } inputbar { border-radius: 0; } listview { border-radius: 0; }"'
-  fi
-}
-
 restart_waybar() {
   pkill -x waybar 2>/dev/null || true
   sleep 0.3
@@ -112,23 +105,8 @@ apply_layout() {
 }
 
 menu() {
-  local cur entries="" layout selected overrides
-  cur=$(current_layout)
-  for layout in $(list_layouts); do
-    if [[ "$layout" == "$cur" ]]; then
-      entries+="󰸞  $layout\n"
-    else
-      entries+="󰍜  $layout\n"
-    fi
-  done
-  overrides=$(rofi_override_args)
-  selected=$(echo -e "$entries" | sed '/^$/d' \
-    | eval rofi -dmenu -i -p '"Bar"' -config '"$ROFI_CONFIG"' $overrides \
-        -theme-str '"window { width: 280px; } listview { lines: 9; }"') || true
-  [[ -z "$selected" ]] && return 0
-  layout=$(echo "$selected" | sed 's/^[^ ]* *//')
-  [[ "$layout" == "$cur" ]] && return 0
-  apply_layout "$layout"
+  # Card-grid picker lives in the appearance switcher (opened straight at the layouts page).
+  exec "$WB/scripts/appearance-switcher.sh" layouts
 }
 
 usage() {
