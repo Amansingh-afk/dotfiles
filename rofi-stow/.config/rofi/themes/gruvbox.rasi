@@ -49,7 +49,7 @@ inputbar {
 prompt {
     padding:            0px 8px 0px 0px;
     background-color:   transparent;
-    text-color:         @orange;
+    text-color:         @yellow;
 }
 
 entry {
@@ -99,7 +99,7 @@ element alternate.normal {
 
 element selected.normal {
     background-color:   @grey0;
-    text-color:         @fg0;
+    text-color:         @yellow;
 }
 
 element-icon {
