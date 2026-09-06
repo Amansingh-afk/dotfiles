@@ -34,189 +34,191 @@
 #custom-battery.warning { box-shadow: 0 0 0 1px @accent_weak inset; }
 #workspaces button { color: @fg_weak; }
 
+/* swaystation-block-1 — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_1) */
+/* Self-contained palette (gruvbox-ish); theme colors prepended by the switcher are unused here. */
+
+/* ===== COLORS ===== */
+@define-color bg #222222;
+@define-color fg #ebdbb2;
+@define-color black #000000;
+@define-color white-soft #fff4d2;
+
+@define-color red #ea6962;
+@define-color red-dark #cc241d;
+
+@define-color orange #e78a4e;
+@define-color yellow #f6c657;
+@define-color yellow-soft #d8a657;
+
+@define-color green #8ec07c;
+@define-color green-dark #689d68;
+
+@define-color blue #83a598;
+@define-color blue-dark #458588;
+
+@define-color pink #d3869b;
+@define-color pink-dark #b26286;
+
+@define-color gray #555555;
+
+
+/* ===== GLOBAL ===== */
 * {
-    font-size: 15px;
-    font-family: "JetBrainsMono Nerd Font";
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  border-radius: 0;
+  border: none;
+  text-shadow: none;
+  transition: none;
+  box-shadow: none;
 }
 
 window#waybar {
-    all: unset;
+  color: @fg;
+  background: none;
+  font-family: "IosevkaTerm Nerd Font Propo", "JetBrainsMono Nerd Font", monospace;
+  font-size: 12pt;
+  font-weight: 900;
 }
 
-.modules-center {
-    padding: 7px;
-    margin: 10px 0 5px 0;
-    border-radius: 10px;
-    background: alpha(@background, 0.6);
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
-}
-
+.modules-left,
+.modules-center,
 .modules-right {
-    padding: 7px;
-    margin: 10px 10px 5px 0;
-    border-radius: 10px;
-    background: alpha(@background, 0.6);
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+  padding: 3pt;
+  background: @bg;
 }
 
-tooltip {
-    background: @background;
-    color: @color7;
+/* ===== COMMON PADDING ===== */
+#custom-launcher,
+#window,
+#disk,
+#cpu,
+#custom-cpu_temp,
+#custom-cpu_temp.critical,
+#backlight,
+#custom-memory,
+#pulseaudio,
+#pulseaudio.muted,
+#battery,
+#battery.critical,
+#battery.warning,
+#network,
+#clock {
+  padding-right: 6pt;
 }
 
-#workspaces {
-    padding: 6px 12px;
-    margin: 10px 0 5px 10px;
-    border-radius: 10px;
-    background: alpha(@background, 0.6);
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+/* ===== MODULES ===== */
+#custom-launcher {
+  color: @black;
+  border: 2pt solid @blue-dark;
+  background: @blue;
+  padding: 0pt 6pt;
 }
 
+/* ===== WORKSPACES ===== */
 #workspaces button {
-    all: unset;
-    padding: 0px 6px;
-    margin: 0px 2px;
-    border: 0px;
-    color: alpha(@color7, 0.9);
-    transition: all 0.3s ease;
+  color: @white-soft;
+  background: @bg;
+  border: 2pt solid @white-soft;
+  margin-right: 3pt;
+  min-width: 15pt;
+  padding: 0 3.75pt;
+}
+
+#workspaces button:last-child {
+  margin-right: 0;
 }
 
 #workspaces button:hover {
-    color: alpha(@color7, 0.6);
+  color: @bg;
+  background: @pink;
+  border-color: @pink-dark;
 }
 
-#workspaces button.active {
-    color: alpha(@color7, 0.9);
-    padding: 0px 0px;
-    border: 0px;
+#workspaces button.active,
+#workspaces button.active:hover {
+  color: @black;
+  border-color: @green-dark;
+  background: @green;
 }
 
-#workspaces button.empty {
-    color: alpha(@color7, 0.9);
-    font-size: 9px;
+#workspaces button.urgent {
+  color: @bg;
+  border-color: @red-dark;
+  background: @red;
 }
 
-#workspaces button.empty:hover {
-    color: alpha(@color7, 0.35);
-}
-
-#workspaces button.empty.active {
-    color: alpha(@color7, 0.9);
-    padding: 0px 0px;
-    border: 0px;
-}
-
+/* ===== INDIVIDUAL MODULE STYLES ===== */
 #window {
-    padding: 7px 10px;
-    margin: 10px 0 5px 10px;
-    border-radius: 10px;
-    background: alpha(@background, 0.6);
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
-}
-
-window#waybar.empty #window {
-    background-color: transparent;
-    box-shadow: none;
-}
-
-#custom-cava {
-    padding: 7px;
-    margin: 10px 0 5px 10px;
-    border-radius: 10px;
-    background: alpha(@background, 0.6);
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
-}
-
-#custom-cava.music {
-    color: @color9;
-}
-
-#custom-playerctl {
-    padding: 7px 10px;
-    margin: 10px 0 5px 10px;
-    border-radius: 10px;
-    background: alpha(@background, 0.6);
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
-}
-
-#clock {
-    padding: 0px 5px;
-    color: @color7;
-    transition: all 0.3s ease;
-}
-
-#clock:hover {
-    color: @color9;
-}
-
-#bluetooth,
-#network,
-#custom-power,
-#custom-battery,
-#cpu,
-#memory,
-#pulseaudio {
-    padding: 0px 8px;
-    color: @color7;
-    transition: all 0.3s ease;
-}
-
-#bluetooth:hover,
-#network:hover,
-#custom-battery:hover,
-#cpu:hover,
-#memory:hover,
-#pulseaudio:hover {
-    color: @color9;
-}
-
-#network {
-    padding: 0px 12px 0px 8px;
-}
-
-#custom-battery.charging {
-    color: #26A65B;
-}
-
-#custom-battery.warning:not(.charging) {
-    color: #ffbe61;
-}
-
-#custom-battery.critical:not(.charging) {
-    color: #f53c3c;
-}
-
-#group-expand {
-    padding: 0px 8px;
-}
-
-#custom-expand {
-    padding: 0px 8px;
-    color: alpha(@foreground, 0.2);
-}
-
-#custom-expand:hover {
-    color: alpha(@foreground, 0.5);
+  border: 2pt solid @pink;
 }
 
 #tray {
-    padding: 0px 5px;
+  border: 2pt solid @orange;
+  padding: 0 6pt;
 }
 
-/* App Launcher Button */
-#custom-launcher {
-    padding: 7px 12px;
-    margin: 10px 0 5px 10px;
-    border-radius: 10px;
-    background: alpha(@background, 0.6);
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
-    color: @color9;
-    font-size: 18px;
-    transition: all 0.3s ease;
+#disk {
+  border: 2pt solid @red;
 }
 
-#custom-launcher:hover {
-    background: alpha(@color9, 0.25);
-    color: @foreground;
-    box-shadow: 0px 0px 6px rgba(215, 153, 33, 0.4);
+#cpu {
+  border: 2pt solid @orange;
+}
+
+#custom-cpu_temp {
+  border: 2pt solid @yellow-soft;
+}
+
+#custom-cpu_temp.critical {
+  color: @red-dark;
+  border: 2pt solid @red-dark;
+}
+
+#custom-cpu_temp.unknown {
+  border: 2pt solid @gray;
+}
+
+#backlight {
+  border: 2pt solid @yellow;
+}
+
+#custom-memory {
+  border: 2pt solid @blue-dark;
+}
+
+#pulseaudio {
+  border: 2pt solid @blue;
+}
+
+#pulseaudio.muted {
+  border: 2pt solid @red;
+  color: @red;
+}
+
+#battery {
+  border: 2pt solid @green-dark;
+}
+
+#battery.critical {
+  border: 2pt solid @red-dark;
+}
+
+#battery.warning {
+  border: 2pt solid @orange;
+}
+
+#clock {
+  border: 2pt solid @green;
+}
+
+#network {
+  border: 2pt solid @pink;
+}
+
+#submap {
+  color: @blue;
+  border: 2pt solid @blue;
+  padding: 0 7.5pt;
 }
