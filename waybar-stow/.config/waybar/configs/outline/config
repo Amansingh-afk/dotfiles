@@ -24,7 +24,8 @@
     "backlight",
     "custom/memory",
     "pulseaudio",
-    "battery"
+    "battery",
+    "custom/appearance"
   ],
   "custom/launcher": {
     "format": "<span ></span>",
@@ -167,5 +168,11 @@
     "format": "<span color='#8ec07c' >  </span>{:%a %d | %H:%M} ",
     "tooltip": false,
     "interval": 1
+  },
+  "custom/appearance": {
+    "format": "󰏘",
+    "tooltip": true,
+    "tooltip-format": "Appearance",
+    "on-click": "~/.config/waybar/scripts/appearance-switcher.sh"
   }
 }

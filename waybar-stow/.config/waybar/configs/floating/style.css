@@ -1,16 +1,11 @@
-/* swaystation-underline — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_underline) */
+/* floating — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_floating) */
 /* Self-contained palette (gruvbox-ish); theme colors prepended by the switcher are unused here. */
 
 /* ===== COLORS ===== */
 @define-color bg #222222;
-@define-color bg-tray #383838;
-
-@define-color fg #fff4d2;
+@define-color fg #ebdbb2;
 
 @define-color black #222222;
-
-@define-color border #fff4d2;
-@define-color border-muted #686868;
 
 @define-color blue #83a598;
 @define-color blue-dark #458588;
@@ -35,14 +30,31 @@
 * {
   padding: 0;
   margin: 0;
-  border-radius: 0;
   min-height: 0;
+  border-radius: 0;
+  border: none;
   text-shadow: none;
   transition: none;
   box-shadow: none;
 }
 
+.modules-left,
+.modules-center,
+.modules-right {
+  padding: 0 3pt;
+}
+
+window#waybar {
+  color: @fg;
+  background: none;
+  font-family: "IosevkaTerm Nerd Font Propo", "JetBrainsMono Nerd Font", monospace;
+  font-size: 12pt;
+  font-weight: 900;
+}
+
+/* ===== COMMON MODULE STYLE ===== */
 #custom-launcher,
+#submap,
 #window,
 #disk,
 #cpu,
@@ -57,32 +69,31 @@
 #battery.warning,
 #network,
 #clock {
+  color: @fg;
+  background: @bg;
+  border: 2.5pt solid @bg;
   padding-right: 3pt;
 }
 
-/* ===== WAYBAR ===== */
-window#waybar {
-  color: @fg;
-  background: @bg;
-  font-family: "IosevkaTerm Nerd Font Propo", "JetBrainsMono Nerd Font", monospace;
-  font-size: 12pt;
-  font-weight: 900;
-}
-
-.modules-left,
-.modules-center,
-.modules-right {
-  padding: 3pt;
+/* ===== launcher ===== */
+#custom-launcher {
+  color: @black;
+  background: @blue;
+  padding: 0 6pt;
 }
 
 /* ===== WORKSPACES ===== */
+#workspaces {
+  margin: 0;
+}
+
 #workspaces button {
   color: @fg;
   background: @bg;
-  border: 2pt solid @border;
+  border: 2.5pt solid @bg;
+  padding: 0 3.75pt;
   margin-right: 3pt;
   min-width: 15pt;
-  padding: 0 3.75pt;
 }
 
 #workspaces button:last-child {
@@ -90,107 +101,99 @@ window#waybar {
 }
 
 #workspaces button:hover {
-  color: @pink;
-  border-color: @pink;
+  color: @black;
+  background: @pink;
 }
 
 #workspaces button.active,
 #workspaces button.active:hover {
-  color: @green;
+  color: @black;
+  background: @green;
   border-color: @green;
 }
 
 #workspaces button.urgent {
-  color: @red;
-  border-color: @red;
-}
-
-/* ===== launcher ===== */
-#custom-launcher {
   color: @black;
-  border: 2pt solid @blue-dark;
-  background: @blue;
-  padding: 0 6pt;
+  background: @red;
 }
 
-/* ===== MODULE BORDERS ===== */
+/* ===== MODULE COLORS ===== */
 #window {
-  border-bottom: 2pt solid @pink;
+  color: @pink;
 }
 
 #tray {
-  border-bottom: 2pt solid @border-muted;
-  background: @bg-tray;
   padding: 0 6pt;
+  background: @bg;
 }
 
 #disk {
-  border-bottom: 2pt solid @red;
+  color: @red;
 }
 
 #cpu {
-  border-bottom: 2pt solid @orange;
+  color: @orange;
 }
 
 #custom-cpu_temp {
-  border-bottom: 2pt solid @yellow-soft;
+  color: @yellow-soft;
 }
 
 #custom-cpu_temp.critical {
   color: @red-dark;
-  border-bottom: 2pt solid @red-dark;
 }
 
 #custom-cpu_temp.unknown {
   color: @gray;
-  border-bottom: 2pt solid @gray;
 }
 
 #backlight {
-  border-bottom: 2pt solid @yellow;
+  color: @yellow;
 }
 
 #custom-memory {
-  border-bottom: 2pt solid @blue-dark;
+  color: @blue-dark;
 }
 
 #pulseaudio {
-  border-bottom: 2pt solid @blue;
+  color: @blue;
 }
 
 #pulseaudio.muted {
   color: @red;
-  border-bottom: 2pt solid @red;
 }
 
 #battery {
-  border-bottom: 2pt solid @green-dark;
+  color: @green-dark;
 }
 
-#battery.critical,
-#battery.charging.critical {
+#battery.critical {
   color: @red-dark;
-  border-bottom: 2pt solid @red-dark;
 }
 
-#battery.warning,
-#battery.charging.warning {
+#battery.warning {
   color: @orange;
-  border-bottom: 2pt solid @orange;
 }
 
 #clock {
-  border-bottom: 2pt solid @green;
+  color: @green;
 }
 
 #network {
-  border-bottom: 2pt solid @pink;
+  color: @pink;
 }
 
 /* ===== MODE ===== */
 #submap {
   color: @black;
-  border: 2pt solid @blue-dark;
   background: @blue;
   padding: 0 4.5pt;
+}
+
+/* ===== APPEARANCE (theme switcher) ===== */
+#custom-appearance {
+  color: @black;
+  background: @pink;
+  border: 2.5pt solid @bg;
+  padding: 0 6pt;
 }

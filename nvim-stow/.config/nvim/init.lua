@@ -6,7 +6,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 local theme = os.getenv("DOTFILES_THEME") or "gruvbox"
-if theme == "retrov2" then
+if theme == "platinum" then
   vim.o.background = "light"
 else
   vim.o.background = "dark"

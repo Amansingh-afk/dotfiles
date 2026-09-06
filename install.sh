@@ -28,8 +28,8 @@ for arg in "$@"; do
         --monochrome) THEME="monochrome" ;;
         --gruvbox) THEME="gruvbox" ;;
         --catppuccin-mocha) THEME="catppuccin-mocha" ;;
-        --retro) THEME="retro" ;;
-        --retrov2) THEME="retrov2" ;;
+        --bsod) THEME="bsod" ;;
+        --platinum) THEME="platinum" ;;
     esac
 done
 
@@ -47,7 +47,7 @@ set_theme_symlinks() {
     ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
 
     # Waybar layout: a layout named after the theme wins, else keep the active
-    # standalone layout (e.g. swaystation-*), else default. Tracked via configs/current.
+    # standalone layout (e.g. outline, floating), else default. Tracked via configs/current.
     local layout_dir="default"
     if [[ -d ~/.config/waybar/configs/${theme} ]]; then
         layout_dir="${theme}"
@@ -158,9 +158,9 @@ install_deps() {
         echo "Nerd Fonts already installed"
     fi
 
-    # Install VT323 font for retro BSOD theme
+    # Install VT323 font for bsod theme
     if ! fc-list | grep -qi "VT323"; then
-        echo "Installing VT323 font for retro theme..."
+        echo "Installing VT323 font for bsod theme..."
         cd /tmp
         wget -q "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -O VT323-Regular.ttf 2>/dev/null || \
         curl -L "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -o VT323-Regular.ttf 2>/dev/null
@@ -310,8 +310,8 @@ case "$1" in
         echo "  --gruvbox          (default)"
         echo "  --monochrome"
         echo "  --catppuccin-mocha"
-        echo "  --retro"
-        echo "  --retrov2"
+        echo "  --bsod"
+        echo "  --platinum"
         echo ""
         echo "Example (new machine setup):"
         echo "  $0 deps              # Install dependencies"

@@ -107,7 +107,7 @@ chsh -s $(which zsh)
 
 ## Themes
 
-Available themes: `gruvbox` (default), `monochrome`, `catppuccin-mocha`
+Available themes: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`
 
 Switch themes:
 ```bash
@@ -131,22 +131,21 @@ Colour themes and bar layouts are independent. A layout lives in
 active one is tracked by the `configs/current` symlink and the generated
 `style.css` is `themes/current.css` + the layout's `style.css`.
 
-Available layouts: `default`, `retro`, `retrov2` (tied to the themes of the same
-name), plus six ports of [swaystation](https://github.com/el-toro-fuerte96/swaystation)'s
-bars: `swaystation-block-1`, `swaystation-block-2`, `swaystation-block-3`,
-`swaystation-block-4`, `swaystation-floating`, `swaystation-underline`.
+Available layouts: `default`, `bsod`, `platinum` (tied to the themes of the same
+name), plus two ports of [swaystation](https://github.com/el-toro-fuerte96/swaystation)'s
+bars: `outline` and `floating`.
 
 Switch layouts:
 ```bash
 ~/.config/waybar/scripts/waybar-layout.sh                   # rofi picker (also Super + Shift + B,
                                                             # or "Bar Layout" in the appearance menu)
-~/.config/waybar/scripts/waybar-layout.sh swaystation-floating
+~/.config/waybar/scripts/waybar-layout.sh floating
 ~/.config/waybar/scripts/waybar-layout.sh --list
 ~/.config/waybar/scripts/waybar-layout.sh --current
 ```
 
 Switching a colour theme picks the layout named after it if one exists, keeps a
-standalone (`swaystation-*`) layout if that is active, and otherwise falls back
+standalone layout (`outline`, `floating`) if that is active, and otherwise falls back
 to `default`.
 
 ## Key Bindings (Hyprland)
