@@ -187,3 +187,10 @@ window#waybar {
   border: 2pt solid @pink;
   padding: 0 6pt;
 }
+
+/* ===== POWER ===== */
+#custom-power {
+  color: @red;
+  border: 2pt solid @red;
+  padding: 0 7pt;
+}

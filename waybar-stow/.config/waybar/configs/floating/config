@@ -25,7 +25,8 @@
     "custom/memory",
     "pulseaudio",
     "battery",
-    "custom/appearance"
+    "custom/appearance",
+    "custom/power"
   ],
   "custom/launcher": {
     "format": "<span ></span>",
@@ -174,5 +175,11 @@
     "tooltip": true,
     "tooltip-format": "Appearance",
     "on-click": "~/.config/waybar/scripts/appearance-switcher.sh"
+  },
+  "custom/power": {
+    "format": "",
+    "tooltip": true,
+    "tooltip-format": "Power",
+    "on-click": "~/.config/waybar/scripts/power-menu.sh"
   }
 }

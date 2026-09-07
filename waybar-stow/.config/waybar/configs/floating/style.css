@@ -197,3 +197,11 @@ window#waybar {
   border: 2.5pt solid @bg;
   padding: 0 6pt;
 }
+
+/* ===== POWER ===== */
+#custom-power {
+  color: @black;
+  background: @red;
+  border: 2.5pt solid @bg;
+  padding: 0 7pt;
+}
