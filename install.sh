@@ -143,7 +143,7 @@ install_deps() {
     echo ""
     echo "[1/6] Installing Hyprland and core packages..."
     sudo dnf install -y \
-        hyprland waybar mako rofi hyprpaper hyprlock hypridle hyprpolkitagent \
+        hyprland waybar mako rofi hyprpaper hyprlock hypridle lxpolkit \
         xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
         cliphist wl-clipboard \
         qt6-qtbase qt6ct gtk4 gtk3 nautilus \
