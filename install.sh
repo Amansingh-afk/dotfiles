@@ -271,11 +271,17 @@ stow_all() {
     # generated files that must not block stow
     rm -f ~/.config/gtk-3.0/bookmarks ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/settings.ini
     rm -f ~/.config/btop/btop.conf ~/.config/starship.toml
-    # files other tools wrote before we owned them
-    if [[ -f ~/.config/mimeapps.list && ! -L ~/.config/mimeapps.list ]]; then
-        mv ~/.config/mimeapps.list ~/.config/mimeapps.list.pre-dotfiles
-        echo "Moved old ~/.config/mimeapps.list to ~/.config/mimeapps.list.pre-dotfiles"
-    fi
+    # files other tools wrote before we owned them (stow refuses to overwrite real files)
+    local f
+    for f in ~/.config/mimeapps.list ~/.config/lazygit/config.yml ~/.config/yazi/theme.toml ~/.config/git/config; do
+        if [[ -f "$f" && ! -L "$f" ]]; then
+            if [[ -s "$f" ]]; then
+                mv "$f" "$f.pre-dotfiles"; echo "Moved old $f to $f.pre-dotfiles"
+            else
+                rm -f "$f"
+            fi
+        fi
+    done
     mkdir -p ~/.local/share/applications ~/.config/xdg-desktop-portal
     for package in "${PACKAGES[@]}"; do
         echo "Stowing $package..."
