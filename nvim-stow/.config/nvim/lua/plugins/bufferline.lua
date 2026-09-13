@@ -22,14 +22,6 @@ return {
           close_icon = ' ',
           left_trunc_marker = ' ',
           right_trunc_marker = ' ',
-          offsets = {
-            {
-              filetype = "NvimTree",
-              text = "File Explorer",
-              highlight = "Directory",
-              separator = true
-            }
-          },
         }
       })
     end,

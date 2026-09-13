@@ -218,7 +218,7 @@ install_deps() {
     echo ""
     echo "[3/6] Installing screenshot and media tools..."
     sudo dnf install -y \
-        grim slurp wf-recorder ImageMagick \
+        grim slurp wf-recorder hyprpicker ImageMagick \
         brightnessctl playerctl upower
 
     echo ""
