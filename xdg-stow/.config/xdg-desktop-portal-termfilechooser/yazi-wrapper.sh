@@ -11,8 +11,10 @@ if [[ "$save" == "1" ]]; then
   # nothing chosen -> remove the placeholder
   [[ -n "$created" && ! -s "$out" ]] && rm -f "$created"
 elif [[ "$directory" == "1" ]]; then
-  # Directory dialog: quit yazi (q) inside the wanted directory.
-  $termcmd yazi --cwd-file="$out" "${path:-$HOME}"
+  # Directory dialog: Enter on a directory, or quit yazi (q) inside it.
+  $termcmd yazi --chooser-file="$out" --cwd-file="$out.1" "${path:-$HOME}"
+  if [[ ! -s "$out" && -s "$out.1" ]]; then cat "$out.1" > "$out"; fi
+  rm -f "$out.1"
 else
   # Open dialog: Enter on a file (or select several with Space, then Enter).
   $termcmd yazi --chooser-file="$out" "${path:-$HOME}"

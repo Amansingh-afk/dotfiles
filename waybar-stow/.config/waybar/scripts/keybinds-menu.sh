@@ -20,7 +20,7 @@ rows=$(awk '
     printf "%-22s %s\t%s\t%s\n", combo, desc, disp, args
   }' "$conf")
 
-sel=$(printf '%s\n' "$rows" | cut -f1 | rofi -dmenu -i -p "keys" -config "$HOME/.config/rofi/power-menu.rasi" -theme-str 'window { width: 60%; } listview { lines: 18; }') || exit 0
+sel=$(printf '%s\n' "$rows" | cut -f1 | rofi -dmenu -i -p "keys" -config "$HOME/.config/rofi/menu.rasi") || exit 0
 [[ -z "$sel" ]] && exit 0
 line=$(printf '%s\n' "$rows" | grep -F -m1 "$sel")
 disp=$(printf '%s' "$line" | cut -f2); args=$(printf '%s' "$line" | cut -f3)
