@@ -14,3 +14,6 @@ wallpapers/current
 *~
 gtk3-stow/.config/gtk-3.0/settings.ini
 gtk4-stow/.config/gtk-4.0/settings.ini
+
+# zsh completion cache (written into ZDOTDIR)
+zsh-stow/.config/zsh/.zcompdump*
