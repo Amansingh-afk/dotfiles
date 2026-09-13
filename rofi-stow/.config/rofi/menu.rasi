@@ -1,0 +1,78 @@
+/**
+ * Generic list menu: keybinds (Super+/), cheat sheets (Super+Shift+/), clipboard (Super+Shift+V).
+ * Centered, wide, searchable, monospace so columns line up.
+ */
+configuration {
+    show-icons:                 false;
+    font:                       "JetBrainsMono Nerd Font 11";
+    hover-select:               true;
+    me-select-entry:            "";
+    me-accept-entry:            "MousePrimary";
+}
+@import "themes/current.rasi"
+window {
+    width:                      760px;
+    border:                     1px;
+    border-radius:              12px;
+    border-color:               @grey0;
+    background-color:           @bg0;
+    location:                   center;
+    anchor:                     center;
+}
+mainbox {
+    background-color:           transparent;
+    padding:                    12px;
+    spacing:                    8px;
+    children:                   [ inputbar, listview ];
+}
+inputbar {
+    background-color:           @bg1;
+    border-radius:              8px;
+    padding:                    8px 12px;
+    spacing:                    8px;
+    text-color:                 @fg0;
+    children:                   [ prompt, entry ];
+}
+prompt {
+    background-color:           transparent;
+    text-color:                 @yellow;
+}
+entry {
+    background-color:           transparent;
+    text-color:                 @fg0;
+    placeholder:                "type to filter";
+    placeholder-color:          @grey0;
+    cursor:                     text;
+}
+listview {
+    columns:                    1;
+    lines:                      14;
+    spacing:                    2px;
+    cycle:                      true;
+    dynamic:                    true;
+    scrollbar:                  false;
+    background-color:           transparent;
+}
+element {
+    padding:                    6px 10px;
+    cursor:                     pointer;
+    border-radius:              6px;
+    background-color:           transparent;
+    text-color:                 @fg0;
+}
+element-text {
+    cursor:                     inherit;
+    background-color:           transparent;
+    text-color:                 inherit;
+    horizontal-align:           0.0;
+    vertical-align:             0.5;
+}
+element selected.normal {
+    background-color:           @grey0;
+    text-color:                 @fg0;
+}
+element normal.normal, element alternate.normal {
+    background-color:           transparent;
+    text-color:                 @fg0;
+}
+@import "theme-overrides.rasi"
