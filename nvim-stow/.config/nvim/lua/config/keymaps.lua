@@ -37,9 +37,9 @@ wk.add({
   { "<leader>bX", "<Cmd>BufferLineCloseOthers<CR>", desc = "Close Other Buffers" },
 
   { "<leader>e", group = "Explorer" },
-  { "<leader>ee", ":NvimTreeToggle<CR>", desc = "Toggle Explorer" },
-  { "<leader>ef", ":NvimTreeFindFile<CR>", desc = "Find Current File" },
-  { "<leader>er", ":NvimTreeRefresh<CR>", desc = "Refresh Explorer" },
+  { "<leader>ee", "<cmd>Oil<CR>", desc = "Explore current file's directory" },
+  { "<leader>ef", function() require("oil").toggle_float() end, desc = "Explore in floating window" },
+  { "<leader>ec", function() require("oil").open(vim.fn.getcwd()) end, desc = "Explore project root (cwd)" },
 
   { "<leader>f", group = "Find" },
   { "<leader>ff", ":Telescope find_files<CR>", desc = "Find Files" },

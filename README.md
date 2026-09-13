@@ -101,7 +101,7 @@ Sheets live in `cheats-stow/.config/cheats/*.md`. Add a bind to `keybinds.conf` 
 
 **CLI:** zsh, oh-my-zsh, starship, fzf, zoxide, atuin, direnv, mise, eza, bat, fd, ripgrep, git-delta, dust, duf, tealdeer, jq, glow, chafa
 
-**Media/system:** grim, slurp, wf-recorder, ImageMagick, brightnessctl, playerctl, upower, pipewire, wireplumber
+**Media/system:** grim, slurp, wf-recorder, hyprpicker, ImageMagick, brightnessctl, playerctl, upower, pipewire, wireplumber
 
 **Dev:** git, stow, gcc, gcc-c++, make, cmake, golang, python3
 
@@ -147,7 +147,7 @@ One meaning per modifier. `Super+/` shows the full list, searchable, Enter runs 
 | `Super + Shift + key` | same app, alternate form | `Return` floating terminal, `E` floating yazi, `B` private browser, `N` bluetooth |
 | window verbs | | `Q` close, `F` fullscreen, `V` float, `X` center, `O` pin, `G` group, `Tab` cycle, `h/j/k/l` focus (+Shift move, +Ctrl resize), `S` stash |
 | workspaces | | `1-0` go (+Shift move), `[` `]` prev/next (+Shift move), `Esc` last |
-| `Super + Alt + key` | system, rare | `L` lock, `M` power menu, `R` reload, `T`/`B`/`W` theme/bar/wallpaper, `V` clipboard, `D` dismiss notifications |
+| `Super + Alt + key` | system, rare | `L` lock, `M` power menu, `R` reload, `T`/`B`/`W` theme/bar/wallpaper, `V` clipboard, `D` dismiss notifications, `C` colour picker, `Print` screen record |
 | help | | `Super+/` keybinds, `Super+Shift+/` cheat sheets |
 | `Print` | screenshots | `Print` region, `Shift+Print` full, `Ctrl+Print` window |
 

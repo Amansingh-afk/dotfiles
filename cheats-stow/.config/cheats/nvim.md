@@ -6,7 +6,7 @@ Leader is `Space`. Press `Space` and wait: which-key shows the groups.
 | Keys | Action |
 |---|---|
 | `Space f f` / `f g` / `f b` / `f r` / `f h` / `f z` | find files / grep / buffers / recent / help / zoxide dir |
-| `Space e e` / `e f` / `e r` | explorer toggle / reveal file / refresh |
+| `-` / `Space e e` / `e f` / `e c` | oil: parent dir / current dir / floating / project root. In oil: edit names, `dd` delete, `:w` apply, `-` up, `Enter` open, `Ctrl+v` vsplit, `g?` help |
 | `Space b n` / `b p` / `b d` / `b x` / `b X` | buffer next / prev / delete / pick close / close others |
 | `Space w s` / `w v` / `w c` / `w n` / `w =` | split / vsplit / close / next / equalize |
 | `Space t t` / `t g` / `t n` / `t p` | terminal / lazygit / node / python |

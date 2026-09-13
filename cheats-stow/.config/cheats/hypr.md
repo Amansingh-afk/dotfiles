@@ -66,6 +66,8 @@ Scratchpads (dropdown, mixer, network, bluetooth, btop) keep running while hidde
 | `Super+Alt+V` | clipboard history |
 | `Super+Alt+D` | dismiss all notifications |
 | `Super+Alt+S` | toggle split direction |
+| `Super+Alt+C` | colour picker, hex to clipboard |
+| `Super+Alt+Print` / `Super+Alt+Shift+Print` | screen record region / full, same key stops, saved to `~/Videos/Recordings` |
 
 ## Media and screenshots
 Volume, mute, mic, play, next, brightness keys work, also on the lock screen.
