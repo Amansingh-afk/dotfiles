@@ -22,7 +22,6 @@ font=JetBrainsMono Nerd Font 11
 # Icons
 icons=1
 max-icon-size=48
-icon-path=/usr/share/icons/Papirus-Dark
 
 # Urgency levels
 # Urgency and application specific moved to theme

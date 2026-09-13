@@ -66,14 +66,14 @@ chsh -s $(which zsh)
 ### `./install.sh deps` installs:
 
 **Hyprland & Wayland:**
-- hyprland, waybar, mako, rofi, wofi, hyprpaper, hyprlock
-- cliphist, wl-clipboard, polkit-gnome
+- hyprland, waybar, mako, rofi, hyprpaper, hyprlock, hypridle, hyprpolkitagent
+- xdg-desktop-portal-hyprland, xdg-desktop-portal-gtk, cliphist, wl-clipboard
 
 **Apps:**
 - alacritty, neovim, tmux, lazygit, cava, yazi, nautilus
 
 **Zsh:**
-- zsh, oh-my-zsh, powerlevel10k
+- zsh, oh-my-zsh, starship
 - zsh-autosuggestions, zsh-syntax-highlighting, zsh-history-substring-search
 - fzf, zoxide
 
@@ -85,7 +85,7 @@ chsh -s $(which zsh)
 - git, stow, gcc, make, cmake, nodejs, npm, python3
 
 **Fonts:**
-- fontawesome-fonts, powerline-fonts, google-noto-fonts
+- google-noto-fonts, jetbrains-mono-fonts, rsms-inter-fonts, JetBrainsMono Nerd Font, VT323
 
 ### `./install.sh install` configures:
 
@@ -96,14 +96,13 @@ chsh -s $(which zsh)
 | `fontconfig-stow` | Font rendering |
 | `gtk3-stow` | GTK3 theme settings |
 | `gtk4-stow` | GTK4 theme settings |
-| `hypr-stow` | Hyprland, hyprpaper, hyprlock |
-| `lazygit-stow` | Git TUI |
+| `hypr-stow` | Hyprland, hyprpaper, hyprlock, hypridle |
 | `mako-stow` | Notification daemon |
 | `nvim-stow` | Neovim config |
 | `rofi-stow` | App launcher |
 | `tmux-stow` | Terminal multiplexer |
 | `waybar-stow` | Status bar |
-| `zsh-stow` | Zsh config, aliases, p10k |
+| `zsh-stow` | `~/.zshenv` (sets `ZDOTDIR`), zsh config, aliases |
 
 ## Themes
 
@@ -121,7 +120,7 @@ Reload after switching:
 hyprctl reload
 killall waybar && waybar &
 makoctl reload
-source ~/.zshrc
+exec zsh
 ```
 
 ### Waybar layouts
@@ -183,7 +182,9 @@ to `default`.
 | `Super + Shift + T` | Appearance switcher (Themes tab) |
 | `Super + Shift + B` | Appearance switcher (Bar layout tab) |
 | `Super + Shift + W` | Appearance switcher (Wallpapers tab) |
-| `Print` | Screenshot (region) |
+| `Super + Alt + L` | Lock screen (hyprlock) |
+| `Print` | Screenshot (full, saved + clipboard) |
+| `Super + Print` | Screenshot (region, saved + clipboard) |
 
 ## Zsh Aliases
 
@@ -196,7 +197,27 @@ tmn <name>  # tmux new -s <name>
 j <dir>     # zoxide jump
 godmode     # Custom tmux layout
 please      # sudo last command
+y           # yazi, cd to the dir you quit in
 ```
+
+### How zsh is wired
+
+`zsh-stow` stows `~/.zshenv`, which sets `ZDOTDIR=~/.config/zsh`, so zsh loads the
+repo's `~/.config/zsh/.zshrc` and never reads `~/.zshrc`. `install.sh` moves any
+existing `~/.zshrc` to `~/.zshrc.pre-dotfiles`.
+
+Machine-specific config and secrets (API tokens, one-off aliases) go in
+`~/.zshrc.local` (mode 600, created empty by `install.sh`, sourced last). Never put
+them in the repo.
+
+nvm and conda are lazy-loaded: the default node and the conda base env are on
+`PATH` immediately, the tools themselves load on first `nvm` / `conda` call.
+
+### Idle and lock
+
+`hypridle` (started by Hyprland) dims the screen at 4 min, locks at 5, turns the
+screen off at 10 and suspends at 30. Lock manually with `Super + Alt + L` or the
+power menu. Config: `hypr-stow/.config/hypr/hypridle.conf`.
 
 ## Troubleshooting
 
@@ -228,23 +249,19 @@ mkdir -p ~/.local/share/fonts
 fc-cache -fv
 ```
 
-### Powerlevel10k not working
+### Starship prompt not showing
 ```bash
-# Ensure it's installed
-ls ~/.local/share/powerlevel10k/
-
-# If missing, install:
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.local/share/powerlevel10k
-
-# Reconfigure (optional)
-p10k configure
+# Install starship (deps does this)
+curl -sS https://starship.rs/install.sh | sh
+# Make sure ZDOTDIR is set: should print /home/<you>/.config/zsh
+zsh -c 'echo $ZDOTDIR'
 ```
 
 ### Zsh aliases not working
 ```bash
-# Re-run install to add config to .zshrc
-./install.sh install
-source ~/.zshrc
+# Re-stow so ~/.zshenv exists, then open a new shell
+./install.sh restow
+exec zsh
 ```
 
 ### Fix hardcoded paths (if cloned from someone else)
@@ -271,16 +288,26 @@ dotfiles/
 ├── install.sh           # Main installation script
 ├── README.md
 ├── wallpapers/          # Wallpaper images
-│   └── current -> ...   # Symlink to active wallpaper
+│   └── current -> ...   # Symlink to active wallpaper (gitignored)
 ├── alacritty-stow/
 │   └── .config/alacritty/
 ├── hypr-stow/
 │   └── .config/hypr/
 │       ├── hyprland.conf
+│       ├── hypridle.conf
+│       ├── hyprlock.conf
 │       ├── keybinds.conf
 │       ├── windowrules.conf
 │       └── themes/
+├── zsh-stow/
+│   ├── .zshenv          # sets ZDOTDIR
+│   └── .config/zsh/
 └── ... (other *-stow packages)
+
+Generated files (`waybar/config`, `waybar/style.css`, `gtk-*/gtk.css`,
+`rofi/theme-overrides.rasi`, `zsh/dotfiles-theme.env`, `gtk-3.0/bookmarks`,
+`gtk-*/settings.ini`) are
+written by `install.sh` / the switcher scripts and are gitignored.
 ```
 
 ## Requirements

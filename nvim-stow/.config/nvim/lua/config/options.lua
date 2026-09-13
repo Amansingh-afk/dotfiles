@@ -22,12 +22,6 @@ opt.hlsearch = true
 
 -- Appearance
 opt.termguicolors = true
-local theme = os.getenv("DOTFILES_THEME") or "gruvbox"
-if theme == "platinum" then
-  opt.background = "light"
-else
-  opt.background = "dark"
-end
 opt.signcolumn = "yes"
 opt.scrolloff = 8
 opt.updatetime = 250
@@ -51,7 +45,6 @@ opt.iskeyword:append("-")
 opt.swapfile = false
 
 -- Performance
-opt.lazyredraw = true
 opt.synmaxcol = 240
 
 -- Backup
@@ -73,12 +66,11 @@ opt.shortmess:append("c")
 vim.diagnostic.config({
   virtual_text = true,
   signs = {
-    active = true,
-    values = {
-      { name = "DiagnosticSignError", text = " " },
-      { name = "DiagnosticSignWarn", text = " " },
-      { name = "DiagnosticSignHint", text = " " },
-      { name = "DiagnosticSignInfo", text = " " },
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN] = " ",
+      [vim.diagnostic.severity.HINT] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
     },
   },
   underline = true,
