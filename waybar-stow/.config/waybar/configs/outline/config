@@ -85,7 +85,7 @@
     "format": "<span color='#e78a4e'>  </span>{usage}% ",
     "tooltip": false,
     "interval": 1,
-    "on-click-right": "alacritty -e btop"
+    "on-click-right": "pypr toggle btop"
   },
   "custom/cpu_temp": {
     "exec": "~/.config/waybar/scripts/ss-cpu-temp.sh flat",
@@ -113,7 +113,7 @@
     "format-bluetooth-muted": "<span color='#ea6962'> 󰂲 </span>{volume}% ",
     "format-source": "{volume}% ",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "on-click-right": "pavucontrol",
+    "on-click-right": "pypr toggle mixer",
     "tooltip": false,
     "max-volume": 130
   },

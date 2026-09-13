@@ -75,9 +75,11 @@
         "tooltip-format-ethernet": "Interface: {ifname}\nIP: {ipaddr}",
         "tooltip-format-disconnected": "Disconnected",
         "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+    "on-click-right": "pypr toggle net",
         "interval": 5
     },
     "bluetooth": {
+        "on-click": "pypr toggle bt",
         "format-on": "BT",
         "format-off": "BT-off",
         "format-disabled": "BT-off",
@@ -135,8 +137,7 @@
     "pulseaudio": {
         "format": "VOL",
         "format-muted": "MUTE",
-        "on-click": "pavucontrol",
-        "on-click-right": "pavucontrol",
+        "on-click": "pypr toggle mixer",
         "scroll-step": 5,
         "tooltip": true,
         "tooltip-format": "{volume}%",

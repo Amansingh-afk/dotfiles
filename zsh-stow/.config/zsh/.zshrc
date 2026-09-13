@@ -25,27 +25,17 @@ export LANG=en_US.UTF-8
 export PATH="$HOME/.local/bin:$PATH"
 [[ -f "$ZDOTDIR/dotfiles-theme.env" ]] && source "$ZDOTDIR/dotfiles-theme.env"
 
-# --- Toolchains (lazy where they are slow) ---
-# nvm: put the default node on PATH directly, load nvm itself only on first `nvm` call.
-export NVM_DIR="$HOME/.nvm"
-if [[ -r "$NVM_DIR/alias/default" ]]; then
-  _nvm_default=("$NVM_DIR"/versions/node/v${$(<"$NVM_DIR/alias/default")#v}*/bin(N[-1]))
-  [[ -n "$_nvm_default" ]] && export PATH="$_nvm_default:$PATH"
-  unset _nvm_default
-fi
-nvm() { unset -f nvm; source "$NVM_DIR/nvm.sh"; nvm "$@"; }
+# --- Toolchains ---
+export PATH="$HOME/go/bin:$PATH"
+export TERMINAL=kitty
+export MANPAGER='nvim +Man!'
 
-# conda: base env on PATH, hook loaded on first `conda` call.
+# mise: node / bun / python versions (global: ~/.config/mise/config.toml, per project: .mise.toml or .nvmrc)
+command -v mise &>/dev/null && eval "$(mise activate zsh)"
+
+# conda: only for conda envs (e.g. iitb-aids). Base is NOT on PATH; hook loads on first `conda` call.
 if [[ -d "$HOME/miniconda3" ]]; then
-  export PATH="$HOME/miniconda3/bin:$PATH"
   conda() { unset -f conda; eval "$("$HOME/miniconda3/bin/conda" shell.zsh hook)"; conda "$@"; }
-fi
-
-# bun
-if [[ -d "$HOME/.bun" ]]; then
-  export BUN_INSTALL="$HOME/.bun"
-  export PATH="$BUN_INSTALL/bin:$PATH"
-  [[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
 fi
 
 # nix
@@ -77,6 +67,10 @@ source "$ZDOTDIR/keybindings.zsh"
 source "$ZDOTDIR/theme.zsh"
 source "$ZDOTDIR/functions.zsh"
 source "$ZDOTDIR/aliases.zsh"
+
+# --- Shell history + per-directory env (after plugins so their keybinds win) ---
+command -v atuin &>/dev/null && eval "$(atuin init zsh)"
+command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
 
 # --- Machine-local overrides and secrets (not in the repo) ---
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

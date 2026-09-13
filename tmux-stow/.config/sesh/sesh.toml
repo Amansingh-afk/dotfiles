@@ -1,0 +1,17 @@
+# sesh: tmux session picker. Lists these + zoxide dirs + running tmux sessions.
+# Shell: `s`     tmux: prefix + T
+[default_session]
+startup_command = "clear"
+
+[[session]]
+name = "dotfiles"
+path = "~/realm/builds/dotfiles"
+startup_command = "lazygit"
+
+[[session]]
+name = "realm"
+path = "~/realm"
+
+[[session]]
+name = "home"
+path = "~"

@@ -18,7 +18,7 @@ WB="$HOME/.config/waybar"
 LAYOUT_SWITCHER="$WB/scripts/waybar-layout.sh"
 WB_THEMES="$WB/themes"
 WB_CONFIGS="$WB/configs"
-ALACRITTY_THEMES="$HOME/.config/alacritty/themes"
+KITTY_THEMES="$HOME/.config/kitty/themes"
 RASI="$HOME/.config/rofi/appearance.rasi"
 CACHE="$HOME/.cache/appearance-switcher"
 FONT="JetBrainsMono-NF-Bold"
@@ -42,22 +42,18 @@ current_wall()   { [[ -L "$CURRENT_WALL_LINK" ]] && readlink -f "$CURRENT_WALL_L
 
 # ─────────────────────────────────────── preview cards ─────────────────────────────────────────
 
-# TOML value from alacritty theme: toml_get <file> <section> <key>
-toml_get() {
-  awk -v sec="[$2]" -v key="$3" '
-    /^\[/ { insec = ($0 == sec) }
-    insec && $1 == key { v = $3; gsub(/["'"'"']/, "", v); print v; exit }' "$1"
-}
+# Value from a kitty theme file: kitty_get <file> <key>
+kitty_get() { awk -v key="$2" '$1 == key { print $2; exit }' "$1"; }
 
-# Theme card: terminal mockup + palette swatches, from the alacritty theme file.
+# Theme card: terminal mockup + palette swatches, from the kitty theme file.
 gen_theme_card() {
-  local theme="$1" out="$2" toml="$ALACRITTY_THEMES/$1.toml"
-  local bg fg c b i x
-  bg=$(toml_get "$toml" colors.primary background); fg=$(toml_get "$toml" colors.primary foreground)
+  local theme="$1" out="$2" conf="$KITTY_THEMES/$1.conf"
+  local bg fg i x
+  bg=$(kitty_get "$conf" background); fg=$(kitty_get "$conf" foreground)
   [[ -z "$bg" || -z "$fg" ]] && { bg="#282828"; fg="#ebdbb2"; }
   local -a n=() br=()
-  for c in red green yellow blue magenta cyan; do
-    n+=("$(toml_get "$toml" colors.normal $c)"); br+=("$(toml_get "$toml" colors.bright $c)")
+  for i in 1 2 3 4 5 6; do
+    n+=("$(kitty_get "$conf" color$i)"); br+=("$(kitty_get "$conf" color$((i+8)))")
   done
   local -a a=(-size 500x500 "xc:$bg")
   # terminal window
@@ -153,7 +149,7 @@ ensure_previews() {
   local t l w out first=1
   for t in $(list_themes); do
     out="$CACHE/themes/$t.png"
-    if stale "$out" "$ALACRITTY_THEMES/$t.toml" || stale "$out" "$SELF"; then gen_theme_card "$t" "$out"; fi
+    if stale "$out" "$KITTY_THEMES/$t.conf" || stale "$out" "$SELF"; then gen_theme_card "$t" "$out"; fi
   done
   for l in $(list_layouts); do
     out="$CACHE/layouts/$l.png"
@@ -176,7 +172,7 @@ ensure_previews() {
 # to the background with all fds closed so rofi is not blocked.
 apply_theme() {
   local theme="$1"
-  ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml 2>/dev/null || true
+  ln -sfn ~/.config/kitty/themes/${theme}.conf ~/.config/kitty/themes/current.conf 2>/dev/null || true
   ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi 2>/dev/null || true
   ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css 2>/dev/null || true
   ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf 2>/dev/null || true
@@ -187,7 +183,7 @@ apply_theme() {
   "$LAYOUT_SWITCHER" apply-for-theme "$theme" --no-restart >/dev/null 2>&1
   (
     pkill -x waybar; sleep 0.3; setsid -f waybar
-    if pgrep -x nautilus >/dev/null; then nautilus -q; setsid -f nautilus --gapplication-service; fi
+    pkill -USR1 -x kitty   # running kitties reload their config
     makoctl reload
     notify-send "󰏘 Theme" "$theme" -t 2000
   ) >/dev/null 2>&1 </dev/null &
@@ -242,7 +238,7 @@ header() {  # header <menu> <prompt> [message]
 menu_themes() {
   local cur t
   cur=$(current_theme)
-  header themes "󰏘  Themes" "<span alpha='70%'>Colour theme · applies to alacritty, rofi, waybar, hyprland, mako, gtk, nvim, zsh · current: <b>$cur</b></span>"
+  header themes "󰏘  Themes" "<span alpha='70%'>Colour theme · applies to kitty, rofi, waybar, hyprland, mako, gtk, nvim, zsh · current: <b>$cur</b></span>"
   for t in $(list_themes); do
     if [[ "$t" == "$cur" ]]; then row "󰸞  $t" "$CACHE/themes/$t.png" "theme:$t" true
     else row "$t" "$CACHE/themes/$t.png" "theme:$t"; fi
