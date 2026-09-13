@@ -2,29 +2,29 @@
 # Gruvbox powerline — two-line, informative, screenshot-worthy
 
 format = """
-[](fg:#458588)\
+[](fg:blue)\
 $os\
-[](bg:#98971a fg:#458588)\
+[](bg:green fg:blue)\
 $directory\
-[](fg:#98971a bg:#d79921)\
+[](fg:green bg:yellow)\
 $git_branch\
 $git_status\
-[](fg:#d79921 bg:#689d6a)\
+[](fg:yellow bg:aqua)\
 $conda\
 $python\
 $nodejs\
 $rust\
 $golang\
-[](fg:#689d6a)\
+[](fg:aqua)\
 $fill\
 $status\
 $cmd_duration\
 [ ]()\
-[](fg:#b16286)\
+[](fg:purple)\
 $username\
-[](bg:#458588 fg:#b16286)\
+[](bg:blue fg:purple)\
 $time\
-[](fg:#458588)\
+[](fg:blue)\
 $line_break\
 $character"""
 
@@ -32,6 +32,8 @@ right_format = ""
 
 add_newline = true
 
+# Active palette. install.sh / theme-apply.sh generate ~/.config/starship/current.toml with this
+# line swapped to the current theme; STARSHIP_CONFIG points there (zsh theme.zsh).
 palette = "gruvbox"
 
 [palettes.gruvbox]
@@ -45,11 +47,55 @@ purple = "#b16286"
 aqua = "#689d6a"
 orange = "#d65d0e"
 
+[palettes.monochrome]
+fg = "#e6e6e6"
+bg = "#121212"
+red = "#9a9a9a"
+green = "#9e9e9e"
+yellow = "#b3b3b3"
+blue = "#a0a0a0"
+purple = "#ababab"
+aqua = "#a6a6a6"
+orange = "#b0b0b0"
+
+[palettes.catppuccin-mocha]
+fg = "#cdd6f4"
+bg = "#1e1e2e"
+red = "#f38ba8"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+blue = "#89b4fa"
+purple = "#cba6f7"
+aqua = "#94e2d5"
+orange = "#fab387"
+
+[palettes.bsod]
+fg = "#FFFFFF"
+bg = "#0000AA"
+red = "#FF5555"
+green = "#55FF55"
+yellow = "#FFFF55"
+blue = "#5555FF"
+purple = "#FF55FF"
+aqua = "#55FFFF"
+orange = "#AA5500"
+
+[palettes.platinum]
+fg = "#FFFFFF"
+bg = "#DCDCDC"
+red = "#990000"
+green = "#006600"
+yellow = "#666600"
+blue = "#000099"
+purple = "#660066"
+aqua = "#006666"
+orange = "#884400"
+
 # ── Left side ─────────────────────────────────────────
 
 [os]
 disabled = false
-style = "bg:#458588 fg:#ebdbb2 bold"
+style = "bg:blue fg:fg bold"
 format = "[ $symbol ]($style)"
 
 [os.symbols]
@@ -60,7 +106,7 @@ Ubuntu = ""
 Arch = ""
 
 [directory]
-style = "bg:#98971a fg:#282828 bold"
+style = "bg:green fg:bg bold"
 format = "[  $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -75,11 +121,11 @@ read_only = " 󰌾"
 
 [git_branch]
 symbol = ""
-style = "bg:#d79921 fg:#282828 bold"
+style = "bg:yellow fg:bg bold"
 format = "[ $symbol $branch ]($style)"
 
 [git_status]
-style = "bg:#d79921 fg:#282828 bold"
+style = "bg:yellow fg:bg bold"
 format = "[$all_status$ahead_behind]($style)"
 ahead = " ⇡${count}"
 behind = " ⇣${count}"
@@ -93,29 +139,29 @@ conflicted = " =${count}"
 
 [conda]
 symbol = " "
-style = "bg:#689d6a fg:#282828 bold"
+style = "bg:aqua fg:bg bold"
 format = "[ $symbol$environment ]($style)"
 ignore_base = false
 
 [python]
 symbol = " "
-style = "bg:#689d6a fg:#282828 bold"
+style = "bg:aqua fg:bg bold"
 format = "[ $symbol$version( \\($virtualenv\\)) ]($style)"
 detect_extensions = []
 
 [nodejs]
 symbol = " "
-style = "bg:#689d6a fg:#282828 bold"
+style = "bg:aqua fg:bg bold"
 format = "[ $symbol$version ]($style)"
 
 [rust]
 symbol = " "
-style = "bg:#689d6a fg:#282828 bold"
+style = "bg:aqua fg:bg bold"
 format = "[ $symbol$version ]($style)"
 
 [golang]
 symbol = " "
-style = "bg:#689d6a fg:#282828 bold"
+style = "bg:aqua fg:bg bold"
 format = "[ $symbol$version ]($style)"
 
 # ── Right side (on line 1) ────────────────────────────
@@ -137,14 +183,14 @@ show_milliseconds = false
 
 [username]
 show_always = true
-style_user = "bg:#b16286 fg:#282828 bold"
-style_root = "bg:#cc241d fg:#282828 bold"
+style_user = "bg:purple fg:bg bold"
+style_root = "bg:red fg:bg bold"
 format = "[ 󰀄 $user ]($style)"
 
 [time]
 disabled = false
 time_format = "%H:%M"
-style = "bg:#458588 fg:#ebdbb2 bold"
+style = "bg:blue fg:fg bold"
 format = "[  $time ]($style)"
 
 # ── Line 2: input ─────────────────────────────────────
