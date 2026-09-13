@@ -78,14 +78,14 @@ chsh -s $(which zsh)
 - fzf, zoxide
 
 **Utils:**
-- grim, slurp (screenshots), pamixer, brightnessctl, playerctl
+- grim, slurp (screenshots), brightnessctl, playerctl
 - pipewire, pavucontrol, blueman
 
 **Dev tools:**
 - git, stow, gcc, make, cmake, nodejs, npm, python3
 
 **Fonts:**
-- google-noto-fonts, jetbrains-mono-fonts, rsms-inter-fonts, JetBrainsMono Nerd Font, VT323
+- google-noto-{sans,serif,color-emoji}-fonts, jetbrains-mono-fonts, rsms-inter-fonts, JetBrainsMono Nerd Font, VT323
 
 ### `./install.sh install` configures:
 

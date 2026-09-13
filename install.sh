@@ -152,7 +152,7 @@ install_deps() {
 
     echo ""
     echo "[2/6] Installing fonts..."
-    sudo dnf install -y google-noto-fonts jetbrains-mono-fonts-all rsms-inter-fonts
+    sudo dnf install -y google-noto-sans-fonts google-noto-serif-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts-all rsms-inter-fonts
     install_nerd_font
     install_vt323_font
 
@@ -160,7 +160,7 @@ install_deps() {
     echo "[3/6] Installing screenshot and media tools..."
     sudo dnf install -y \
         grim slurp wf-recorder ImageMagick \
-        pamixer brightnessctl playerctl upower
+        brightnessctl playerctl upower
 
     echo ""
     echo "[4/6] Installing audio packages..."
@@ -171,7 +171,7 @@ install_deps() {
     echo ""
     echo "[5/6] Installing development tools..."
     sudo dnf install -y \
-        gcc g++ make cmake nodejs npm python3 python3-pip \
+        gcc gcc-c++ make cmake nodejs nodejs-npm python3 python3-pip \
         fzf zoxide yazi
 
     echo ""

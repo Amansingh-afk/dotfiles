@@ -56,8 +56,9 @@ fi
 [[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]] && source "$HOME/google-cloud-sdk/completion.zsh.inc"
 
 # --- ssh key (agent is the systemd user socket, see ~/.zshenv) ---
-if [[ -f ~/.ssh/id_ed25519_vamaship ]] && ! ssh-add -l 2>/dev/null | grep -q id_ed25519_vamaship; then
-  ssh-add -q ~/.ssh/id_ed25519_vamaship 2>/dev/null
+# Load the default key once per login; prompts for the passphrase only until it is added.
+if [[ -f ~/.ssh/id_ed25519 ]] && ! ssh-add -l >/dev/null 2>&1; then
+  ssh-add -q ~/.ssh/id_ed25519 2>/dev/null
 fi
 
 # --- Fzf theme (switchable) ---
