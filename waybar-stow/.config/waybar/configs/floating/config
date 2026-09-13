@@ -36,8 +36,9 @@
     "tooltip": false
   },
   "hyprland/workspaces": {
-    "show-special": false,
-    "ignore-workspaces": ["special", "S-"],
+    "show-special": true,
+    "special-visible-only": true,
+    "ignore-workspaces": ["special:.*", "S-.*"],
     "format": "{icon}",
     "format-icons": {
       "1": "<span>󰧨</span>",
