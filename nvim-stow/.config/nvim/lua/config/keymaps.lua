@@ -75,7 +75,7 @@ keymap.set("n", "N", "Nzzzv", opts)
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 
-keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
-keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Previous diagnostic" })
+keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next diagnostic" })
 
 keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = "LSP References" })
