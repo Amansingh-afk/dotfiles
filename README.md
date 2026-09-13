@@ -66,7 +66,7 @@ chsh -s $(which zsh)
 ### `./install.sh deps` installs:
 
 **Hyprland & Wayland:**
-- hyprland, waybar, mako, rofi, hyprpaper, hyprlock, hypridle, hyprpolkitagent
+- hyprland, waybar, mako, rofi, hyprpaper, hyprlock, hypridle, lxpolkit (polkit agent)
 - xdg-desktop-portal-hyprland, xdg-desktop-portal-gtk, cliphist, wl-clipboard
 
 **Apps:**
