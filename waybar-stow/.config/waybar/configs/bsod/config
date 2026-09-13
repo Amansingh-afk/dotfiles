@@ -7,6 +7,8 @@
     "modules-right": ["custom/appearance","group/expand","tray","bluetooth","network","custom/battery","clock","custom/power"],
 
     "hyprland/workspaces": {
+        "show-special": false,
+        "ignore-workspaces": ["special", "S-"],
         "format": "{name}",
         "persistent-workspaces": {
             "*": [ 1,2,3,4,5 ]

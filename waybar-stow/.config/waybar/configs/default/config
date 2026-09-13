@@ -9,6 +9,8 @@
 
 
     "hyprland/workspaces": {
+        "show-special": false,
+        "ignore-workspaces": ["special", "S-"],
         "format": "{icon}",
         "format-icons": {
             "active": "󱓻󱓻󱓻󱓻󱓻",

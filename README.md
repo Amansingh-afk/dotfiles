@@ -133,31 +133,25 @@ Removed by `deps` if present: alacritty, nautilus, pavucontrol, blueman, wofi.
 
 ## Themes
 
-Available: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`. `Super+Shift+T` switches live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh). From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
+Available: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`. `Super+Alt+T` switches live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh). From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
 
-Waybar layouts (`default`, `outline`, `floating`, `bsod`, `platinum`) are independent of the colour theme: `Super+Shift+B`. Wallpapers: `Super+Shift+W`.
+Waybar layouts (`default`, `outline`, `floating`, `bsod`, `platinum`) are independent of the colour theme: `Super+Alt+B`. Wallpapers: `Super+Alt+W`.
 
 ## Key bindings
 
-Full list: `Super+/`. The ones to know:
+One meaning per modifier. `Super+/` shows the full list, searchable, Enter runs it.
 
-| Shortcut | Action |
-|----------|--------|
-| `Super + Return` | Terminal |
-| `Super + `` ` | Dropdown terminal |
-| `Super + Space` | App launcher |
-| `Super + E` / `C` / `B` | yazi / neovim / browser |
-| `Super + A` / `N` / `Shift+N` / `I` | mixer / network / bluetooth / btop |
-| `Super + Q` | Close window |
-| `Super + F` / `V` | Fullscreen / floating |
-| `Super + h/j/k/l` (+Shift move, +Ctrl resize) | Windows |
-| `Super + 1-0` (+Shift move) | Workspaces |
-| `Super + S` | Special workspace |
-| `Super + Shift + V` / `Super + .` | Clipboard history / emoji |
-| `Super + Shift + T` / `B` / `W` | Theme / bar / wallpaper |
-| `Super + Alt + L` | Lock |
-| `Super + /` / `Super + Shift + /` | Keybinds / cheat sheets |
-| `Print` / `Super + Print` | Screenshot full / region |
+| Layer | Meaning | Examples |
+|---|---|---|
+| `Super + key` | launch or toggle an app | `Return` terminal, `` ` `` dropdown, `Space` launcher, `E` yazi, `C` nvim, `B` browser, `A` mixer, `N` network, `I` btop, `.` emoji |
+| `Super + Shift + key` | same app, alternate form | `Return` floating terminal, `E` floating yazi, `B` private browser, `N` bluetooth |
+| window verbs | | `Q` close, `F` fullscreen, `V` float, `X` center, `O` pin, `G` group, `Tab` cycle, `h/j/k/l` focus (+Shift move, +Ctrl resize), `S` stash |
+| workspaces | | `1-0` go (+Shift move), `[` `]` prev/next (+Shift move), `Esc` last |
+| `Super + Alt + key` | system, rare | `L` lock, `M` power menu, `R` reload, `T`/`B`/`W` theme/bar/wallpaper, `V` clipboard, `D` dismiss notifications |
+| help | | `Super+/` keybinds, `Super+Shift+/` cheat sheets |
+| `Print` | screenshots | `Print` region, `Shift+Print` full, `Ctrl+Print` window |
+
+Add a bind to `keybinds.conf` with a trailing `# comment` and it appears in `Super+/` with that description.
 
 ## How zsh is wired
 
@@ -169,7 +163,7 @@ Versions come from mise (`~/.config/mise/config.toml`, per project `.mise.toml` 
 
 ## Idle and lock
 
-hypridle dims at 4 min, locks at 5, screen off at 10, suspends at 30. `Super+Alt+L` locks now.
+hypridle dims at 4 min, locks at 5, screen off at 10, suspends at 30. `Super+Alt+L` locks now. `Super+Alt+M` is the power menu.
 
 ## Troubleshooting
 

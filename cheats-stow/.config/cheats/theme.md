@@ -5,9 +5,9 @@ Themes: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum
 ## Switch
 | How | What |
 |---|---|
-| `Super+Shift+T` | theme cards (rofi) |
-| `Super+Shift+B` | waybar layout cards |
-| `Super+Shift+W` | wallpaper cards (plus Random) |
+| `Super+Alt+T` | theme cards (rofi) |
+| `Super+Alt+B` | waybar layout cards |
+| `Super+Alt+W` | wallpaper cards (plus Random) |
 | `./install.sh restow --monochrome` | from terminal, also re-links everything |
 | `~/.config/waybar/scripts/waybar-layout.sh floating` | layout only |
 
