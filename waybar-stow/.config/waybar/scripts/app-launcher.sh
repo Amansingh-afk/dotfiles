@@ -14,7 +14,7 @@ rofi -show drun \
     -drun-display-format "{name}" \
     -drun-match-fields name,generic,categories \
     -no-drun-show-actions \
-    -terminal alacritty \
+    -terminal kitty \
     -sort \
     -sorting-method fzf \
     -matching fuzzy \

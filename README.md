@@ -35,189 +35,141 @@ Dotfiles managed with GNU Stow, optimized for Hyprland on Fedora.
 ## Quick Start (New Machine)
 
 ```bash
-# Clone the repo
 mkdir -p ~/realm/builds && cd ~/realm/builds
 git clone <your-repo-url> dotfiles
 cd dotfiles
 
-# Install everything
-./install.sh deps      # Install all dependencies (requires sudo)
-./install.sh install   # Install dotfiles
-
-# Set zsh as default shell
+./install.sh deps      # dnf packages, removes replaced GUI apps, builds the extras (sudo)
+./install.sh install   # stow dotfiles, set theme, wire zsh/mime/portals
 chsh -s $(which zsh)
-
-# Log out and log back in, then select Hyprland at login screen
+# Log out, pick Hyprland at the login screen
 ```
 
 ## Commands
 
 ```bash
-./install.sh deps              # Install system dependencies
-./install.sh install           # Install dotfiles (default: gruvbox theme)
-./install.sh install --monochrome      # Install with monochrome theme
-./install.sh install --catppuccin-mocha # Install with catppuccin theme
-./install.sh uninstall         # Remove dotfiles
-./install.sh restow            # Reinstall (useful after pulling updates)
+./install.sh deps                  # system dependencies + extras
+./install.sh extras                # only the non-dnf tools (mise, sesh, lazydocker, bluetuith, pyprland, termfilechooser)
+./install.sh install [--theme]     # install dotfiles (default: gruvbox)
+./install.sh restow  [--theme]     # reinstall / switch theme (after pulling updates)
+./install.sh uninstall             # remove the symlinks
 ```
 
-## What Gets Installed
+Themes: `--gruvbox` `--monochrome` `--catppuccin-mocha` `--bsod` `--platinum`
 
-### `./install.sh deps` installs:
+## Terminal first
 
-**Hyprland & Wayland:**
-- hyprland, waybar, mako, rofi, hyprpaper, hyprlock, hypridle, lxpolkit (polkit agent)
-- xdg-desktop-portal-hyprland, xdg-desktop-portal-gtk, cliphist, wl-clipboard
+Everything day-to-day runs in kitty. GUI is the browser, the lock screen and the bar.
 
-**Apps:**
-- alacritty, neovim, tmux, lazygit, cava, yazi, nautilus
+| Need | Tool | Open |
+|---|---|---|
+| terminal | kitty | `Super+Return`, `Super+`` ` dropdown, `Super+Shift+Return` floating |
+| files | yazi | `Super+E`, `y` in a shell |
+| editor | neovim | `Super+C`, `nvim` |
+| sessions | tmux + sesh | `s` in a shell, `prefix T` |
+| audio | wiremix | `Super+A` |
+| network / bluetooth | nmtui / bluetuith | `Super+N` / `Super+Shift+N` |
+| system | btop | `Super+I` |
+| git / docker | lazygit / lazydocker | `lg` / `ld` |
+| pdf / video / images | zathura / mpv / swayimg | `xdg-open`, yazi `Enter` |
+| versions | mise | node, bun, python |
+| history / env | atuin / direnv | `Ctrl+r` / `.envrc` |
+| ls cat du df find grep | eza bat dust duf fd ripgrep | aliased |
+| file dialogs | yazi (termfilechooser portal) | browser uploads open yazi |
 
-**Zsh:**
-- zsh, oh-my-zsh, starship
-- zsh-autosuggestions, zsh-syntax-highlighting, zsh-history-substring-search
-- fzf, zoxide
+Scratchpads (dropdown terminal, mixer, network, bluetooth, btop) are pyprland: one key shows, same key hides, the app keeps running.
 
-**Utils:**
-- grim, slurp (screenshots), brightnessctl, playerctl
-- pipewire, pavucontrol, blueman
+## Helpers, so you never have to remember
 
-**Dev tools:**
-- git, stow, gcc, make, cmake, nodejs, npm, python3
+| Where | Key | What |
+|---|---|---|
+| anywhere | `Super+/` | every Hyprland keybind, searchable, Enter runs it (parsed live from `keybinds.conf`) |
+| anywhere | `Super+Shift+/` | cheat sheets in a floating window |
+| shell | `cheat` | pick a sheet with fzf. `cheat hypr`, `cheat tmux`, `cheat nvim`, `cheat yazi`, `cheat shell`, `cheat git`, `cheat apps`, `cheat theme`. `cheat -e shell` edits |
+| shell | `tldr cmd` | examples for any command |
+| tmux | `prefix H` | tmux sheet |
+| nvim | `Space` | which-key shows groups |
+| yazi / lazygit / btop | `~` / `?` / `Esc` | built-in key help |
 
-**Fonts:**
-- google-noto-{sans,serif,color-emoji}-fonts, jetbrains-mono-fonts, rsms-inter-fonts, JetBrainsMono Nerd Font, VT323
+Sheets live in `cheats-stow/.config/cheats/*.md`. Add a bind to `keybinds.conf` with a trailing `# comment` and it appears in `Super+/` with that description.
 
-### `./install.sh install` configures:
+## What gets installed
+
+**Hyprland:** hyprland, waybar, mako, rofi, rofimoji, hyprpaper, hyprlock, hypridle, lxpolkit (polkit agent), xdg-desktop-portal-{hyprland,gtk}, cliphist, wl-clipboard, pyprland
+
+**Terminal apps:** kitty, neovim, tmux, yazi, lazygit, lazydocker, btop, cava, fastfetch, zathura, mpv, swayimg, wiremix, bluetuith, NetworkManager-tui
+
+**CLI:** zsh, oh-my-zsh, starship, fzf, zoxide, atuin, direnv, mise, eza, bat, fd, ripgrep, git-delta, dust, duf, tealdeer, jq, glow, chafa
+
+**Media/system:** grim, slurp, wf-recorder, ImageMagick, brightnessctl, playerctl, upower, pipewire, wireplumber
+
+**Dev:** git, stow, gcc, gcc-c++, make, cmake, golang, python3
+
+**Fonts:** JetBrainsMono Nerd Font, JetBrains Mono, Inter, Noto (sans, serif, emoji), VT323 (bsod)
+
+Removed by `deps` if present: alacritty, nautilus, pavucontrol, blueman, wofi.
+
+### Stow packages
 
 | Package | Description |
 |---------|-------------|
-| `alacritty-stow` | Terminal emulator |
+| `btop-stow` | System monitor |
 | `cava-stow` | Audio visualizer |
+| `cheats-stow` | Cheat sheets for `cheat` and `Super+Shift+/` |
+| `fastfetch-stow` | System info |
 | `fontconfig-stow` | Font rendering |
-| `gtk3-stow` | GTK3 theme settings |
-| `gtk4-stow` | GTK4 theme settings |
-| `hypr-stow` | Hyprland, hyprpaper, hyprlock, hypridle |
-| `mako-stow` | Notification daemon |
-| `nvim-stow` | Neovim config |
-| `rofi-stow` | App launcher |
-| `tmux-stow` | Terminal multiplexer |
-| `waybar-stow` | Status bar |
+| `gtk3-stow`, `gtk4-stow` | GTK theme css, dark/light preference |
+| `hypr-stow` | Hyprland, hyprpaper, hyprlock, hypridle, pyprland |
+| `kitty-stow` | Terminal + 5 colour themes |
+| `mako-stow` | Notifications |
+| `mise-stow` | Global node/bun/python versions |
+| `nvim-stow` | Neovim (lazy.nvim, LSP, treesitter) |
+| `rofi-stow` | Launcher, menus, switcher grid |
+| `starship-stow` | Prompt |
+| `tmux-stow` | tmux, sesh sessions, godmode layout |
+| `waybar-stow` | Bar, layouts, scripts |
+| `xdg-stow` | Default apps (`mimeapps.list`), terminal `.desktop` entries, portal config |
 | `zsh-stow` | `~/.zshenv` (sets `ZDOTDIR`), zsh config, aliases |
 
 ## Themes
 
-Available themes: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`
+Available: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`. `Super+Shift+T` switches live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh). From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
 
-Switch themes:
-```bash
-./install.sh restow --monochrome
-./install.sh restow --catppuccin-mocha
-./install.sh restow --gruvbox
-```
+Waybar layouts (`default`, `outline`, `floating`, `bsod`, `platinum`) are independent of the colour theme: `Super+Shift+B`. Wallpapers: `Super+Shift+W`.
 
-Reload after switching:
-```bash
-hyprctl reload
-killall waybar && waybar &
-makoctl reload
-exec zsh
-```
+## Key bindings
 
-### Waybar layouts
-
-Colour themes and bar layouts are independent. A layout lives in
-`waybar-stow/.config/waybar/configs/<name>/` (`config` + `style.css`); the
-active one is tracked by the `configs/current` symlink and the generated
-`style.css` is `themes/current.css` + the layout's `style.css`.
-
-Available layouts: `default`, `bsod`, `platinum` (tied to the themes of the same
-name), plus two ports of [swaystation](https://github.com/el-toro-fuerte96/swaystation)'s
-bars: `outline` and `floating`.
-
-### Appearance switcher
-
-`Super + Shift + T` opens a full-size rofi card grid with three tabs (Ctrl+Tab or
-click to switch): **Themes** (palette preview cards), **Bar** (layout sketches)
-and **Wallpapers** (large thumbnails, plus a Random card). The current item is
-highlighted. Picking a card applies it immediately and the window stays open so
-you can keep browsing.
-
-```bash
-~/.config/waybar/scripts/appearance-switcher.sh            # Themes tab (Super + Shift + T)
-~/.config/waybar/scripts/appearance-switcher.sh layouts    # Bar tab    (Super + Shift + B)
-~/.config/waybar/scripts/appearance-switcher.sh walls      # Wallpapers (Super + Shift + W)
-~/.config/waybar/scripts/appearance-switcher.sh --gen      # rebuild preview cards only
-```
-
-Preview cards are rendered with ImageMagick into `~/.cache/appearance-switcher/`
-on first launch (a few seconds) and refreshed when a theme or wallpaper changes.
-The grid style lives in `rofi-stow/.config/rofi/appearance.rasi`.
-
-Switch layouts from a terminal:
-```bash
-~/.config/waybar/scripts/waybar-layout.sh floating
-~/.config/waybar/scripts/waybar-layout.sh --list
-~/.config/waybar/scripts/waybar-layout.sh --current
-```
-
-Switching a colour theme picks the layout named after it if one exists, keeps a
-standalone layout (`outline`, `floating`) if that is active, and otherwise falls back
-to `default`.
-
-## Key Bindings (Hyprland)
+Full list: `Super+/`. The ones to know:
 
 | Shortcut | Action |
 |----------|--------|
-| `Super + Return` | Terminal (alacritty) |
-| `Super + Space` | App launcher (rofi) |
+| `Super + Return` | Terminal |
+| `Super + `` ` | Dropdown terminal |
+| `Super + Space` | App launcher |
+| `Super + E` / `C` / `B` | yazi / neovim / browser |
+| `Super + A` / `N` / `Shift+N` / `I` | mixer / network / bluetooth / btop |
 | `Super + Q` | Close window |
-| `Super + M` | Exit Hyprland |
-| `Super + E` | File manager |
-| `Super + V` | Toggle floating |
-| `Super + F` | Fullscreen |
-| `Super + 1-9` | Switch workspace |
-| `Super + Shift + 1-9` | Move window to workspace |
-| `Super + H/J/K/L` | Move focus (vim keys) |
-| `Super + Shift + H/J/K/L` | Move window |
-| `Super + Shift + T` | Appearance switcher (Themes tab) |
-| `Super + Shift + B` | Appearance switcher (Bar layout tab) |
-| `Super + Shift + W` | Appearance switcher (Wallpapers tab) |
-| `Super + Alt + L` | Lock screen (hyprlock) |
-| `Print` | Screenshot (full, saved + clipboard) |
-| `Super + Print` | Screenshot (region, saved + clipboard) |
+| `Super + F` / `V` | Fullscreen / floating |
+| `Super + h/j/k/l` (+Shift move, +Ctrl resize) | Windows |
+| `Super + 1-0` (+Shift move) | Workspaces |
+| `Super + S` | Special workspace |
+| `Super + Shift + V` / `Super + .` | Clipboard history / emoji |
+| `Super + Shift + T` / `B` / `W` | Theme / bar / wallpaper |
+| `Super + Alt + L` | Lock |
+| `Super + /` / `Super + Shift + /` | Keybinds / cheat sheets |
+| `Print` / `Super + Print` | Screenshot full / region |
 
-## Zsh Aliases
+## How zsh is wired
 
-```bash
-ll          # ls -lah
-lg          # lazygit
-tm          # tmux
-tma         # tmux attach
-tmn <name>  # tmux new -s <name>
-j <dir>     # zoxide jump
-godmode     # Custom tmux layout
-please      # sudo last command
-y           # yazi, cd to the dir you quit in
-```
+`zsh-stow` stows `~/.zshenv`, which sets `ZDOTDIR=~/.config/zsh`, so zsh loads the repo's `.zshrc` and ignores `~/.zshrc`. `install.sh` moves an existing `~/.zshrc` to `~/.zshrc.pre-dotfiles`.
 
-### How zsh is wired
+Machine-specific config and secrets go in `~/.zshrc.local` (mode 600, created empty, sourced last). Never in the repo.
 
-`zsh-stow` stows `~/.zshenv`, which sets `ZDOTDIR=~/.config/zsh`, so zsh loads the
-repo's `~/.config/zsh/.zshrc` and never reads `~/.zshrc`. `install.sh` moves any
-existing `~/.zshrc` to `~/.zshrc.pre-dotfiles`.
+Versions come from mise (`~/.config/mise/config.toml`, per project `.mise.toml` / `.nvmrc`). conda stays available lazily for conda envs; its base is not on `PATH`.
 
-Machine-specific config and secrets (API tokens, one-off aliases) go in
-`~/.zshrc.local` (mode 600, created empty by `install.sh`, sourced last). Never put
-them in the repo.
+## Idle and lock
 
-nvm and conda are lazy-loaded: the default node and the conda base env are on
-`PATH` immediately, the tools themselves load on first `nvm` / `conda` call.
-
-### Idle and lock
-
-`hypridle` (started by Hyprland) dims the screen at 4 min, locks at 5, turns the
-screen off at 10 and suspends at 30. Lock manually with `Super + Alt + L` or the
-power menu. Config: `hypr-stow/.config/hypr/hypridle.conf`.
+hypridle dims at 4 min, locks at 5, screen off at 10, suspends at 30. `Super+Alt+L` locks now.
 
 ## Troubleshooting
 
@@ -238,6 +190,24 @@ EOF
 ```bash
 chmod +x ~/.config/waybar/scripts/*.sh
 waybar &
+```
+
+### Scratchpad keys do nothing
+```bash
+pypr exit; pypr &          # restart pyprland
+pypr --help                # check it is installed (uv tool install pyprland)
+```
+
+### Browser file dialog is still GTK
+```bash
+ls /usr/libexec/xdg-desktop-portal-termfilechooser   # missing -> ./install.sh extras
+systemctl --user restart xdg-desktop-portal
+```
+
+### Wrong app opens a file
+```bash
+xdg-mime query default inode/directory       # expect yazi.desktop
+./install.sh restow                          # re-links ~/.config/mimeapps.list
 ```
 
 ### Fonts not showing icons
@@ -271,47 +241,24 @@ find . -type f -exec sed -i "s|/home/olduser|$HOME|g" {} \;
 ./install.sh restow
 ```
 
-## Manual Package Install
-
-If you prefer to install packages individually:
-```bash
-cd ~/realm/builds/dotfiles
-stow -t ~ alacritty-stow
-stow -t ~ hypr-stow
-# etc...
-```
-
 ## Structure
 
 ```
 dotfiles/
-├── install.sh           # Main installation script
+├── install.sh
 ├── README.md
-├── wallpapers/          # Wallpaper images
-│   └── current -> ...   # Symlink to active wallpaper (gitignored)
-├── alacritty-stow/
-│   └── .config/alacritty/
-├── hypr-stow/
-│   └── .config/hypr/
-│       ├── hyprland.conf
-│       ├── hypridle.conf
-│       ├── hyprlock.conf
-│       ├── keybinds.conf
-│       ├── windowrules.conf
-│       └── themes/
-├── zsh-stow/
-│   ├── .zshenv          # sets ZDOTDIR
-│   └── .config/zsh/
+├── wallpapers/              # current -> active wallpaper (gitignored)
+├── cheats-stow/.config/cheats/*.md
+├── hypr-stow/.config/hypr/  # hyprland, keybinds, windowrules, hypridle, hyprlock, pyprland.toml, themes/
+├── kitty-stow/.config/kitty/{kitty.conf,themes/}
+├── xdg-stow/                # mimeapps.list, .local/share/applications/*.desktop, portals.conf, termfilechooser wrapper
+├── zsh-stow/{.zshenv,.config/zsh/}
 └── ... (other *-stow packages)
-
-Generated files (`waybar/config`, `waybar/style.css`, `gtk-*/gtk.css`,
-`rofi/theme-overrides.rasi`, `zsh/dotfiles-theme.env`, `gtk-3.0/bookmarks`,
-`gtk-*/settings.ini`) are
-written by `install.sh` / the switcher scripts and are gitignored.
 ```
+
+Generated, gitignored: `waybar/config`, `waybar/style.css`, `gtk-*/gtk.css`, `gtk-*/settings.ini`, `gtk-3.0/bookmarks`, `rofi/theme-overrides.rasi`, `zsh/dotfiles-theme.env`, `xdg-desktop-portal-termfilechooser/config`.
 
 ## Requirements
 
-- Fedora 43+ (or any distro with Hyprland support)
-- GNU Stow
-- sudo access for dependency installation
+- Fedora 43+
+- GNU Stow, sudo for `deps`

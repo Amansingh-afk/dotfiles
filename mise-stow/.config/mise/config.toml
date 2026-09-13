@@ -1,0 +1,8 @@
+# Global tool versions. Per project: .mise.toml, .nvmrc, .node-version, .python-version.
+[tools]
+node = "24"
+bun = "latest"
+python = "3.13"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node", "python"]
