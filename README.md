@@ -118,22 +118,25 @@ Removed by `deps` if present: alacritty, nautilus, pavucontrol, blueman, wofi.
 | `cheats-stow` | Cheat sheets for `cheat` and `Super+Shift+/` |
 | `fastfetch-stow` | System info |
 | `fontconfig-stow` | Font rendering |
+| `git-stow` | delta dark/light features (identity stays in `~/.gitconfig`) |
 | `gtk3-stow`, `gtk4-stow` | GTK theme css, dark/light preference |
 | `hypr-stow` | Hyprland, hyprpaper, hyprlock, hypridle, pyprland |
 | `kitty-stow` | Terminal + 5 colour themes |
+| `lazygit-stow` | lazygit + per-theme colours |
 | `mako-stow` | Notifications |
 | `mise-stow` | Global node/bun/python versions |
 | `nvim-stow` | Neovim (lazy.nvim, LSP, treesitter) |
 | `rofi-stow` | Launcher, menus, switcher grid |
-| `starship-stow` | Prompt |
+| `starship-stow` | Prompt, one palette per theme |
 | `tmux-stow` | tmux, sesh sessions, godmode layout |
 | `waybar-stow` | Bar, layouts, scripts |
 | `xdg-stow` | Default apps (`mimeapps.list`), terminal `.desktop` entries, portal config |
+| `yazi-stow` | yazi flavors per theme |
 | `zsh-stow` | `~/.zshenv` (sets `ZDOTDIR`), zsh config, aliases |
 
 ## Themes
 
-Available: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`. `Super+Alt+T` switches live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh). From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
+Available: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`. `Super+Alt+T` switches live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh, fzf, bat, delta, glow, lazygit, starship, yazi, btop). `theme-apply.sh` is the one script that knows the list. From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
 
 Waybar layouts (`default`, `outline`, `floating`, `bsod`, `platinum`) are independent of the colour theme: `Super+Alt+B`. Wallpapers: `Super+Alt+W`.
 

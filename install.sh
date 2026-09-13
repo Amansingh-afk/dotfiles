@@ -12,10 +12,12 @@ PACKAGES=(
     "cheats-stow"
     "fastfetch-stow"
     "fontconfig-stow"
+    "git-stow"
     "gtk3-stow"
     "gtk4-stow"
     "hypr-stow"
     "kitty-stow"
+    "lazygit-stow"
     "mako-stow"
     "mise-stow"
     "nvim-stow"
@@ -24,6 +26,7 @@ PACKAGES=(
     "tmux-stow"
     "waybar-stow"
     "xdg-stow"
+    "yazi-stow"
     "zsh-stow"
 )
 
@@ -41,36 +44,7 @@ done
 set_theme_symlinks() {
     local theme="$1"
     echo "Setting theme to $theme"
-
-    ln -sfn ~/.config/kitty/themes/${theme}.conf ~/.config/kitty/themes/current.conf
-    pkill -USR1 -x kitty 2>/dev/null || true
-    ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi
-    ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
-    ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf
-    ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf
-
-    # Waybar layout + generated config/style.css/rofi overrides (see waybar-layout.sh)
-    ~/.config/waybar/scripts/waybar-layout.sh apply-for-theme "$theme" --no-restart
-
-    # GTK: theme css for Nautilus etc. + dark/light preference for libadwaita apps
-    if [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]]; then
-        cp ~/.config/gtk-4.0/themes/${theme}.css ~/.config/gtk-4.0/gtk.css
-        echo "Applied GTK4 theme: $theme"
-    fi
-    if [[ -f ~/.config/gtk-3.0/themes/${theme}.css ]]; then
-        cp ~/.config/gtk-3.0/themes/${theme}.css ~/.config/gtk-3.0/gtk.css
-        echo "Applied GTK3 theme: $theme"
-    fi
-    local prefer_dark=1 scheme="prefer-dark" v
-    if [[ "$theme" == "platinum" ]]; then prefer_dark=0; scheme="prefer-light"; fi
-    for v in gtk-3.0 gtk-4.0; do
-        sed "s/@PREFER_DARK@/$prefer_dark/" ~/.config/$v/settings.ini.in > ~/.config/$v/settings.ini
-    done
-    if command -v gsettings &>/dev/null; then
-        gsettings set org.gnome.desktop.interface color-scheme "$scheme" 2>/dev/null || true
-    fi
-
-    echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
+    ~/.config/waybar/scripts/theme-apply.sh "$theme"
 }
 
 write_gtk_bookmarks() {
@@ -296,6 +270,7 @@ stow_all() {
     local flag="$1" package
     # generated files that must not block stow
     rm -f ~/.config/gtk-3.0/bookmarks ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/settings.ini
+    rm -f ~/.config/btop/btop.conf ~/.config/starship.toml
     # files other tools wrote before we owned them
     if [[ -f ~/.config/mimeapps.list && ! -L ~/.config/mimeapps.list ]]; then
         mv ~/.config/mimeapps.list ~/.config/mimeapps.list.pre-dotfiles

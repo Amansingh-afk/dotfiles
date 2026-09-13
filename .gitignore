@@ -19,3 +19,9 @@ gtk4-stow/.config/gtk-4.0/settings.ini
 zsh-stow/.config/zsh/.zcompdump*
 xdg-stow/.config/xdg-desktop-portal-termfilechooser/config
 hypr-stow/.config/hypr/env.conf
+yazi-stow/.config/yazi/theme.toml
+btop-stow/.config/btop/btop.conf
+starship-stow/.config/starship/current.toml
+# theme "current" symlinks (theme-apply.sh)
+**/themes/current.*
+kitty-stow/.config/kitty/themes/current.conf

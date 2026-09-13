@@ -172,18 +172,9 @@ ensure_previews() {
 # to the background with all fds closed so rofi is not blocked.
 apply_theme() {
   local theme="$1"
-  ln -sfn ~/.config/kitty/themes/${theme}.conf ~/.config/kitty/themes/current.conf 2>/dev/null || true
-  ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi 2>/dev/null || true
-  ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css 2>/dev/null || true
-  ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf 2>/dev/null || true
-  ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf 2>/dev/null || true
-  [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]] && cp ~/.config/gtk-4.0/themes/${theme}.css ~/.config/gtk-4.0/gtk.css
-  [[ -f ~/.config/gtk-3.0/themes/${theme}.css ]] && cp ~/.config/gtk-3.0/themes/${theme}.css ~/.config/gtk-3.0/gtk.css
-  echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
-  "$LAYOUT_SWITCHER" apply-for-theme "$theme" --no-restart >/dev/null 2>&1
+  "$WB/scripts/theme-apply.sh" "$theme"
   (
     pkill -x waybar; sleep 0.3; setsid -f waybar
-    pkill -USR1 -x kitty   # running kitties reload their config
     makoctl reload
     notify-send "󰏘 Theme" "$theme" -t 2000
   ) >/dev/null 2>&1 </dev/null &

@@ -1,0 +1,4 @@
+# gruvbox — flavor vendored from bennyyip/gruvbox-dark.yazi (MIT)
+[flavor]
+dark = "gruvbox-dark"
+light = "gruvbox-dark"
