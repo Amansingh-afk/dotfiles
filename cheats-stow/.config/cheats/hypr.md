@@ -62,7 +62,7 @@ Scratchpads (dropdown, mixer, network, bluetooth, btop) keep running while hidde
 | `Super+Alt+L` | lock |
 | `Super+Alt+M` | power menu: logout, sleep, reboot, power off |
 | `Super+Alt+R` | reload Hyprland config |
-| `Super+Alt+T` / `W` | theme / wallpaper switcher |
+| `Super+Alt+T` / `W` | toggle theme / wallpaper switcher |
 | `Super+Alt+V` | clipboard history |
 | `Super+Alt+D` | dismiss all notifications |
 | `Super+Alt+S` | toggle split direction |

@@ -2,7 +2,7 @@
 # Appearance switcher — themes and wallpapers in one rofi card grid.
 #
 # Runs in two roles:
-#   1. Launcher (no ROFI_RETV in env):  appearance-switcher.sh [themes|walls] | --gen
+#   1. Launcher (no ROFI_RETV in env):  appearance-switcher.sh [themes|walls] | toggle | --gen
 #      Generates missing preview cards, then opens rofi with two script modes (tabs) that all
 #      point back at this file: "Themes", "Wallpapers". Ctrl+Tab or click switches tabs.
 #   2. Rofi script mode (ROFI_RETV set, $1 = page): prints the rows of that page; rofi calls us
@@ -205,6 +205,10 @@ show_menu() {
 if [[ -z "${ROFI_RETV:-}" ]]; then
   # Launcher role
   if [[ "${1:-}" == "--gen" ]]; then ensure_previews; exit 0; fi   # only (re)build preview cards
+  if [[ "${1:-}" == "toggle" ]]; then   # flip between the two themes, no menu
+    [[ "$(current_theme)" == "gruvbox" ]] && apply_theme monochrome || apply_theme gruvbox
+    exit 0
+  fi
   ensure_previews
   case "${1:-themes}" in
     walls|wallpapers) start="Wallpapers" ;;

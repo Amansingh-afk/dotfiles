@@ -106,7 +106,7 @@ Removed by `deps` if present: alacritty, nautilus, pavucontrol, blueman, wofi.
 
 ## Themes
 
-Available: `gruvbox` (default), `monochrome`. `Super+Alt+T` switches live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh, fzf, bat, delta, glow, lazygit, starship, yazi, btop). `theme-apply.sh` is the one script that knows the list. From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
+Available: `gruvbox` (default), `monochrome`. `Super+Alt+T` toggles live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh, fzf, bat, delta, glow, lazygit, starship, yazi, btop). `theme-apply.sh` is the one script that knows the list. From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
 
 The bar has one layout (outline) and follows the colour theme. Wallpapers: `Super+Alt+W`.
 

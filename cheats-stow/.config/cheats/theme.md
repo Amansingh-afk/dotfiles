@@ -5,7 +5,7 @@ Themes: `gruvbox` (default), `monochrome`.
 ## Switch
 | How | What |
 |---|---|
-| `Super+Alt+T` | theme cards (rofi) |
+| `Super+Alt+T` | toggle gruvbox / monochrome |
 | `Super+Alt+W` | wallpaper cards (plus Random) |
 | `./install.sh restow --monochrome` | from terminal, also re-links everything |
 
