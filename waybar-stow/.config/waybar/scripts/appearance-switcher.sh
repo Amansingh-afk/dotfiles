@@ -5,7 +5,7 @@ set -euo pipefail
 # Theme & Wallpaper Switcher - Sleek Edition
 
 THEMES_DIR="$HOME/.config/waybar/themes"
-WALL_DIR_DEFAULT="$HOME/realm/builds/dotfiles/wallpapers"
+WALL_DIR_DEFAULT="$(cd "$(dirname "$(readlink -f "$0")")/../../../.." && pwd)/wallpapers"
 WALL_DIR_ALT="$HOME/Pictures/Wallpapers"
 CURRENT_WALL_LINK="$WALL_DIR_DEFAULT/current"
 CONFIG="$HOME/.config/rofi/theme-menu.rasi"
@@ -36,11 +36,11 @@ get_current_theme() {
 # Apply theme
 set_theme() {
     local theme="$1"
-    ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml 2>/dev/null || true
-    ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi 2>/dev/null || true
-    ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css 2>/dev/null || true
-    ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf 2>/dev/null || true
-    ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf 2>/dev/null || true
+    ln -sfn ${theme}.toml ~/.config/alacritty/themes/current.toml 2>/dev/null || true
+    ln -sfn ${theme}.rasi ~/.config/rofi/themes/current.rasi 2>/dev/null || true
+    ln -sfn ${theme}.css ~/.config/waybar/themes/current.css 2>/dev/null || true
+    ln -sfn ${theme}.conf ~/.config/hypr/themes/current.conf 2>/dev/null || true
+    ln -sfn ${theme}.conf ~/.config/mako/themes/current.conf 2>/dev/null || true
 
     # Update GTK themes for file manager (Nautilus) etc.
     [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]] && cp ~/.config/gtk-4.0/themes/${theme}.css ~/.config/gtk-4.0/gtk.css
@@ -197,7 +197,7 @@ show_wallpapers() {
         hyprctl hyprpaper wallpaper "$m,$SEL_FILE" >/dev/null 2>&1 || true
     done
 
-    ln -sfn "$SEL_FILE" "$CURRENT_WALL_LINK"
+    ln -sfn "$(basename "$SEL_FILE")" "$CURRENT_WALL_LINK"
     notify-send "󰸉 Wallpaper" "$wall_name" -t 2000
 }
 

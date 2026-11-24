@@ -13,7 +13,7 @@ else
 end
 
 -- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy-acer/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -31,6 +31,8 @@ require("lazy").setup({
   -- Load plugins from the lua/plugins directory
   { import = "plugins" },
 }, {
+  -- Own plugin root: other branches pin different plugin branches
+  root = vim.fn.stdpath("data") .. "/lazy-acer",
   change_detection = {
     notify = false,
   },

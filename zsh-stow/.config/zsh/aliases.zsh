@@ -32,4 +32,6 @@ alias ssm_jenkins="aws ssm start-session --region ap-south-1 --target i-06cefb77
 alias ssm_ecom3_cron="aws ssm start-session --region ap-south-1 --target i-07b7c60401b16bab5"
 alias ssm_ecom3_queue="aws ssm start-session --region ap-south-1 --target i-0805a44003b33d616"
 
+alias ssm_staging_1="aws ssm start-session --region ap-south-1 --target i-066cbd6529364871e"
+
 alias lg=lazygit

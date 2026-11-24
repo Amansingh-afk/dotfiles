@@ -71,3 +71,4 @@ export NVM_DIR="$HOME/.nvm"
 alias ld='lazydocker'
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
+[ -f ~/.secrets.env ] && source ~/.secrets.env

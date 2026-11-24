@@ -38,13 +38,13 @@ set_theme_symlinks() {
     echo "Setting theme to $theme"
 
     mkdir -p ~/.config/alacritty/themes
-    ln -sfn ~/.config/alacritty/themes/${theme}.toml ~/.config/alacritty/themes/current.toml
+    ln -sfn ${theme}.toml ~/.config/alacritty/themes/current.toml
 
     mkdir -p ~/.config/rofi/themes
-    ln -sfn ~/.config/rofi/themes/${theme}.rasi ~/.config/rofi/themes/current.rasi
+    ln -sfn ${theme}.rasi ~/.config/rofi/themes/current.rasi
 
     mkdir -p ~/.config/waybar/themes
-    ln -sfn ~/.config/waybar/themes/${theme}.css ~/.config/waybar/themes/current.css
+    ln -sfn ${theme}.css ~/.config/waybar/themes/current.css
 
     # Combine theme CSS with layout style for waybar
     local layout_dir="default"
@@ -59,10 +59,10 @@ set_theme_symlinks() {
     fi
 
     mkdir -p ~/.config/hypr/themes
-    ln -sfn ~/.config/hypr/themes/${theme}.conf ~/.config/hypr/themes/current.conf
+    ln -sfn ${theme}.conf ~/.config/hypr/themes/current.conf
 
     mkdir -p ~/.config/mako/themes
-    ln -sfn ~/.config/mako/themes/${theme}.conf ~/.config/mako/themes/current.conf
+    ln -sfn ${theme}.conf ~/.config/mako/themes/current.conf
 
     # Update GTK themes for file manager (Nautilus) etc.
     if [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]]; then
@@ -81,6 +81,11 @@ set_theme_symlinks() {
 configure_zshrc() {
     echo "Configuring ~/.zshrc to source custom configs..."
     
+    # ~/.zshrc is already the repo's own file: nothing to append
+    if [[ "$(readlink -f ~/.zshrc)" == "$(readlink -f ~/.config/zsh/.zshrc)" ]]; then
+        return
+    fi
+
     # Check if our custom config block already exists
     if grep -q "# >>> dotfiles config >>>" ~/.zshrc 2>/dev/null; then
         echo "Custom config already present in ~/.zshrc"
@@ -112,7 +117,7 @@ install_deps() {
     echo "[1/7] Installing Hyprland and core packages..."
     sudo dnf install -y \
         hyprland waybar mako rofi wofi hyprpaper hyprlock \
-        cliphist wl-clipboard polkit-gnome \
+        cliphist wl-clipboard polkit-kde \
         qt6-qtbase qt6ct gtk4 gtk3 nautilus \
         alacritty neovim zsh tmux lazygit btop cava fastfetch fontconfig \
         stow git
@@ -171,7 +176,7 @@ install_deps() {
     echo ""
     echo "[3/7] Installing screenshot and media tools..."
     sudo dnf install -y \
-        grim slurp wf-recorder imagemagick \
+        grim slurp wf-recorder ImageMagick \
         pamixer brightnessctl playerctl
     
     # Audio
@@ -244,9 +249,6 @@ case "$1" in
     "install")
         echo "Installing all dotfiles packages..."
         
-        # Remove conflicting files
-        rm -f ~/.config/gtk-3.0/bookmarks 2>/dev/null
-        
         for package in "${PACKAGES[@]}"; do
             echo "Installing $package..."
             stow -t ~ "$package"
@@ -272,9 +274,6 @@ case "$1" in
         ;;
     "restow")
         echo "Restowing all dotfiles packages..."
-        
-        # Remove conflicting files
-        rm -f ~/.config/gtk-3.0/bookmarks 2>/dev/null
         
         for package in "${PACKAGES[@]}"; do
             echo "Restowing $package..."
