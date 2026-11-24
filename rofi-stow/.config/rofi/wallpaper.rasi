@@ -2,7 +2,7 @@
  * Wallpaper picker — card grid
  */
 
-@import "themes/gruvbox.rasi"
+@import "themes/current.rasi"
 
 configuration {
     show-icons:         true;

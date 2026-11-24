@@ -1,0 +1,21 @@
+/* ===== COLORS ===== */
+@define-color bg #121212;
+@define-color fg #e6e6e6;
+
+@define-color blue #b3b3b3;
+@define-color blue-dark #8a8a8a;
+
+@define-color pink #b3b3b3;
+
+@define-color green #ffffff;
+@define-color green-dark #c2c2c2;
+
+@define-color red #b3b3b3;
+@define-color red-dark #ffffff;
+
+@define-color orange #b3b3b3;
+@define-color yellow #b3b3b3;
+@define-color yellow-soft #c2c2c2;
+
+@define-color white-soft #7a7a7a;
+@define-color gray #555555;

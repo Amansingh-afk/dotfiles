@@ -29,7 +29,10 @@ read_temp() {
   return 1
 }
 
+[[ "${2:-}" == mono ]] && mono=1 || mono=""
+
 icon_span() {  # $1 = icon, $2 = colour, $3 = text
+  [[ -n "$mono" ]] && set -- "$1" "#e6e6e6" "$3"
   case "$style" in
     flat)    printf "<span color='%s' > %s </span>%s" "$2" "$1" "$3" ;;
     *)       printf "<span color='#202020' bgcolor='%s' > %s </span> %s" "$2" "$1" "$3" ;;

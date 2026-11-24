@@ -1,8 +1,11 @@
+local theme = os.getenv("DOTFILES_THEME") or "gruvbox"
+
 return {
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
     priority = 1000,
+    cond = theme == "gruvbox",
     config = function()
       require("gruvbox").setup({
         terminal_colors = true,
@@ -29,6 +32,21 @@ return {
         transparent_mode = false,
       })
       vim.cmd("colorscheme gruvbox")
+    end,
+  },
+  {
+    "oskarnurm/koda.nvim",
+    lazy = false,
+    priority = 1000,
+    cond = theme == "monochrome",
+    config = function()
+      vim.cmd("colorscheme koda")
+      -- Glass: transparent background
+      vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE" })
     end,
   },
 }

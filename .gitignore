@@ -13,3 +13,12 @@ zsh-stow/.config/zsh/.zcompdump*
 xdg-stow/.config/xdg-desktop-portal-termfilechooser/config
 hypr-stow/.config/hypr/env.conf
 btop-stow/.config/btop/btop.conf
+
+# Written by theme.sh
+**/themes/current.*
+waybar-stow/.config/waybar/config
+gtk3-stow/.config/gtk-3.0/gtk.css
+gtk4-stow/.config/gtk-4.0/gtk.css
+yazi-stow/.config/yazi/theme.toml
+starship-stow/.config/starship/current.toml
+zsh-stow/.config/zsh/dotfiles-theme.env

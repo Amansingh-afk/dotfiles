@@ -23,6 +23,7 @@ export VISUAL='nvim'
 export PAGER='less'
 export LANG=en_US.UTF-8
 export PATH="$HOME/.local/bin:$PATH"
+[[ -f "$ZDOTDIR/dotfiles-theme.env" ]] && source "$ZDOTDIR/dotfiles-theme.env"
 
 # --- Toolchains ---
 export PATH="$HOME/go/bin:$PATH"

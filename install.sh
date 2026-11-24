@@ -257,7 +257,9 @@ stow_all() {
     done
     chmod +x ~/.config/waybar/scripts/*.sh
     write_gtk_bookmarks
-    cp ~/.config/btop/btop.conf.in ~/.config/btop/btop.conf   # btop rewrites it on exit, so it is a copy
+    # keep the active theme, default gruvbox
+    local theme; theme=$(basename "$(readlink ~/.config/waybar/themes/current.css 2>/dev/null || echo gruvbox.css)" .css)
+    ~/.config/waybar/scripts/theme.sh "$theme" --no-reload
     for f in gtk-3.0 gtk-4.0; do cp ~/.config/$f/settings.ini.in ~/.config/$f/settings.ini; done
     [[ -e wallpapers/current ]] || ln -sfn shougan_castle.png wallpapers/current
     command -v gsettings &>/dev/null && gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null || true

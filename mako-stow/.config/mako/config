@@ -1,6 +1,6 @@
 # Mako Notification Configuration
 # Theme overrides
-include=~/.config/mako/themes/gruvbox.conf
+include=~/.config/mako/themes/current.conf
 
 # Layout
 width=320

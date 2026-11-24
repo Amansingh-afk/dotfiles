@@ -105,7 +105,7 @@ Removed by `deps` if present: alacritty, nautilus, pavucontrol, blueman, wofi.
 
 ## Look
 
-Gruvbox and the outline waybar only. Wallpapers: `Super+Alt+W`.
+Gruvbox and monochrome (`Super+Alt+T` toggles), outline waybar. Wallpapers: `Super+Alt+W`.
 
 ## Key bindings
 

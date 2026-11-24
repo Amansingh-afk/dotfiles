@@ -8,7 +8,7 @@ configuration {
     hover-select:               true;
 }
 
-@import "themes/gruvbox.rasi"
+@import "themes/current.rasi"
 
 window {
     width:                      280px;

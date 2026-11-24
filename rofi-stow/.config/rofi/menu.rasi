@@ -9,7 +9,7 @@ configuration {
     me-select-entry:            "";
     me-accept-entry:            "MousePrimary";
 }
-@import "themes/gruvbox.rasi"
+@import "themes/current.rasi"
 window {
     width:                      760px;
     border:                     1px;
