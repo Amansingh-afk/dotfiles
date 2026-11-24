@@ -58,39 +58,6 @@ purple = "#ababab"
 aqua = "#a6a6a6"
 orange = "#b0b0b0"
 
-[palettes.catppuccin-mocha]
-fg = "#cdd6f4"
-bg = "#1e1e2e"
-red = "#f38ba8"
-green = "#a6e3a1"
-yellow = "#f9e2af"
-blue = "#89b4fa"
-purple = "#cba6f7"
-aqua = "#94e2d5"
-orange = "#fab387"
-
-[palettes.bsod]
-fg = "#FFFFFF"
-bg = "#0000AA"
-red = "#FF5555"
-green = "#55FF55"
-yellow = "#FFFF55"
-blue = "#5555FF"
-purple = "#FF55FF"
-aqua = "#55FFFF"
-orange = "#AA5500"
-
-[palettes.platinum]
-fg = "#FFFFFF"
-bg = "#DCDCDC"
-red = "#990000"
-green = "#006600"
-yellow = "#666600"
-blue = "#000099"
-purple = "#660066"
-aqua = "#006666"
-orange = "#884400"
-
 # ── Left side ─────────────────────────────────────────
 
 [os]

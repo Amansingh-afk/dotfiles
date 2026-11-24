@@ -35,9 +35,7 @@ for arg in "$@"; do
     case "$arg" in
         --monochrome) THEME="monochrome" ;;
         --gruvbox) THEME="gruvbox" ;;
-        --catppuccin-mocha) THEME="catppuccin-mocha" ;;
-        --bsod) THEME="bsod" ;;
-        --platinum) THEME="platinum" ;;
+        --*) echo "Unknown option: $arg (themes: --gruvbox, --monochrome)" >&2; exit 1 ;;
     esac
 done
 
@@ -95,22 +93,6 @@ install_nerd_font() {
         echo "Warning: Could not download Nerd Fonts. Install manually from https://www.nerdfonts.com/font-downloads"
     fi
     rm -rf "$tmp"
-}
-
-install_vt323_font() {
-    local font_dir="$HOME/.local/share/fonts"
-    mkdir -p "$font_dir"
-    if fc-list | grep -qi "VT323"; then
-        echo "VT323 font already installed"
-        return
-    fi
-    echo "Installing VT323 font for bsod theme..."
-    if curl -fsSL "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -o "$font_dir/VT323-Regular.ttf"; then
-        fc-cache -f "$font_dir"
-        echo "VT323 font installed"
-    else
-        echo "Warning: Could not download VT323. Install manually from Google Fonts."
-    fi
 }
 
 remove_gui() {
@@ -187,7 +169,6 @@ install_deps() {
     echo "[2/6] Installing fonts..."
     sudo dnf install -y google-noto-sans-fonts google-noto-serif-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts-all rsms-inter-fonts
     install_nerd_font
-    install_vt323_font
 
     echo ""
     echo "[3/6] Installing screenshot and media tools..."
@@ -342,9 +323,6 @@ case "$1" in
         echo "Theme options:"
         echo "  --gruvbox          (default)"
         echo "  --monochrome"
-        echo "  --catppuccin-mocha"
-        echo "  --bsod"
-        echo "  --platinum"
         echo ""
         echo "Example (new machine setup):"
         echo "  $0 deps              # Install dependencies"

@@ -248,4 +248,3 @@ scrollbar {
     background-color:           @bg1;
 }
 
-@import "theme-overrides.rasi"

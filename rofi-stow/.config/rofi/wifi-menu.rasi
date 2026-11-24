@@ -115,4 +115,3 @@ textbox-custom {
     horizontal-align:           0.5;
 }
 
-@import "theme-overrides.rasi"

@@ -65,7 +65,7 @@
     }
   },
   "hyprland/window": {
-    "format": "<span color='#202020' bgcolor='#d3869b' > 󰣆 </span> {class}",
+    "format": "<span color='@pink@' > 󰣆 </span>{class} ",
     "icon": false,
     "max-length": 30,
     "separate-outputs": true,
@@ -81,39 +81,44 @@
     "spacing": 8
   },
   "disk": {
-    "format": "<span color='#202020' bgcolor='#ea6962' >  </span> {free}",
+    "format": "<span color='@red@'>  </span>{free} ",
     "interval": 20
   },
   "cpu": {
-    "format": "<span color='#202020' bgcolor='#e78a4e' >  </span> {usage}%",
+    "format": "<span color='@orange@'>  </span>{usage}% ",
     "tooltip": false,
     "interval": 1,
     "on-click-right": "pypr toggle btop"
   },
   "custom/cpu_temp": {
-    "exec": "~/.config/waybar/scripts/ss-cpu-temp.sh block",
+    "exec": "~/.config/waybar/scripts/ss-cpu-temp.sh",
+    "format-icons": {
+      "normal": "<span color='@yellow-soft@' > 󰴈 </span>",
+      "critical": "<span color='@red-dark@' >  </span>",
+      "unknown": "<span color='@gray@' >  </span>"
+    },
     "return-type": "json",
     "interval": 2,
-    "format": "{}",
+    "format": "{icon}{text} ",
     "tooltip": false
   },
   "backlight": {
-    "format": "<span color='#202020' bgcolor='#f6c657' > 󰞏 </span> {percent}%",
+    "format": "<span color='@yellow@'> 󰞏 </span>{percent}% ",
     "tooltip": false
   },
   "custom/memory": {
     "exec": "~/.config/waybar/scripts/ss-memory.sh",
     "interval": 2,
     "return-type": "json",
-    "format": "<span color='#202020' bgcolor='#458588' >  </span> {}",
+    "format": "<span color='@blue-dark@'>  </span>{} ",
     "tooltip": false
   },
   "pulseaudio": {
     "scroll-step": 1,
-    "format": "<span color='#202020' bgcolor='#83a598' >  </span> {volume}%",
-    "format-muted": "<span color='#202020' bgcolor='#ea6962' >  </span> {volume}%",
-    "format-bluetooth": "<span color='#202020' bgcolor='#83a598' > 󰂰 </span> {volume}%",
-    "format-bluetooth-muted": "<span color='#202020' bgcolor='#ea6962' > 󰂲 </span> {volume}%",
+    "format": "<span color='@blue@'>  </span>{volume}% ",
+    "format-muted": "<span color='@red@'>  </span>{volume}% ",
+    "format-bluetooth": "<span color='@blue@'> 󰂰 </span>{volume}% ",
+    "format-bluetooth-muted": "<span color='@red@'> 󰂲 </span>{volume}% ",
     "format-source": "{volume}% ",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-right": "pypr toggle mixer",
@@ -139,22 +144,22 @@
       "󰂂",
       "󰁹"
     ],
-    "format": "<span color='#202020' bgcolor='#689d6a' > {icon} </span> {capacity}%",
-    "format-critical": "<span color='#202020' bgcolor='#cc241d' > {icon} </span> {capacity}%!!",
-    "format-warning": "<span color='#202020' bgcolor='#e78a4e' > {icon} </span> {capacity}%",
-    "format-full": "<span color='#202020' bgcolor='#689d6a' > {icon} </span> {capacity}%",
-    "format-charging": "<span color='#202020' bgcolor='#689d6a' > 󰂅 </span> {capacity}%",
-    "format-charging-warning": "<span color='#202020' bgcolor='#e78a4e' > 󰢝 </span> {capacity}%",
-    "format-charging-critical": "<span color='#202020' bgcolor='#cc241d' > 󰢜 </span> {capacity}%",
-    "format-plugged": "<span color='#202020' bgcolor='#689d6a' > 󰂅 </span> {capacity}%",
-    "format-alt": "<span color='#202020' bgcolor='#689d6a' > 󱧥 </span> {time}",
+    "format": "<span color='@green-dark@' > {icon} </span>{capacity}% ",
+    "format-critical": "<span color='@red-dark@' > {icon} </span>{capacity}%!! ",
+    "format-warning": "<span color='@orange@' > {icon} </span>{capacity}% ",
+    "format-full": "<span color='@green-dark@' > {icon} </span>{capacity}% ",
+    "format-charging": "<span color='@green-dark@' > 󰂅 </span>{capacity}% ",
+    "format-charging-warning": "<span color='@orange@' > 󰢝 </span>{capacity}% ",
+    "format-charging-critical": "<span color='@red-dark@' > 󰢜 </span>{capacity}% ",
+    "format-plugged": "<span color='@green-dark@' > 󰂅 </span>{capacity}% ",
+    "format-alt": "<span color='@green-dark@' > 󱧥 </span>{time} ",
     "tooltip": false
   },
   "network": {
     "interval": 2,
-    "format": "<span color='#202020' bgcolor='#d3869b'> 󱘖 </span> {bandwidthDownBits}",
-    "format-wifi": "<span color='#202020' bgcolor='#d3869b'> {icon} </span> {bandwidthDownBits}",
-    "format-ethernet": "<span color='#202020' bgcolor='#d3869b'> 󰈀 </span> {bandwidthDownBits}",
+    "format": "<span color='@pink@'> 󱘖 </span>{bandwidthDownBits} ",
+    "format-wifi": "<span color='@pink@'> {icon} </span>{bandwidthDownBits} ",
+    "format-ethernet": "<span color='@pink@'> 󰈀 </span>{bandwidthDownBits} ",
     "format-icons": [
       "󰤫",
       "󰤟",
@@ -169,7 +174,7 @@
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
   },
   "clock": {
-    "format": "<span color='#202020' bgcolor='#8ec07c' >  </span> {:%a %d | %H:%M}",
+    "format": "<span color='@green@' >  </span>{:%a %d | %H:%M} ",
     "tooltip": false,
     "interval": 1
   },

@@ -1,6 +1,6 @@
 [Settings]
 gtk-theme-name=Adwaita
-gtk-application-prefer-dark-theme=@PREFER_DARK@
+gtk-application-prefer-dark-theme=1
 gtk-font-name=Sans 10
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=24

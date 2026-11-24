@@ -1,28 +1,6 @@
-/* outline — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_2) */
-/* Self-contained palette (gruvbox-ish); theme colors prepended by the switcher are unused here. */
-
-/* ===== COLORS ===== */
-@define-color bg #222222;
-@define-color fg #ebdbb2;
-
-@define-color blue #83a598;
-@define-color blue-dark #458588;
-
-@define-color pink #d3869b;
-
-@define-color green #8ec07c;
-@define-color green-dark #689d68;
-
-@define-color red #ea6962;
-@define-color red-dark #cc241d;
-
-@define-color orange #e78a4e;
-@define-color yellow #f6c657;
-@define-color yellow-soft #d8a657;
-
-@define-color white-soft #fff4d2;
-@define-color gray #555555;
-
+/* outline bar, ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_2) */
+/* Colours come from the active theme. */
+@import "themes/current.css";
 
 /* ===== GLOBAL ===== */
 * {

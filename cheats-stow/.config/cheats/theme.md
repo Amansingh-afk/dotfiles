@@ -1,32 +1,30 @@
-# Themes, bar layouts, wallpapers
+# Themes, wallpapers
 
-Themes: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum` (light).
+Themes: `gruvbox` (default), `monochrome`.
 
 ## Switch
 | How | What |
 |---|---|
 | `Super+Alt+T` | theme cards (rofi) |
-| `Super+Alt+B` | waybar layout cards |
 | `Super+Alt+W` | wallpaper cards (plus Random) |
 | `./install.sh restow --monochrome` | from terminal, also re-links everything |
-| `~/.config/waybar/scripts/waybar-layout.sh floating` | layout only |
 
-Layouts: `default`, `outline`, `floating`, `bsod`, `platinum`. Colour theme and layout are independent; picking a theme keeps a standalone layout (outline, floating).
+One bar layout (outline), coloured by the theme.
 
 ## What a theme touches
 | App | File |
 |---|---|
 | kitty | `kitty/themes/<t>.conf` → `current.conf` (running kitties reload) |
 | hyprland | `hypr/themes/<t>.conf` (borders, blur, animations) |
-| waybar | `waybar/themes/<t>.css` + `waybar/configs/<layout>/` → generated `style.css`, `config` |
+| waybar | `waybar/themes/<t>.css` → `current.css` (imported by `style.css`), `config.in` → generated `config` |
 | rofi | `rofi/themes/<t>.rasi` |
 | mako | `mako/themes/<t>.conf` |
-| gtk | `gtk-{3,4}.0/themes/<t>.css` → `gtk.css`, prefer-dark in `settings.ini` |
+| gtk | `gtk-{3,4}.0/themes/<t>.css` → `gtk.css` |
 | zsh, fzf, nvim | `DOTFILES_THEME` env from `zsh/dotfiles-theme.env` |
 | bat, delta, glow, lazygit | env in `zsh/theme.zsh`: `BAT_THEME`, `DELTA_FEATURES`, `GLAMOUR_STYLE`, `LG_CONFIG_FILE` → `lazygit/themes/<t>.yml` |
 | starship | `starship/starship.toml` palettes → generated `current.toml` |
 | yazi | `yazi/themes/<t>.toml` → `theme.toml` (flavors vendored in `yazi/flavors/`) |
-| btop | `btop/btop.conf.in` → generated `btop.conf` (`btop/themes/` for custom) |
+| btop | `btop/btop.conf.in` → generated `btop.conf` |
 | cava | terminal colours, nothing to do |
 
 ## Add a theme

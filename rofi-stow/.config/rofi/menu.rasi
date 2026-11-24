@@ -75,4 +75,3 @@ element normal.normal, element alternate.normal {
     background-color:           transparent;
     text-color:                 @fg0;
 }
-@import "theme-overrides.rasi"

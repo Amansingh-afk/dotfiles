@@ -69,4 +69,3 @@ element alternate.normal {
     text-color:                 @fg0;
 }
 
-@import "theme-overrides.rasi"

@@ -16,7 +16,6 @@ y() {
 # cheat -l          list topics
 cheat() {
   local dir="$HOME/.config/cheats" topic style="dark"
-  [[ "$DOTFILES_THEME" == "platinum" ]] && style="light"
   case "$1" in
     -l) ls "$dir" | sed 's/\.md$//'; return ;;
     -e) ${EDITOR:-nvim} "$dir/${2:-shell}.md"; return ;;
