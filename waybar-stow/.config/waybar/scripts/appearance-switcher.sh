@@ -213,4 +213,8 @@ main_menu() {
     esac
 }
 
-main_menu
+case "${1:-}" in
+    themes) show_themes ;;
+    wallpapers) show_wallpapers ;;
+    *) main_menu ;;
+esac
