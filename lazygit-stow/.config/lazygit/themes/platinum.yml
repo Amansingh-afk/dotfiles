@@ -1,0 +1,13 @@
+# platinum
+gui:
+  theme:
+    activeBorderColor: ["#000099", "bold"]
+    inactiveBorderColor: ["#9b9b9b"]
+    searchingActiveBorderColor: ["#884400", "bold"]
+    optionsTextColor: ["#006666"]
+    selectedLineBgColor: ["#c0c0c0"]
+    inactiveViewSelectedLineBgColor: ["#cccccc"]
+    cherryPickedCommitBgColor: ["#006600"]
+    cherryPickedCommitFgColor: ["#000099"]
+    unstagedChangesColor: ["#990000"]
+    defaultFgColor: ["#000000"]

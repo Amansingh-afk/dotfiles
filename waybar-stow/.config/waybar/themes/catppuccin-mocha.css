@@ -30,3 +30,8 @@
 @define-color base rgba(30, 30, 46, 0.45);
 @define-color mantle rgba(24, 24, 37, 0.45);
 @define-color crust rgba(17, 17, 27, 0.45);
+
+/* State colours (used by the default layout battery states) */
+@define-color success #a6e3a1;
+@define-color warning #f9e2af;
+@define-color critical #f38ba8;

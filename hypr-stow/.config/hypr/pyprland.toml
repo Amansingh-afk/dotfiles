@@ -1,0 +1,43 @@
+# pyprland — scratchpads toggled from keybinds.conf (pypr toggle <name>)
+[pyprland]
+plugins = ["scratchpads"]
+
+[scratchpads.term]
+animation = "fromTop"
+command = "kitty --class dropterm"
+class = "dropterm"
+size = "75% 60%"
+margin = 40
+unfocus = "hide"
+
+[scratchpads.mixer]
+animation = "fromRight"
+command = "kitty --class mixer wiremix"
+class = "mixer"
+size = "50% 65%"
+lazy = true
+unfocus = "hide"
+
+[scratchpads.net]
+animation = "fromRight"
+command = "kitty --class net nmtui"
+class = "net"
+size = "50% 65%"
+lazy = true
+unfocus = "hide"
+
+[scratchpads.bt]
+animation = "fromRight"
+command = "kitty --class bt bluetuith"
+class = "bt"
+size = "50% 65%"
+lazy = true
+unfocus = "hide"
+
+[scratchpads.btop]
+animation = "fromTop"
+command = "kitty --class btop btop"
+class = "btop"
+size = "85% 80%"
+lazy = true
+unfocus = "hide"

@@ -1,6 +1,10 @@
-customCommands:
-- key: C
-  context: files
-  command: lazygit-ai commit --modal
-  description: AI commit (modal)
-  subprocess: true
+# Base lazygit config. Colours come from themes/<theme>.yml via LG_CONFIG_FILE (set in zsh theme.zsh).
+gui:
+  nerdFontsVersion: "3"
+  showFileTree: true
+  showRandomTip: false
+  border: rounded
+git:
+  paging:
+    colorArg: always
+    pager: delta --paging=never

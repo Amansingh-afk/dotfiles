@@ -56,7 +56,6 @@ return {
         integrations = {
           cmp = true,
           gitsigns = true,
-          nvimtree = true,
           treesitter = true,
           telescope = { enabled = true },
           which_key = true,
@@ -84,7 +83,7 @@ return {
     "scottmckendry/cyberdream.nvim",
     lazy = false,
     priority = 1000,
-    cond = theme == "retro",
+    cond = theme == "bsod",
     config = function()
       -- BSOD / DOS blue screen aesthetic
       vim.cmd("colorscheme blue")
@@ -132,7 +131,7 @@ return {
     "projekt0n/github-nvim-theme",
     lazy = false,
     priority = 1000,
-    cond = theme == "retrov2",
+    cond = theme == "platinum",
     config = function()
       require("github-theme").setup({
         options = {

@@ -3,22 +3,30 @@
 # Dotfiles installation script using GNU Stow
 # Optimized for Hyprland on Fedora
 
+set -eo pipefail
+cd "$(dirname "$(readlink -f "$0")")"
+
 PACKAGES=(
-    "alacritty-stow"
     "btop-stow"
     "cava-stow"
+    "cheats-stow"
     "fastfetch-stow"
     "fontconfig-stow"
+    "git-stow"
     "gtk3-stow"
     "gtk4-stow"
     "hypr-stow"
+    "kitty-stow"
     "lazygit-stow"
     "mako-stow"
+    "mise-stow"
     "nvim-stow"
     "rofi-stow"
     "starship-stow"
     "tmux-stow"
     "waybar-stow"
+    "xdg-stow"
+    "yazi-stow"
     "zsh-stow"
 )
 
@@ -28,209 +36,204 @@ for arg in "$@"; do
         --monochrome) THEME="monochrome" ;;
         --gruvbox) THEME="gruvbox" ;;
         --catppuccin-mocha) THEME="catppuccin-mocha" ;;
-        --retro) THEME="retro" ;;
-        --retrov2) THEME="retrov2" ;;
+        --bsod) THEME="bsod" ;;
+        --platinum) THEME="platinum" ;;
     esac
 done
 
 set_theme_symlinks() {
     local theme="$1"
     echo "Setting theme to $theme"
-
-    mkdir -p ~/.config/alacritty/themes
-    ln -sfn ${theme}.toml ~/.config/alacritty/themes/current.toml
-
-    mkdir -p ~/.config/rofi/themes
-    ln -sfn ${theme}.rasi ~/.config/rofi/themes/current.rasi
-
-    mkdir -p ~/.config/waybar/themes
-    ln -sfn ${theme}.css ~/.config/waybar/themes/current.css
-
-    # Combine theme CSS with layout style for waybar
-    local layout_dir="default"
-    [[ -d ~/.config/waybar/configs/${theme} ]] && layout_dir="${theme}"
-    if [[ -f ~/.config/waybar/themes/${theme}.css ]] && [[ -f ~/.config/waybar/configs/${layout_dir}/style.css ]]; then
-        cat ~/.config/waybar/themes/${theme}.css ~/.config/waybar/configs/${layout_dir}/style.css > ~/.config/waybar/style.css
-        echo "Created combined waybar style.css (layout: $layout_dir)"
-    fi
-    if [[ -f ~/.config/waybar/configs/${layout_dir}/config ]]; then
-        cp ~/.config/waybar/configs/${layout_dir}/config ~/.config/waybar/config
-        echo "Applied waybar config (layout: $layout_dir)"
-    fi
-
-    mkdir -p ~/.config/hypr/themes
-    ln -sfn ${theme}.conf ~/.config/hypr/themes/current.conf
-
-    mkdir -p ~/.config/mako/themes
-    ln -sfn ${theme}.conf ~/.config/mako/themes/current.conf
-
-    # Update GTK themes for file manager (Nautilus) etc.
-    if [[ -f ~/.config/gtk-4.0/themes/${theme}.css ]]; then
-        cp ~/.config/gtk-4.0/themes/${theme}.css ~/.config/gtk-4.0/gtk.css
-        echo "Applied GTK4 theme: $theme"
-    fi
-    if [[ -f ~/.config/gtk-3.0/themes/${theme}.css ]]; then
-        cp ~/.config/gtk-3.0/themes/${theme}.css ~/.config/gtk-3.0/gtk.css
-        echo "Applied GTK3 theme: $theme"
-    fi
-
-    mkdir -p ~/.config/zsh
-    echo "export DOTFILES_THEME=$theme" > ~/.config/zsh/dotfiles-theme.env
+    ~/.config/waybar/scripts/theme-apply.sh "$theme"
 }
 
-configure_zshrc() {
-    echo "Configuring ~/.zshrc to source custom configs..."
-    
-    # ~/.zshrc is already the repo's own file: nothing to append
-    if [[ "$(readlink -f ~/.zshrc)" == "$(readlink -f ~/.config/zsh/.zshrc)" ]]; then
-        return
+write_gtk_bookmarks() {
+    # Nautilus sidebar bookmarks need absolute URIs, so generate per user.
+    local dir
+    {
+        for dir in Pictures Documents Music Videos Downloads; do
+            [[ -d "$HOME/$dir" ]] && echo "file://$HOME/$dir"
+        done
+    } > ~/.config/gtk-3.0/bookmarks
+}
+
+setup_zsh() {
+    # zsh reads ~/.zshenv (stowed) which sets ZDOTDIR=~/.config/zsh, so the
+    # repo's .zshrc is used and a leftover ~/.zshrc would be ignored. Move it aside.
+    if [[ -f ~/.zshrc && ! -L ~/.zshrc ]]; then
+        mv ~/.zshrc ~/.zshrc.pre-dotfiles
+        echo "Moved old ~/.zshrc to ~/.zshrc.pre-dotfiles (put machine-specific bits in ~/.zshrc.local)"
+    fi
+    if [[ ! -f ~/.zshrc.local ]]; then
+        cat > ~/.zshrc.local <<'LOCAL'
+# Machine-specific zsh config and secrets. Not tracked in the dotfiles repo.
+LOCAL
+        chmod 600 ~/.zshrc.local
     fi
 
-    # Check if our custom config block already exists
-    if grep -q "# >>> dotfiles config >>>" ~/.zshrc 2>/dev/null; then
-        echo "Custom config already present in ~/.zshrc"
+    # ssh-agent as a systemd user socket (SSH_AUTH_SOCK is set in ~/.zshenv)
+    if systemctl --user list-unit-files ssh-agent.socket &>/dev/null; then
+        systemctl --user enable --now ssh-agent.socket 2>/dev/null || true
+    fi
+}
+
+install_nerd_font() {
+    local font_dir="$HOME/.local/share/fonts"
+    mkdir -p "$font_dir"
+    if fc-list | grep -qi "nerd font"; then
+        echo "Nerd Fonts already installed"
         return
     fi
-    
-    # Append our custom config sourcing to .zshrc
-    cat >> ~/.zshrc << 'EOF'
+    echo "Downloading JetBrains Mono Nerd Font..."
+    local tmp
+    tmp=$(mktemp -d)
+    if curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip -o "$tmp/nf.zip"; then
+        unzip -q "$tmp/nf.zip" -d "$font_dir/JetBrainsMonoNerd"
+        fc-cache -f "$font_dir"
+        echo "Nerd Fonts installed to $font_dir/JetBrainsMonoNerd"
+    else
+        echo "Warning: Could not download Nerd Fonts. Install manually from https://www.nerdfonts.com/font-downloads"
+    fi
+    rm -rf "$tmp"
+}
 
-# >>> dotfiles config >>>
-# Source custom configs from dotfiles
-[[ -f ~/.config/zsh/aliases.zsh ]] && source ~/.config/zsh/aliases.zsh
-[[ -f ~/.config/zsh/functions.zsh ]] && source ~/.config/zsh/functions.zsh
+install_vt323_font() {
+    local font_dir="$HOME/.local/share/fonts"
+    mkdir -p "$font_dir"
+    if fc-list | grep -qi "VT323"; then
+        echo "VT323 font already installed"
+        return
+    fi
+    echo "Installing VT323 font for bsod theme..."
+    if curl -fsSL "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -o "$font_dir/VT323-Regular.ttf"; then
+        fc-cache -f "$font_dir"
+        echo "VT323 font installed"
+    else
+        echo "Warning: Could not download VT323. Install manually from Google Fonts."
+    fi
+}
 
-# Zoxide (if installed)
-command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
-# <<< dotfiles config <<<
-EOF
-    echo "Added custom config to ~/.zshrc"
+remove_gui() {
+    # GUI apps replaced by TUIs: yazi, wiremix, bluetuith, nmtui. Terminal is kitty.
+    local p rm=()
+    for p in alacritty nautilus pavucontrol blueman wofi; do
+        rpm -q "$p" &>/dev/null && rm+=("$p")
+    done
+    if ((${#rm[@]})); then
+        echo "Removing replaced GUI apps: ${rm[*]}"
+        sudo dnf remove -y "${rm[@]}"
+    fi
+}
+
+install_extras() {
+    # Tools not packaged in Fedora
+    echo ""
+    echo "Installing mise, sesh, lazydocker, bluetuith, pyprland, termfilechooser..."
+    if ! command -v mise &>/dev/null && [[ ! -x ~/.local/bin/mise ]]; then
+        curl -fsSL https://mise.run | sh
+    fi
+    export PATH="$HOME/go/bin:$HOME/.local/bin:$PATH"
+    command -v sesh       &>/dev/null || GOTOOLCHAIN=auto go install github.com/joshmedeski/sesh/v2@latest
+    command -v lazydocker &>/dev/null || go install github.com/jesseduffield/lazydocker@latest
+    command -v bluetuith  &>/dev/null || go install github.com/darkhz/bluetuith@latest
+    if ! command -v pypr &>/dev/null; then
+        if command -v uv &>/dev/null; then uv tool install pyprland
+        else python3 -m pip install --user pyprland; fi
+    fi
+    install_termfilechooser || echo "Warning: termfilechooser build failed, file dialogs stay GTK"
+}
+
+install_termfilechooser() {
+    # xdg-desktop-portal backend that opens yazi for file dialogs (not packaged in Fedora)
+    [[ -x /usr/libexec/xdg-desktop-portal-termfilechooser ]] && { echo "termfilechooser already installed"; return 0; }
+    local tmp
+    tmp=$(mktemp -d)
+    git clone --depth=1 https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser "$tmp/src"
+    (
+        cd "$tmp/src"
+        meson setup build --prefix=/usr -Dsd-bus-provider=libsystemd
+        ninja -C build
+        sudo ninja -C build install
+    )
+    rm -rf "$tmp"
+    systemctl --user daemon-reload
+    systemctl --user restart xdg-desktop-portal 2>/dev/null || true
 }
 
 install_deps() {
     echo "==========================================="
     echo "Installing dependencies for Fedora..."
     echo "==========================================="
-    
-    # Core Hyprland packages
-    echo ""
-    echo "[1/7] Installing Hyprland and core packages..."
-    sudo dnf install -y \
-        hyprland waybar mako rofi wofi hyprpaper hyprlock \
-        cliphist wl-clipboard polkit-kde \
-        qt6-qtbase qt6ct gtk4 gtk3 nautilus \
-        alacritty neovim zsh tmux lazygit btop cava fastfetch fontconfig \
-        stow git
-    
-    # Fonts
-    echo ""
-    echo "[2/7] Installing fonts..."
-    sudo dnf install -y \
-        fontawesome-fonts powerline-fonts google-noto-fonts \
-        jetbrains-mono-fonts-all
-    
-    # Install Nerd Fonts (CodeNewRoman or similar)
-    echo ""
-    echo "Installing Nerd Fonts for waybar icons..."
-    FONT_DIR="$HOME/.local/share/fonts"
-    mkdir -p "$FONT_DIR"
-    
-    # Download and install a Nerd Font (JetBrains Mono as fallback)
-    if ! fc-list | grep -qi "nerd font"; then
-        echo "Downloading JetBrains Mono Nerd Font..."
-        cd /tmp
-        wget -q https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip -O nerd-font.zip 2>/dev/null || \
-        curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip -o nerd-font.zip 2>/dev/null
-        
-        if [ -f nerd-font.zip ]; then
-            unzip -q nerd-font.zip -d "$FONT_DIR" 2>/dev/null || true
-            rm -f nerd-font.zip
-            fc-cache -fv "$FONT_DIR" 2>/dev/null || true
-            echo "Nerd Fonts installed to $FONT_DIR"
-        else
-            echo "Warning: Could not download Nerd Fonts automatically."
-            echo "Please install manually from: https://www.nerdfonts.com/font-downloads"
-        fi
-    else
-        echo "Nerd Fonts already installed"
-    fi
 
-    # Install VT323 font for retro BSOD theme
-    if ! fc-list | grep -qi "VT323"; then
-        echo "Installing VT323 font for retro theme..."
-        cd /tmp
-        wget -q "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -O VT323-Regular.ttf 2>/dev/null || \
-        curl -L "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -o VT323-Regular.ttf 2>/dev/null
-        if [ -f VT323-Regular.ttf ]; then
-            mv VT323-Regular.ttf "$FONT_DIR/"
-            fc-cache -fv "$FONT_DIR" 2>/dev/null || true
-            echo "VT323 font installed"
-        else
-            echo "Warning: Could not download VT323. Install manually from Google Fonts."
-        fi
-    else
-        echo "VT323 font already installed"
-    fi
-
-    # Screenshot/media tools
     echo ""
-    echo "[3/7] Installing screenshot and media tools..."
+    echo "[1/6] Installing Hyprland and core packages..."
     sudo dnf install -y \
-        grim slurp wf-recorder ImageMagick \
-        pamixer brightnessctl playerctl
-    
-    # Audio
+        hyprland waybar mako rofi hyprpaper hyprlock hypridle lxpolkit \
+        xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
+        cliphist wl-clipboard rofimoji \
+        qt6-qtbase qt6ct gtk4 gtk3 \
+        kitty kitty-terminfo neovim zsh tmux lazygit btop cava fastfetch fontconfig \
+        stow git curl unzip
+
     echo ""
-    echo "[4/7] Installing audio packages..."
+    echo "[1b/6] Installing terminal apps and CLI tools..."
+    sudo dnf install -y \
+        yazi zathura zathura-pdf-mupdf zathura-cb mpv swayimg wiremix NetworkManager-tui \
+        eza bat fd-find ripgrep git-delta du-dust duf tealdeer atuin direnv jq glow chafa \
+        ffmpegthumbnailer poppler-utils p7zip \
+        meson ninja-build inih-devel systemd-devel scdoc pkgconf
+
+    echo ""
+    echo "[2/6] Installing fonts..."
+    sudo dnf install -y google-noto-sans-fonts google-noto-serif-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts-all rsms-inter-fonts
+    install_nerd_font
+    install_vt323_font
+
+    echo ""
+    echo "[3/6] Installing screenshot and media tools..."
+    sudo dnf install -y \
+        grim slurp wf-recorder hyprpicker ImageMagick \
+        brightnessctl playerctl upower
+
+    echo ""
+    echo "[4/6] Installing audio packages..."
     sudo dnf install -y \
         pipewire pipewire-pulseaudio pipewire-alsa \
         wireplumber pavucontrol blueman
-    
-    # Dev tools
+
     echo ""
-    echo "[5/7] Installing development tools..."
+    echo "[5/6] Installing development tools..."
     sudo dnf install -y \
-        gcc g++ make cmake nodejs npm python3 python3-pip \
-        fzf zoxide yazi
-    
-    # Starship prompt
+        gcc gcc-c++ make cmake golang python3 python3-pip \
+        fzf zoxide
+
     echo ""
-    echo "[6/7] Installing Starship prompt..."
+    echo "[6/6] Installing Starship, Oh My Zsh and Zsh plugins..."
     if ! command -v starship &>/dev/null; then
         curl -sS https://starship.rs/install.sh | sh -s -- -y
     else
         echo "Starship already installed"
     fi
 
-    # Oh My Zsh
-    echo ""
-    echo "[7/7] Installing Oh My Zsh and Zsh plugins..."
-
     if [[ ! -d ~/.oh-my-zsh ]]; then
         echo "Installing Oh My Zsh..."
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
     else
         echo "Oh My Zsh already installed"
     fi
 
-    # Zsh plugins
-    ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-    
-    if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
-        echo "Installing zsh-autosuggestions..."
-        git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-    fi
-    
-    if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
-        echo "Installing zsh-syntax-highlighting..."
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-    fi
-    
-    if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-history-substring-search" ]]; then
-        echo "Installing zsh-history-substring-search..."
-        git clone https://github.com/zsh-users/zsh-history-substring-search "$ZSH_CUSTOM/plugins/zsh-history-substring-search"
-    fi
-    
+    local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+    local plugin
+    for plugin in zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search; do
+        if [[ ! -d "$zsh_custom/plugins/$plugin" ]]; then
+            echo "Installing $plugin..."
+            git clone --depth=1 "https://github.com/zsh-users/$plugin" "$zsh_custom/plugins/$plugin"
+        fi
+    done
+
+    remove_gui
+    install_extras
+
     echo ""
     echo "==========================================="
     echo "Dependencies installed successfully!"
@@ -242,26 +245,73 @@ install_deps() {
     echo "  3. Log out and log back in"
 }
 
+write_hypr_env() {
+    # Hyprland starts with PATH=/usr/local/bin:/usr/bin. Everything it launches (keybinds, waybar,
+    # pyprland, kitty) needs the user tool dirs too. env= needs absolute paths, so generate it.
+    cat > ~/.config/hypr/env.conf <<ENV
+# Generated by install.sh, do not edit (gitignored)
+env = PATH,$HOME/.local/bin:$HOME/go/bin:/usr/local/bin:/usr/bin
+ENV
+}
+
+setup_xdg() {
+    # termfilechooser config needs absolute paths, so it is generated (gitignored)
+    cat > ~/.config/xdg-desktop-portal-termfilechooser/config <<CFG
+[filechooser]
+cmd=$HOME/.config/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+default_dir=$HOME
+env=TERMCMD=kitty --class tui-float
+CFG
+    update-desktop-database ~/.local/share/applications 2>/dev/null || true
+    systemctl --user restart xdg-desktop-portal 2>/dev/null || true
+}
+
+stow_all() {
+    local flag="$1" package
+    # generated files that must not block stow
+    rm -f ~/.config/gtk-3.0/bookmarks ~/.config/gtk-3.0/settings.ini ~/.config/gtk-4.0/settings.ini
+    rm -f ~/.config/btop/btop.conf ~/.config/starship.toml
+    # files other tools wrote before we owned them (stow refuses to overwrite real files)
+    local f
+    for f in ~/.config/mimeapps.list ~/.config/lazygit/config.yml ~/.config/yazi/theme.toml ~/.config/git/config; do
+        if [[ -f "$f" && ! -L "$f" ]]; then
+            if [[ -s "$f" ]]; then
+                mv "$f" "$f.pre-dotfiles"; echo "Moved old $f to $f.pre-dotfiles"
+            else
+                rm -f "$f"
+            fi
+        fi
+    done
+    mkdir -p ~/.local/share/applications ~/.config/xdg-desktop-portal
+    for package in "${PACKAGES[@]}"; do
+        echo "Stowing $package..."
+        stow $flag -t ~ "$package"
+    done
+    chmod +x ~/.config/waybar/scripts/*.sh
+    write_gtk_bookmarks
+    set_theme_symlinks "$THEME"
+    setup_zsh
+    setup_xdg
+    write_hypr_env
+    export PATH="$HOME/.local/bin:$PATH"
+    command -v mise &>/dev/null && mise install -y
+    command -v tldr &>/dev/null && tldr --update >/dev/null 2>&1 || true
+}
+
 case "$1" in
     "deps")
         install_deps
         ;;
+    "extras")
+        install_extras
+        ;;
     "install")
         echo "Installing all dotfiles packages..."
-        
-        for package in "${PACKAGES[@]}"; do
-            echo "Installing $package..."
-            stow -t ~ "$package"
-        done
-        
-        chmod +x ~/.config/waybar/scripts/*.sh 2>/dev/null || true
-        set_theme_symlinks "$THEME"
-        configure_zshrc
-        
+        stow_all ""
         echo ""
         echo "All packages installed successfully!"
         echo ""
-        echo "To apply zsh changes, run: source ~/.zshrc"
+        echo "Open a new terminal for zsh changes."
         echo "To reload Hyprland, run: hyprctl reload"
         ;;
     "uninstall")
@@ -274,25 +324,17 @@ case "$1" in
         ;;
     "restow")
         echo "Restowing all dotfiles packages..."
-        
-        for package in "${PACKAGES[@]}"; do
-            echo "Restowing $package..."
-            stow -R -t ~ "$package"
-        done
-        
-        chmod +x ~/.config/waybar/scripts/*.sh 2>/dev/null || true
-        set_theme_symlinks "$THEME"
-        configure_zshrc
-        
+        stow_all "-R"
         echo "All packages restowed successfully!"
         ;;
     *)
         echo "Dotfiles Installation Script"
         echo ""
-        echo "Usage: $0 {deps|install|uninstall|restow} [--theme]"
+        echo "Usage: $0 {deps|extras|install|uninstall|restow} [--theme]"
         echo ""
         echo "Commands:"
         echo "  deps      - Install all system dependencies (run first on new machine)"
+        echo "  extras    - Only the non-dnf tools (mise, sesh, lazydocker, bluetuith, pyprland, termfilechooser)"
         echo "  install   - Install all dotfiles packages"
         echo "  uninstall - Uninstall all dotfiles packages"
         echo "  restow    - Restow all packages (uninstall then install)"
@@ -301,8 +343,8 @@ case "$1" in
         echo "  --gruvbox          (default)"
         echo "  --monochrome"
         echo "  --catppuccin-mocha"
-        echo "  --retro"
-        echo "  --retrov2"
+        echo "  --bsod"
+        echo "  --platinum"
         echo ""
         echo "Example (new machine setup):"
         echo "  $0 deps              # Install dependencies"
@@ -310,4 +352,4 @@ case "$1" in
         echo "  chsh -s \$(which zsh)  # Set zsh as default shell"
         exit 1
         ;;
-esac 
+esac

@@ -32,7 +32,7 @@ return {
           map("n", "gD", vim.lsp.buf.declaration, opts)
           map("n", "K", vim.lsp.buf.hover, opts)
           map("n", "gi", vim.lsp.buf.implementation, opts)
-          map("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+          map("i", "<C-k>", vim.lsp.buf.signature_help, opts) -- normal-mode <C-k> stays window-up
           map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
           map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
           map("n", "<leader>wl", function()

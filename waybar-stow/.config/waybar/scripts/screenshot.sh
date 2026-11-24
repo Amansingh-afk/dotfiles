@@ -1,30 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# screenshot.sh region|full|window — save to ~/Pictures/Screenshots and copy to clipboard.
+# Bound to Print / Shift+Print / Ctrl+Print in keybinds.conf.
+set -euo pipefail
 
-SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
-mkdir -p "$SCREENSHOT_DIR"
+mode="${1:-region}"
+dir="$HOME/Pictures/Screenshots"
+mkdir -p "$dir"
+file="$dir/screenshot-$(date +%Y%m%d_%H%M%S).png"
 
-if [[ "$1" == "--area" ]]; then
-    # Direct area screenshot
-    grimblast copy area
-    exit 0
-fi
+args=()
+case "$mode" in
+  region)
+    geom=$(slurp) || exit 0            # Esc cancels
+    args=(-g "$geom") ;;
+  full)
+    ;;
+  window)
+    geom=$(hyprctl activewindow -j | jq -r 'select(.at) | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')
+    [[ -z "$geom" ]] && exit 0
+    args=(-g "$geom") ;;
+  *)
+    echo "usage: $0 region|full|window" >&2; exit 1 ;;
+esac
 
-# Show screenshot menu
-selected=$(echo -e "󰹑 Full Screen\n󰆞 Select Area\n󰨇 Active Window\n---\n󰆏 Save to File" | rofi -dmenu -p "Screenshot" -theme "~/.config/rofi/base.rasi")
-
-case "$selected" in
-    "󰹑 Full Screen")
-        grimblast copy output
-        ;;
-    "󰆞 Select Area")
-        grimblast copy area
-        ;;
-    "󰨇 Active Window")
-        grimblast copy active
-        ;;
-    "󰆏 Save to File")
-        filename="$SCREENSHOT_DIR/screenshot-$(date +%Y%m%d-%H%M%S).png"
-        grimblast save output "$filename"
-        notify-send "Screenshot Saved" "Saved to $filename"
-        ;;
-esac 
+grim "${args[@]}" - | tee "$file" | wl-copy
+notify-send -i "$file" "Screenshot $mode" "$file" -t 3000

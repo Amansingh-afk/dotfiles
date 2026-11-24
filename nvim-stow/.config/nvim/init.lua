@@ -6,7 +6,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 local theme = os.getenv("DOTFILES_THEME") or "gruvbox"
-if theme == "retrov2" then
+if theme == "platinum" then
   vim.o.background = "light"
 else
   vim.o.background = "dark"
@@ -14,7 +14,7 @@ end
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy-acer/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",

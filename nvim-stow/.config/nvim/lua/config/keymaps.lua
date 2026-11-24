@@ -37,9 +37,9 @@ wk.add({
   { "<leader>bX", "<Cmd>BufferLineCloseOthers<CR>", desc = "Close Other Buffers" },
 
   { "<leader>e", group = "Explorer" },
-  { "<leader>ee", ":NvimTreeToggle<CR>", desc = "Toggle Explorer" },
-  { "<leader>ef", ":NvimTreeFindFile<CR>", desc = "Find Current File" },
-  { "<leader>er", ":NvimTreeRefresh<CR>", desc = "Refresh Explorer" },
+  { "<leader>ee", "<cmd>Oil<CR>", desc = "Explore current file's directory" },
+  { "<leader>ef", function() require("oil").toggle_float() end, desc = "Explore in floating window" },
+  { "<leader>ec", function() require("oil").open(vim.fn.getcwd()) end, desc = "Explore project root (cwd)" },
 
   { "<leader>f", group = "Find" },
   { "<leader>ff", ":Telescope find_files<CR>", desc = "Find Files" },
@@ -75,7 +75,7 @@ keymap.set("n", "N", "Nzzzv", opts)
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 
-keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
-keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Previous diagnostic" })
+keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next diagnostic" })
 
 keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = "LSP References" })

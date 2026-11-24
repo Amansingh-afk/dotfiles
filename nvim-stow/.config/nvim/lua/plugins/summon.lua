@@ -9,7 +9,7 @@ return {
         type = "terminal",
         command = "claude",
         title = " Claude ",
-        keymap = "<leader>c",
+        keymap = "<leader>cc",
       },
       todos = {
         type = "file",
