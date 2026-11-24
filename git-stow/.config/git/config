@@ -1,3 +1,4 @@
-# Read by git alongside ~/.gitconfig (identity stays there).
-[delta]
+# Read by git alongside ~/.gitconfig (identity stays there). Delta look is picked
+# through DELTA_FEATURES (zsh theme.zsh); syntax colours follow BAT_THEME.
+[delta "dotfiles-dark"]
     dark = true

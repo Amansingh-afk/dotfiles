@@ -68,3 +68,4 @@ element alternate.normal {
     background-color:           transparent;
     text-color:                 @fg0;
 }
+

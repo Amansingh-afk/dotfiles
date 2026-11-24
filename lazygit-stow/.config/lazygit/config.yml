@@ -1,3 +1,4 @@
+# Base lazygit config. Colours come from themes/<theme>.yml via LG_CONFIG_FILE (set in zsh theme.zsh).
 gui:
   nerdFontsVersion: "3"
   showFileTree: true

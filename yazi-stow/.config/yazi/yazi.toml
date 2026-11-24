@@ -1,0 +1,12 @@
+# yazi.toml — openers. Everything else is yazi's default.
+
+[opener]
+browser = [
+  { run = 'xdg-open "$1"', orphan = true, desc = "Open in browser" },
+]
+
+[open]
+# html: Enter opens in the default browser (xdg-open -> mimeapps.list); O picks edit/reveal.
+prepend_rules = [
+  { mime = "text/html", use = [ "browser", "edit", "reveal" ] },
+]

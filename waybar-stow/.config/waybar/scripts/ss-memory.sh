@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Used-memory readout for the swaystation waybar layouts (htop-style accounting).
+# Used-memory readout for waybar (htop-style accounting).
 # Ported from https://github.com/el-toro-fuerte96/swaystation
 
 while read -r key value _; do

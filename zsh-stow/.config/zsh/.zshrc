@@ -52,7 +52,7 @@ if [[ -f ~/.ssh/id_ed25519 ]] && ! ssh-add -l >/dev/null 2>&1; then
 fi
 
 # --- Modular configs ---
-# plugins.zsh runs oh-my-zsh (which runs compinit); theme.zsh sets gruvbox env (fzf, bat, glow, starship).
+# plugins.zsh runs oh-my-zsh (which runs compinit); theme.zsh sets per-theme env (fzf, bat, delta, glow, lazygit, starship).
 source "$ZDOTDIR/plugins.zsh"
 source "$ZDOTDIR/keybindings.zsh"
 source "$ZDOTDIR/theme.zsh"

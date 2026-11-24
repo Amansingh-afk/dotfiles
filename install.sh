@@ -30,6 +30,21 @@ PACKAGES=(
     "zsh-stow"
 )
 
+THEME="gruvbox"
+for arg in "$@"; do
+    case "$arg" in
+        --monochrome) THEME="monochrome" ;;
+        --gruvbox) THEME="gruvbox" ;;
+        --*) echo "Unknown option: $arg (themes: --gruvbox, --monochrome)" >&2; exit 1 ;;
+    esac
+done
+
+set_theme_symlinks() {
+    local theme="$1"
+    echo "Setting theme to $theme"
+    ~/.config/waybar/scripts/theme-apply.sh "$theme"
+}
+
 write_gtk_bookmarks() {
     # Nautilus sidebar bookmarks need absolute URIs, so generate per user.
     local dir
@@ -239,7 +254,7 @@ stow_all() {
     rm -f ~/.config/btop/btop.conf ~/.config/starship.toml
     # files other tools wrote before we owned them (stow refuses to overwrite real files)
     local f
-    for f in ~/.config/mimeapps.list ~/.config/lazygit/config.yml ~/.config/git/config; do
+    for f in ~/.config/mimeapps.list ~/.config/lazygit/config.yml ~/.config/yazi/theme.toml ~/.config/git/config; do
         # skip files reached through a stowed (symlinked) directory: those are the repo's own
         [[ "$(readlink -f "$f")" == "$PWD"/* ]] && continue
         if [[ -f "$f" && ! -L "$f" ]]; then
@@ -257,12 +272,7 @@ stow_all() {
     done
     chmod +x ~/.config/waybar/scripts/*.sh
     write_gtk_bookmarks
-    # keep the active theme, default gruvbox
-    local theme; theme=$(basename "$(readlink ~/.config/waybar/themes/current.css 2>/dev/null || echo gruvbox.css)" .css)
-    ~/.config/waybar/scripts/theme.sh "$theme" --no-reload
-    for f in gtk-3.0 gtk-4.0; do cp ~/.config/$f/settings.ini.in ~/.config/$f/settings.ini; done
-    [[ -e wallpapers/current ]] || ln -sfn shougan_castle.png wallpapers/current
-    command -v gsettings &>/dev/null && gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null || true
+    set_theme_symlinks "$THEME"
     setup_zsh
     setup_xdg
     write_hypr_env
@@ -303,7 +313,7 @@ case "$1" in
     *)
         echo "Dotfiles Installation Script"
         echo ""
-        echo "Usage: $0 {deps|extras|install|uninstall|restow}"
+        echo "Usage: $0 {deps|extras|install|uninstall|restow} [--theme]"
         echo ""
         echo "Commands:"
         echo "  deps      - Install all system dependencies (run first on new machine)"
@@ -311,6 +321,10 @@ case "$1" in
         echo "  install   - Install all dotfiles packages"
         echo "  uninstall - Uninstall all dotfiles packages"
         echo "  restow    - Restow all packages (uninstall then install)"
+        echo ""
+        echo "Theme options:"
+        echo "  --gruvbox          (default)"
+        echo "  --monochrome"
         echo ""
         echo "Example (new machine setup):"
         echo "  $0 deps              # Install dependencies"

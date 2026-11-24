@@ -18,6 +18,7 @@
   ],
   "modules-right": [
     "network",
+    "bluetooth",
     "disk",
     "cpu",
     "custom/cpu_temp",
@@ -25,7 +26,7 @@
     "custom/memory",
     "pulseaudio",
     "battery",
-    "custom/wallpaper",
+    "custom/appearance",
     "custom/power"
   ],
   "custom/launcher": {
@@ -65,7 +66,7 @@
     }
   },
   "hyprland/window": {
-    "format": "<span color='#d3869b' > 󰣆 </span>{class} ",
+    "format": "<span color='@pink@' > 󰣆 </span>{class} ",
     "icon": false,
     "max-length": 30,
     "separate-outputs": true,
@@ -81,39 +82,44 @@
     "spacing": 8
   },
   "disk": {
-    "format": "<span color='#ea6962'>  </span>{free} ",
+    "format": "<span color='@red@'>  </span>{free} ",
     "interval": 20
   },
   "cpu": {
-    "format": "<span color='#e78a4e'>  </span>{usage}% ",
+    "format": "<span color='@orange@'>  </span>{usage}% ",
     "tooltip": false,
     "interval": 1,
     "on-click-right": "pypr toggle btop"
   },
   "custom/cpu_temp": {
-    "exec": "~/.config/waybar/scripts/ss-cpu-temp.sh flat",
+    "exec": "~/.config/waybar/scripts/ss-cpu-temp.sh",
+    "format-icons": {
+      "normal": "<span color='@yellow-soft@' > 󰴈 </span>",
+      "critical": "<span color='@red-dark@' >  </span>",
+      "unknown": "<span color='@gray@' >  </span>"
+    },
     "return-type": "json",
     "interval": 2,
-    "format": "{} ",
+    "format": "{icon}{text} ",
     "tooltip": false
   },
   "backlight": {
-    "format": "<span color='#f6c657'> 󰞏 </span>{percent}% ",
+    "format": "<span color='@yellow@'> 󰞏 </span>{percent}% ",
     "tooltip": false
   },
   "custom/memory": {
     "exec": "~/.config/waybar/scripts/ss-memory.sh",
     "interval": 2,
     "return-type": "json",
-    "format": "<span color='#458588'>  </span>{} ",
+    "format": "<span color='@blue-dark@'>  </span>{} ",
     "tooltip": false
   },
   "pulseaudio": {
     "scroll-step": 1,
-    "format": "<span color='#83a598'>  </span>{volume}% ",
-    "format-muted": "<span color='#ea6962'>  </span>{volume}% ",
-    "format-bluetooth": "<span color='#83a598'> 󰂰 </span>{volume}% ",
-    "format-bluetooth-muted": "<span color='#ea6962'> 󰂲 </span>{volume}% ",
+    "format": "<span color='@blue@'>  </span>{volume}% ",
+    "format-muted": "<span color='@red@'>  </span>{volume}% ",
+    "format-bluetooth": "<span color='@blue@'> 󰂰 </span>{volume}% ",
+    "format-bluetooth-muted": "<span color='@red@'> 󰂲 </span>{volume}% ",
     "format-source": "{volume}% ",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-right": "pypr toggle mixer",
@@ -139,22 +145,22 @@
       "󰂂",
       "󰁹"
     ],
-    "format": "<span color='#689d6a' > {icon} </span>{capacity}% ",
-    "format-critical": "<span color='#cc241d' > {icon} </span>{capacity}%!! ",
-    "format-warning": "<span color='#e78a4e' > {icon} </span>{capacity}% ",
-    "format-full": "<span color='#689d6a' > {icon} </span>{capacity}% ",
-    "format-charging": "<span color='#689d6a' > 󰂅 </span>{capacity}% ",
-    "format-charging-warning": "<span color='#e78a4e' > 󰢝 </span>{capacity}% ",
-    "format-charging-critical": "<span color='#cc241d' > 󰢜 </span>{capacity}% ",
-    "format-plugged": "<span color='#689d6a' > 󰂅 </span>{capacity}% ",
-    "format-alt": "<span color='#689d6a' > 󱧥 </span>{time} ",
+    "format": "<span color='@green-dark@' > {icon} </span>{capacity}% ",
+    "format-critical": "<span color='@red-dark@' > {icon} </span>{capacity}%!! ",
+    "format-warning": "<span color='@orange@' > {icon} </span>{capacity}% ",
+    "format-full": "<span color='@green-dark@' > {icon} </span>{capacity}% ",
+    "format-charging": "<span color='@green-dark@' > 󰂅 </span>{capacity}% ",
+    "format-charging-warning": "<span color='@orange@' > 󰢝 </span>{capacity}% ",
+    "format-charging-critical": "<span color='@red-dark@' > 󰢜 </span>{capacity}% ",
+    "format-plugged": "<span color='@green-dark@' > 󰂅 </span>{capacity}% ",
+    "format-alt": "<span color='@green-dark@' > 󱧥 </span>{time} ",
     "tooltip": false
   },
   "network": {
     "interval": 2,
-    "format": "<span color='#d3869b'> 󱘖 </span>{bandwidthDownBits} ",
-    "format-wifi": "<span color='#d3869b'> {icon} </span>{bandwidthDownBits} ",
-    "format-ethernet": "<span color='#d3869b'> 󰈀 </span>{bandwidthDownBits} ",
+    "format": "<span color='@pink@'> 󱘖 </span>{bandwidthDownBits} ",
+    "format-wifi": "<span color='@pink@'> {icon} </span>{bandwidthDownBits} ",
+    "format-ethernet": "<span color='@pink@'> 󰈀 </span>{bandwidthDownBits} ",
     "format-icons": [
       "󰤫",
       "󰤟",
@@ -168,16 +174,28 @@
     },
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
   },
+  "bluetooth": {
+    "format": "<span color='@blue-dark@'> 󰂯 </span> ",
+    "format-off": "<span color='@gray@'> 󰂲 </span> ",
+    "format-disabled": "<span color='@gray@'> 󰂲 </span> ",
+    "format-connected": "<span color='@blue-dark@'> 󰂱 </span>{num_connections} ",
+    "format-connected-battery": "<span color='@blue-dark@'> 󰂱 </span>{device_battery_percentage}% ",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\n{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\n{device_address}\n{device_battery_percentage}%",
+    "on-click": "pypr toggle bt"
+  },
   "clock": {
-    "format": "<span color='#8ec07c' >  </span>{:%a %d | %H:%M} ",
+    "format": "<span color='@green@' >  </span>{:%a %d | %H:%M} ",
     "tooltip": false,
     "interval": 1
   },
-  "custom/wallpaper": {
+  "custom/appearance": {
     "format": "󰏘",
     "tooltip": true,
-    "tooltip-format": "Wallpaper",
-    "on-click": "~/.config/waybar/scripts/wallpaper.sh"
+    "tooltip-format": "Appearance",
+    "on-click": "~/.config/waybar/scripts/appearance-switcher.sh"
   },
   "custom/power": {
     "format": "\uf011",

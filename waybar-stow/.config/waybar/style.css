@@ -1,6 +1,5 @@
-/* outline — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_2) */
-/* Palette: themes/current.css (theme.sh) */
-
+/* outline bar, ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_2) */
+/* Colours come from the active theme. */
 @import "themes/current.css";
 
 /* ===== GLOBAL ===== */
@@ -44,6 +43,7 @@ window#waybar {
 #battery.critical,
 #battery.warning,
 #network,
+#bluetooth,
 #clock {
   padding: 0 1.5pt;
 }
@@ -153,6 +153,16 @@ window#waybar {
   border: 2pt solid @pink;
 }
 
+#bluetooth {
+  border: 2pt solid @blue-dark;
+}
+
+#bluetooth.off,
+#bluetooth.disabled {
+  color: @gray;
+  border-color: @gray;
+}
+
 #submap {
   background: @bg;
   color: @blue;
@@ -161,7 +171,7 @@ window#waybar {
 }
 
 /* ===== APPEARANCE (theme switcher) ===== */
-#custom-wallpaper {
+#custom-appearance {
   color: @pink;
   border: 2pt solid @pink;
   padding: 0 6pt;

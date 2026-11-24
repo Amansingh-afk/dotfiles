@@ -1,21 +1,15 @@
-/* ===== COLORS ===== */
+/* monochrome: bar palette. Read by style.css and, through theme-apply.sh, config.in */
 @define-color bg #121212;
 @define-color fg #e6e6e6;
-
-@define-color blue #b3b3b3;
+@define-color blue #b0b0b0;
 @define-color blue-dark #8a8a8a;
-
-@define-color pink #b3b3b3;
-
-@define-color green #ffffff;
-@define-color green-dark #c2c2c2;
-
-@define-color red #b3b3b3;
-@define-color red-dark #ffffff;
-
-@define-color orange #b3b3b3;
-@define-color yellow #b3b3b3;
-@define-color yellow-soft #c2c2c2;
-
-@define-color white-soft #7a7a7a;
+@define-color pink #ababab;
+@define-color green #f0f0f0;
+@define-color green-dark #b6b6b6;
+@define-color red #9a9a9a;
+@define-color red-dark #ff5555;
+@define-color orange #a6a6a6;
+@define-color yellow #c2c2c2;
+@define-color yellow-soft #b3b3b3;
+@define-color white-soft #8a8a8a;
 @define-color gray #555555;

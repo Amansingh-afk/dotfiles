@@ -32,6 +32,8 @@ right_format = ""
 
 add_newline = true
 
+# Active palette. install.sh / theme-apply.sh generate ~/.config/starship/current.toml with this
+# line swapped to the current theme; STARSHIP_CONFIG points there (zsh theme.zsh).
 palette = "gruvbox"
 
 [palettes.gruvbox]

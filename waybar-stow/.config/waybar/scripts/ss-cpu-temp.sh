@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# CPU package temperature for the swaystation waybar layouts.
+# CPU package temperature for waybar. Icon and colour per state live in config.in.
 # Reads hwmon/thermal sysfs directly (no lm_sensors dependency).
-# Usage: ss-cpu-temp.sh [block|flat]   (icon style, matches the layout's other modules)
-
-style="${1:-block}"
 
 read_temp() {
   local h name f
@@ -29,28 +26,12 @@ read_temp() {
   return 1
 }
 
-[[ "${2:-}" == mono ]] && mono=1 || mono=""
-
-icon_span() {  # $1 = icon, $2 = colour, $3 = text
-  [[ -n "$mono" ]] && set -- "$1" "#e6e6e6" "$3"
-  case "$style" in
-    flat)    printf "<span color='%s' > %s </span>%s" "$2" "$1" "$3" ;;
-    *)       printf "<span color='#202020' bgcolor='%s' > %s </span> %s" "$2" "$1" "$3" ;;
-  esac
-}
-
 if ! raw=$(read_temp) || [[ -z "$raw" ]]; then
-  text=$(icon_span "" "#555555" "N/A°C")
-  printf '{"text":"%s","class":"unknown"}\n' "$text"
+  echo '{"text":"N/A°C","alt":"unknown","class":"unknown"}'
   exit 0
 fi
 
 temp=$(( raw / 1000 ))
-
-if (( temp >= 70 )); then
-  text=$(icon_span "" "#cc241d" "${temp}°C")
-  printf '{"text":"%s","class":"critical"}\n' "$text"
-else
-  text=$(icon_span "󰴈" "#d8a657" "${temp}°C")
-  printf '{"text":"%s","class":"normal"}\n' "$text"
-fi
+state=normal
+(( temp >= 70 )) && state=critical
+printf '{"text":"%s°C","alt":"%s","class":"%s"}\n' "$temp" "$state" "$state"
