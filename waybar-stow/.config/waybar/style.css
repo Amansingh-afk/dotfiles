@@ -43,6 +43,7 @@ window#waybar {
 #battery.critical,
 #battery.warning,
 #network,
+#bluetooth,
 #clock {
   padding: 0 1.5pt;
 }
@@ -150,6 +151,16 @@ window#waybar {
 
 #network {
   border: 2pt solid @pink;
+}
+
+#bluetooth {
+  border: 2pt solid @blue-dark;
+}
+
+#bluetooth.off,
+#bluetooth.disabled {
+  color: @gray;
+  border-color: @gray;
 }
 
 #submap {

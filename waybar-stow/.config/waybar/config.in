@@ -18,6 +18,7 @@
   ],
   "modules-right": [
     "network",
+    "bluetooth",
     "disk",
     "cpu",
     "custom/cpu_temp",
@@ -172,6 +173,18 @@
       "normal": 25
     },
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
+  },
+  "bluetooth": {
+    "format": "<span color='@blue-dark@'> 󰂯 </span> ",
+    "format-off": "<span color='@gray@'> 󰂲 </span> ",
+    "format-disabled": "<span color='@gray@'> 󰂲 </span> ",
+    "format-connected": "<span color='@blue-dark@'> 󰂱 </span>{num_connections} ",
+    "format-connected-battery": "<span color='@blue-dark@'> 󰂱 </span>{device_battery_percentage}% ",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\n{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\n{device_address}\n{device_battery_percentage}%",
+    "on-click": "pypr toggle bt"
   },
   "clock": {
     "format": "<span color='@green@' >  </span>{:%a %d | %H:%M} ",
