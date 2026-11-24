@@ -2,36 +2,6 @@
 
 Dotfiles managed with GNU Stow, optimized for Hyprland on Fedora.
 
-## Preview
-
-<table>
-  <tr>
-    <td><img src="previews/screenshot-20260301_103525.png" alt="Preview 1" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_103628.png" alt="Preview 2" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_103642.png" alt="Preview 3" width="100%"></td>
-  </tr>
-  <tr>
-    <td><img src="previews/screenshot-20260301_103820.png" alt="Preview 4" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_103853.png" alt="Preview 5" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_104103.png" alt="Preview 6" width="100%"></td>
-  </tr>
-  <tr>
-    <td><img src="previews/screenshot-20260301_104238.png" alt="Preview 7" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_104305.png" alt="Preview 8" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_104504.png" alt="Preview 9" width="100%"></td>
-  </tr>
-  <tr>
-    <td><img src="previews/screenshot-20260301_104517.png" alt="Preview 10" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_104650.png" alt="Preview 11" width="100%"></td>
-    <td><img src="previews/screenshot-20260301_104739.png" alt="Preview 12" width="100%"></td>
-  </tr>
-  <tr>
-    <td><img src="previews/screenshot-20260301_104818.png" alt="Preview 13" width="100%"></td>
-    <td></td>
-    <td></td>
-  </tr>
-</table>
-
 ## Quick Start (New Machine)
 
 ```bash
@@ -40,7 +10,7 @@ git clone <your-repo-url> dotfiles
 cd dotfiles
 
 ./install.sh deps      # dnf packages, removes replaced GUI apps, builds the extras (sudo)
-./install.sh install   # stow dotfiles, set theme, wire zsh/mime/portals
+./install.sh install   # stow dotfiles, wire zsh/mime/portals
 chsh -s $(which zsh)
 # Log out, pick Hyprland at the login screen
 ```
@@ -50,12 +20,11 @@ chsh -s $(which zsh)
 ```bash
 ./install.sh deps                  # system dependencies + extras
 ./install.sh extras                # only the non-dnf tools (mise, sesh, lazydocker, bluetuith, pyprland, termfilechooser)
-./install.sh install [--theme]     # install dotfiles (default: gruvbox)
-./install.sh restow  [--theme]     # reinstall / switch theme (after pulling updates)
+./install.sh install               # install dotfiles
+./install.sh restow               # reinstall (after pulling updates)
 ./install.sh uninstall             # remove the symlinks
 ```
 
-Themes: `--gruvbox` `--monochrome` `--catppuccin-mocha` `--bsod` `--platinum`
 
 ## Terminal first
 
@@ -105,7 +74,7 @@ Sheets live in `cheats-stow/.config/cheats/*.md`. Add a bind to `keybinds.conf` 
 
 **Dev:** git, stow, gcc, gcc-c++, make, cmake, golang, python3
 
-**Fonts:** JetBrainsMono Nerd Font, JetBrains Mono, Inter, Noto (sans, serif, emoji), VT323 (bsod)
+**Fonts:** JetBrainsMono Nerd Font, JetBrains Mono, Inter, Noto (sans, serif, emoji)
 
 Removed by `deps` if present: alacritty, nautilus, pavucontrol, blueman, wofi.
 
@@ -118,27 +87,25 @@ Removed by `deps` if present: alacritty, nautilus, pavucontrol, blueman, wofi.
 | `cheats-stow` | Cheat sheets for `cheat` and `Super+Shift+/` |
 | `fastfetch-stow` | System info |
 | `fontconfig-stow` | Font rendering |
-| `git-stow` | delta dark/light features (identity stays in `~/.gitconfig`) |
-| `gtk3-stow`, `gtk4-stow` | GTK theme css, dark/light preference |
+| `git-stow` | delta dark mode (identity stays in `~/.gitconfig`) |
+| `gtk3-stow`, `gtk4-stow` | GTK theme css |
 | `hypr-stow` | Hyprland, hyprpaper, hyprlock, hypridle, pyprland |
-| `kitty-stow` | Terminal + 5 colour themes |
-| `lazygit-stow` | lazygit + per-theme colours |
+| `kitty-stow` | Terminal |
+| `lazygit-stow` | lazygit |
 | `mako-stow` | Notifications |
 | `mise-stow` | Global node/bun/python versions |
 | `nvim-stow` | Neovim (lazy.nvim, LSP, treesitter) |
-| `rofi-stow` | Launcher, menus, switcher grid |
-| `starship-stow` | Prompt, one palette per theme |
+| `rofi-stow` | Launcher, menus, wallpaper grid |
+| `starship-stow` | Prompt |
 | `tmux-stow` | tmux, sesh sessions, godmode layout |
-| `waybar-stow` | Bar, layouts, scripts |
+| `waybar-stow` | Bar, scripts |
 | `xdg-stow` | Default apps (`mimeapps.list`), terminal `.desktop` entries, portal config |
-| `yazi-stow` | yazi flavors per theme |
+| `yazi-stow` | yazi flavor |
 | `zsh-stow` | `~/.zshenv` (sets `ZDOTDIR`), zsh config, aliases |
 
-## Themes
+## Look
 
-Available: `gruvbox` (default), `monochrome`, `catppuccin-mocha`, `bsod`, `platinum`. `Super+Alt+T` switches live (kitty, waybar, rofi, hyprland, mako, gtk, nvim, zsh, fzf, bat, delta, glow, lazygit, starship, yazi, btop). `theme-apply.sh` is the one script that knows the list. From a terminal: `./install.sh restow --monochrome`. Details: `cheat theme`.
-
-Waybar layouts (`default`, `outline`, `floating`, `bsod`, `platinum`) are independent of the colour theme: `Super+Alt+B`. Wallpapers: `Super+Alt+W`.
+Gruvbox and the outline waybar only. Wallpapers: `Super+Alt+W`.
 
 ## Key bindings
 
@@ -150,7 +117,7 @@ One meaning per modifier. `Super+/` shows the full list, searchable, Enter runs 
 | `Super + Shift + key` | same app, alternate form | `Return` floating terminal, `E` floating yazi, `B` private browser, `N` bluetooth |
 | window verbs | | `Q` close, `F` fullscreen, `V` float, `X` center, `O` pin, `G` group, `Tab` cycle, `h/j/k/l` focus (+Shift move, +Ctrl resize), `S` stash |
 | workspaces | | `1-0` go (+Shift move), `[` `]` prev/next (+Shift move), `Esc` last |
-| `Super + Alt + key` | system, rare | `L` lock, `M` power menu, `R` reload, `T`/`B`/`W` theme/bar/wallpaper, `V` clipboard, `D` dismiss notifications, `C` colour picker, `Print` screen record |
+| `Super + Alt + key` | system, rare | `L` lock, `M` power menu, `R` reload, `W` wallpaper, `V` clipboard, `D` dismiss notifications, `C` colour picker, `Print` screen record |
 | help | | `Super+/` keybinds, `Super+Shift+/` cheat sheets |
 | `Print` | screenshots | `Print` region, `Shift+Print` full, `Ctrl+Print` window |
 
@@ -253,7 +220,7 @@ dotfiles/
 └── ... (other *-stow packages)
 ```
 
-Generated, gitignored: `waybar/config`, `waybar/style.css`, `gtk-*/gtk.css`, `gtk-*/settings.ini`, `gtk-3.0/bookmarks`, `rofi/theme-overrides.rasi`, `zsh/dotfiles-theme.env`, `xdg-desktop-portal-termfilechooser/config`.
+Generated, gitignored: `gtk-*/settings.ini`, `gtk-3.0/bookmarks`, `btop/btop.conf`, `xdg-desktop-portal-termfilechooser/config`.
 
 ## Requirements
 

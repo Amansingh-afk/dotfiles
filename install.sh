@@ -30,23 +30,6 @@ PACKAGES=(
     "zsh-stow"
 )
 
-THEME="gruvbox"
-for arg in "$@"; do
-    case "$arg" in
-        --monochrome) THEME="monochrome" ;;
-        --gruvbox) THEME="gruvbox" ;;
-        --catppuccin-mocha) THEME="catppuccin-mocha" ;;
-        --bsod) THEME="bsod" ;;
-        --platinum) THEME="platinum" ;;
-    esac
-done
-
-set_theme_symlinks() {
-    local theme="$1"
-    echo "Setting theme to $theme"
-    ~/.config/waybar/scripts/theme-apply.sh "$theme"
-}
-
 write_gtk_bookmarks() {
     # Nautilus sidebar bookmarks need absolute URIs, so generate per user.
     local dir
@@ -95,22 +78,6 @@ install_nerd_font() {
         echo "Warning: Could not download Nerd Fonts. Install manually from https://www.nerdfonts.com/font-downloads"
     fi
     rm -rf "$tmp"
-}
-
-install_vt323_font() {
-    local font_dir="$HOME/.local/share/fonts"
-    mkdir -p "$font_dir"
-    if fc-list | grep -qi "VT323"; then
-        echo "VT323 font already installed"
-        return
-    fi
-    echo "Installing VT323 font for bsod theme..."
-    if curl -fsSL "https://github.com/google/fonts/raw/main/ofl/vt323/VT323-Regular.ttf" -o "$font_dir/VT323-Regular.ttf"; then
-        fc-cache -f "$font_dir"
-        echo "VT323 font installed"
-    else
-        echo "Warning: Could not download VT323. Install manually from Google Fonts."
-    fi
 }
 
 remove_gui() {
@@ -187,7 +154,6 @@ install_deps() {
     echo "[2/6] Installing fonts..."
     sudo dnf install -y google-noto-sans-fonts google-noto-serif-fonts google-noto-color-emoji-fonts jetbrains-mono-fonts-all rsms-inter-fonts
     install_nerd_font
-    install_vt323_font
 
     echo ""
     echo "[3/6] Installing screenshot and media tools..."
@@ -273,7 +239,9 @@ stow_all() {
     rm -f ~/.config/btop/btop.conf ~/.config/starship.toml
     # files other tools wrote before we owned them (stow refuses to overwrite real files)
     local f
-    for f in ~/.config/mimeapps.list ~/.config/lazygit/config.yml ~/.config/yazi/theme.toml ~/.config/git/config; do
+    for f in ~/.config/mimeapps.list ~/.config/lazygit/config.yml ~/.config/git/config; do
+        # skip files reached through a stowed (symlinked) directory: those are the repo's own
+        [[ "$(readlink -f "$f")" == "$PWD"/* ]] && continue
         if [[ -f "$f" && ! -L "$f" ]]; then
             if [[ -s "$f" ]]; then
                 mv "$f" "$f.pre-dotfiles"; echo "Moved old $f to $f.pre-dotfiles"
@@ -289,7 +257,10 @@ stow_all() {
     done
     chmod +x ~/.config/waybar/scripts/*.sh
     write_gtk_bookmarks
-    set_theme_symlinks "$THEME"
+    cp ~/.config/btop/btop.conf.in ~/.config/btop/btop.conf   # btop rewrites it on exit, so it is a copy
+    for f in gtk-3.0 gtk-4.0; do cp ~/.config/$f/settings.ini.in ~/.config/$f/settings.ini; done
+    [[ -e wallpapers/current ]] || ln -sfn shougan_castle.png wallpapers/current
+    command -v gsettings &>/dev/null && gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null || true
     setup_zsh
     setup_xdg
     write_hypr_env
@@ -330,7 +301,7 @@ case "$1" in
     *)
         echo "Dotfiles Installation Script"
         echo ""
-        echo "Usage: $0 {deps|extras|install|uninstall|restow} [--theme]"
+        echo "Usage: $0 {deps|extras|install|uninstall|restow}"
         echo ""
         echo "Commands:"
         echo "  deps      - Install all system dependencies (run first on new machine)"
@@ -338,13 +309,6 @@ case "$1" in
         echo "  install   - Install all dotfiles packages"
         echo "  uninstall - Uninstall all dotfiles packages"
         echo "  restow    - Restow all packages (uninstall then install)"
-        echo ""
-        echo "Theme options:"
-        echo "  --gruvbox          (default)"
-        echo "  --monochrome"
-        echo "  --catppuccin-mocha"
-        echo "  --bsod"
-        echo "  --platinum"
         echo ""
         echo "Example (new machine setup):"
         echo "  $0 deps              # Install dependencies"

@@ -1,9 +1,8 @@
 /**
- * Appearance switcher — card grid (themes / bar layouts / wallpapers)
- * Colours, fonts and corner radii come from the active theme.
+ * Wallpaper picker — card grid
  */
 
-@import "themes/current.rasi"
+@import "themes/gruvbox.rasi"
 
 configuration {
     show-icons:         true;
@@ -21,7 +20,7 @@ window {
 mainbox {
     spacing:            0;
     background-color:   transparent;
-    children:           [ inputbar, message, listview, mode-switcher ];
+    children:           [ inputbar, message, listview ];
 }
 
 inputbar {
@@ -90,12 +89,6 @@ element selected.active {
     background-color:   @grey0;
     border-color:       @green;
     text-color:         @green;
-}
-
-mode-switcher {
-    spacing:            10px;
-    padding:            12px 16px 16px 16px;
-    background-color:   transparent;
 }
 
 button {

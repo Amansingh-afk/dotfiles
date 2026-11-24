@@ -5,12 +5,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-local theme = os.getenv("DOTFILES_THEME") or "gruvbox"
-if theme == "platinum" then
-  vim.o.background = "light"
-else
-  vim.o.background = "dark"
-end
+vim.o.background = "dark"
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy-acer/lazy.nvim"

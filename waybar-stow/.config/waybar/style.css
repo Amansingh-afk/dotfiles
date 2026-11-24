@@ -1,5 +1,5 @@
 /* outline — ported from https://github.com/el-toro-fuerte96/swaystation (waybar_block_2) */
-/* Self-contained palette (gruvbox-ish); theme colors prepended by the switcher are unused here. */
+/* Self-contained gruvbox palette. */
 
 /* ===== COLORS ===== */
 @define-color bg #222222;
@@ -182,7 +182,7 @@ window#waybar {
 }
 
 /* ===== APPEARANCE (theme switcher) ===== */
-#custom-appearance {
+#custom-wallpaper {
   color: @pink;
   border: 2pt solid @pink;
   padding: 0 6pt;

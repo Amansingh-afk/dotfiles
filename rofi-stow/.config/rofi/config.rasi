@@ -9,4 +9,4 @@ configuration {
     dpi: 120;
 }
 
-@theme "themes/current.rasi"
+@theme "themes/gruvbox.rasi"

@@ -15,7 +15,7 @@ configuration {
     scroll-method:              1;
 }
 
-@import "themes/current.rasi"
+@import "themes/gruvbox.rasi"
 
 /* ─────────────────────────────────────────────────────────────────────────────
  * Window - Centered floating panel with depth
@@ -247,5 +247,3 @@ scrollbar {
     handle-color:               @grey1;
     background-color:           @bg1;
 }
-
-@import "theme-overrides.rasi"

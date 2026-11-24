@@ -8,7 +8,7 @@ configuration {
     hover-select:               true;
 }
 
-@import "themes/current.rasi"
+@import "themes/gruvbox.rasi"
 
 window {
     width:                      160px;
@@ -68,5 +68,3 @@ element alternate.normal {
     background-color:           transparent;
     text-color:                 @fg0;
 }
-
-@import "theme-overrides.rasi"

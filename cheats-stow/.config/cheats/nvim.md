@@ -37,4 +37,4 @@ Leader is `Space`. Press `Space` and wait: which-key shows the groups.
 ## Completion
 `Tab` / `Shift+Tab` cycle, `Enter` accept, `Ctrl+Space` trigger, `Ctrl+e` close.
 
-Config: `~/.config/nvim/` (`lua/config/keymaps.lua`, `lua/plugins/*.lua`). Theme follows `DOTFILES_THEME`.
+Config: `~/.config/nvim/` (`lua/config/keymaps.lua`, `lua/plugins/*.lua`).

@@ -23,7 +23,6 @@ export VISUAL='nvim'
 export PAGER='less'
 export LANG=en_US.UTF-8
 export PATH="$HOME/.local/bin:$PATH"
-[[ -f "$ZDOTDIR/dotfiles-theme.env" ]] && source "$ZDOTDIR/dotfiles-theme.env"
 
 # --- Toolchains ---
 export PATH="$HOME/go/bin:$PATH"
@@ -52,7 +51,7 @@ if [[ -f ~/.ssh/id_ed25519 ]] && ! ssh-add -l >/dev/null 2>&1; then
 fi
 
 # --- Modular configs ---
-# plugins.zsh runs oh-my-zsh (which runs compinit); theme.zsh sets per-theme env (fzf, bat, delta, glow, lazygit, starship).
+# plugins.zsh runs oh-my-zsh (which runs compinit); theme.zsh sets gruvbox env (fzf, bat, glow, starship).
 source "$ZDOTDIR/plugins.zsh"
 source "$ZDOTDIR/keybindings.zsh"
 source "$ZDOTDIR/theme.zsh"
