@@ -5,7 +5,7 @@ startup_command = "clear"
 
 [[session]]
 name = "dotfiles"
-path = "~/realm/builds/dotfiles-acer"
+path = "~/realm/builds/dotfiles"
 startup_command = "lazygit"
 
 [[session]]
